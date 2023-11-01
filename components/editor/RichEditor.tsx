@@ -2,12 +2,6 @@
 
 import { Editor, EditorState } from "draft-js"
 import { useCallback, useState } from "react"
-import styled from "styled-components"
-
-
-const Container = styled.div`
-
-`
 
 
 const RichEditor = ({
@@ -27,13 +21,13 @@ const RichEditor = ({
 
 
     return (
-        <Container>
+        <div>
             <Editor
                 editorState={editorState}
                 onChange={onChangeEditorState}
                 readOnly={readOnly}
             />
-        </Container>
+        </div>
     )
 }
 export default RichEditor

@@ -5,7 +5,10 @@
     "home": {
         "test": "hello"
     },
-    "title":{
-        
+    "title": {
+        "article": "article"
+    },
+    "articlePage": {
+        "test": "hello"
     }
 }

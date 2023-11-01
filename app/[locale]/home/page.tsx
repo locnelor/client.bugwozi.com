@@ -1,4 +1,3 @@
-import withPage from "@/hooks/withPage";
 import { Container } from "@radix-ui/themes";
 import { useTranslations } from "next-intl";
 import Link from "next/link";

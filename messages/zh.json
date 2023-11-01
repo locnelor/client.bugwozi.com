@@ -5,7 +5,10 @@
     "home": {
         "test": "你好"
     },
-    "title":{
-        "article":"文章"
+    "title": {
+        "article": "文章"
+    },
+    "articlePage": {
+        "test": "文章"
     }
 }

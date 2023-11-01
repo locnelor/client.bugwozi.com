@@ -5,8 +5,8 @@ import { Theme } from '@radix-ui/themes';
 
 const Providers = (props: React.PropsWithChildren) => {
     return (
-        <ThemeProvider attribute='class'>
-            <Theme appearance='inherit'>
+        <ThemeProvider  attribute="class">
+            <Theme>
                 {props.children}
             </Theme>
         </ThemeProvider>
