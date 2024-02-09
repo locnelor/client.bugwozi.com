@@ -1,0 +1,11 @@
+
+fragment UserFields on UserEntity{
+    id
+    createAt
+    updateAt
+    name
+    role
+    profile{
+        id
+    }
+}

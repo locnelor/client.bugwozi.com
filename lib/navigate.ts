@@ -1,0 +1,6 @@
+'use server'
+
+import { redirect } from 'next/navigation'
+
+const navigate = redirect
+export default navigate

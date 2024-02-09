@@ -1,0 +1,5 @@
+fragment TestFields on TestEntity {
+  id
+  random
+  ranStr
+}
