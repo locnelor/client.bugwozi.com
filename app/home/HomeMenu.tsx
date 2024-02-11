@@ -1,13 +1,13 @@
 "use client"
 
 import UploadAvatar from "@/components/UploadAvatar"
-import User from "@/interfaces/User"
+import User from "@/interfaces/UserEntity"
 import { PowerEnum, getPowers, ClassesPower, PostsPower, CoursePower, DiscussPower } from "@/lib/route"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { join } from "path"
 
-const has = (power: PowerEnum, callback: (p: number) => boolean) => {
+const hasRule = (power: PowerEnum, callback: (p: number) => boolean) => {
     return (user: User) => callback(getPowers(power, user.role))
 }
 export const routes = [
@@ -19,44 +19,44 @@ export const routes = [
         name: "账号设置",
         path: "/setting"
     },
-    {
-        name: "我的班级",
-        role: has(ClassesPower, (e) => !!e),
-        path: "/classes"
-    },
+    // {
+    //     name: "我的班级",
+    //     role: hasRule(ClassesPower, (e) => !!e),
+    //     path: "/classes"
+    // },
     {
         name: "班级管理",
-        role: has(ClassesPower, (e) => e >= 2),
+        role: hasRule(ClassesPower, (e) => e >= 2),
         path: "/admin/classes"
     },
     {
         name: "文章管理",
-        role: has(PostsPower, (e) => !!e),
+        role: hasRule(PostsPower, (e) => !!e),
         path: "/posts"
     },
     {
         name: "文章审批",
-        role: has(PostsPower, (e) => e >= 2),
+        role: hasRule(PostsPower, (e) => e >= 2),
         path: "/admin/posts"
     },
     {
         name: "课程管理",
-        role: has(CoursePower, e => !!e),
+        role: hasRule(CoursePower, e => !!e),
         path: "/course"
     },
     {
         name: "课程审批",
-        role: has(CoursePower, e => e >= 2),
+        role: hasRule(CoursePower, e => e >= 2),
         path: "/admin/course"
     },
     {
         name: "我的话题",
-        role: has(DiscussPower, e => e >= 2),
+        role: hasRule(DiscussPower, e => e >= 2),
         path: "/discuss"
     },
     {
         name: "话题管理",
-        role: has(DiscussPower, e => e >= 3),
+        role: hasRule(DiscussPower, e => e >= 3),
         path: "/admin/discuss"
     }
 ]

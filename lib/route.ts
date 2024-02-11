@@ -1,4 +1,4 @@
-import User from "@/interfaces/User";
+import User from "@/interfaces/UserEntity";
 
 export const getPowers = ([begin, end]: PowerEnum, n: number) => {
     let num = 0;

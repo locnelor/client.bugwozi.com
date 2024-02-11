@@ -12,6 +12,7 @@
     "@apollo/client": "^3.9.2",
     "@apollo/experimental-nextjs-app-support": "^0.8.0",
     "@radix-ui/react-form": "^0.0.3",
+    "classnames": "^2.5.1",
     "daisyui": "^4.6.1",
     "graphql": "^16.8.1",
     "graphql-loader": "^1.2.1",

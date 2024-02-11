@@ -1,5 +1,5 @@
 "use client"
-import User from "@/interfaces/User"
+import User from "@/interfaces/UserEntity"
 import Link from "next/link"
 export type UserButtonProps = {
     user?: User

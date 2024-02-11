@@ -1,6 +1,6 @@
-interface DefaultEntity {
+interface BaseEntity {
     id: number
     createAt: Date
     updateAt: Date
 }
-export default DefaultEntity
+export default BaseEntity

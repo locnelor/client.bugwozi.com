@@ -1,6 +1,6 @@
 "use client"
 
-import User from "@/interfaces/User";
+import User from "@/interfaces/UserEntity";
 import { useQuery } from "@apollo/client";
 import viewer from "@/queries/viewer.gql"
 

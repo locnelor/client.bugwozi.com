@@ -1,0 +1,7 @@
+#import "./fragments/ClassesFields.gql"
+
+query($hash_key:String!){
+    getClassesInfoBy(hash_key:$hash_key){
+        ...ClassesFields
+    }
+}

@@ -1,4 +1,4 @@
-import { ApolloError, DocumentNode, createHttpLink } from "@apollo/client";
+import { ApolloError, DocumentNode, OperationVariables, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { cookies } from "next/headers"
 
@@ -26,9 +26,14 @@ export const { getClient } = registerApolloClient(() => {
         link: authLink.concat(httpLink),
     });
 });
-export const getQuery = async <T>(query: DocumentNode) => {
-    const result = await getClient().query<T>({ query }).catch((error: ApolloError) => {
-        return { data: undefined, error }
-    })
+export const getQuery = async <T>(
+    query: DocumentNode,
+    variables?: OperationVariables
+) => {
+    const result = await getClient()
+        .query<T>({ query, variables })
+        .catch((error: ApolloError) => {
+            return { data: undefined, error }
+        })
     return result
 }

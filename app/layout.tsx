@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className="min-h-screen overflow-x-hidden">
         <ApolloWrapper>
           <Header />
-          <main>
+          <main style={{ minHeight: 600 }}>
             {children}
           </main>
           <Footer />

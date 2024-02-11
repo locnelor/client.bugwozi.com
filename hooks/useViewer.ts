@@ -1,4 +1,4 @@
-import User from "@/interfaces/User";
+import User from "@/interfaces/UserEntity";
 import { getQuery } from "@/lib/client"
 import viewer from "@/queries/viewer.gql"
 import React from "react";

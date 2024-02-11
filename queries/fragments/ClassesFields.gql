@@ -1,0 +1,19 @@
+#import "./UserFields.gql"
+
+fragment ClassesFields on ClassesEntity{
+    id
+    createAt
+    updateAt
+    name
+    master{
+        ...UserFields
+    }
+    description
+    UserOnClasses{
+        user{
+            ...UserFields
+        }
+        userId
+        isAdmin
+    }
+}
