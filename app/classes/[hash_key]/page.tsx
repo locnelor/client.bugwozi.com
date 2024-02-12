@@ -11,6 +11,7 @@ import ClassesMembers from "./ClassesMembers";
 import useClientViewer from "@/hooks/useClientViewer";
 import { getPowers, ClassesPower } from "@/lib/route";
 import ClassesEntity from "@/interfaces/ClassesEntity";
+import ClassesWork from "./ClassesWork";
 
 const ClassesIdPage = ({
     params: {
@@ -56,7 +57,11 @@ const ClassesIdPage = ({
                         />
                     </UiTabsItem>
                     <UiTabsItem name="任务中心">
-                        3
+                        <ClassesWork
+                            classes={classes}
+                            power={isAdmin || power}
+                            refetch={refetch}
+                        />
                     </UiTabsItem>
                 </UiTabs>
             </div>
