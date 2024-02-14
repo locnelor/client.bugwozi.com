@@ -2,6 +2,7 @@ import { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef, useMemo } from "re
 import classnames from "classnames"
 type Override<P, S> = Omit<P, keyof S> & S;
 
+export type UiButtonColor = "info" | "success" | "warning" | "error"
 const UiButton = forwardRef<
     HTMLButtonElement,
     Override<DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
@@ -10,7 +11,9 @@ const UiButton = forwardRef<
             type?: "neutral" | "primary" | "secondary" | "accent" | "ghost" | "link",
             submit?: boolean,
             reset?: boolean,
-            size?: "lg" | "sm" | "xs"
+            circle?: boolean,
+            size?: "lg" | "sm" | "xs",
+            color?: UiButtonColor
         }>
 >(({
     loading,
@@ -21,14 +24,18 @@ const UiButton = forwardRef<
     disabled,
     className,
     type,
+    circle,
+    color,
     ...props
 }, ref) => {
     const n = useMemo(() => {
         const arr = ["btn"];
-        if (!!type) arr.push(`btn-${type}`)
-        if (!!size) arr.push(`btn-size`);
+        if (!!type) arr.push(`btn-${type}`);
+        if (!!size) arr.push(`btn-${size}`);
+        if (!!circle) arr.push("btn-circle");
+        if (!!color) arr.push(`btn-${color}`);
         return arr.join(" ");
-    }, [className])
+    }, [className, type, size, circle, color])
     return (
         <button
             {...props}

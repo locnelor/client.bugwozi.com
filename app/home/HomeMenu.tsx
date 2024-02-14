@@ -42,13 +42,13 @@ export const routes = [
     {
         name: "课程管理",
         role: hasRule(CoursePower, e => !!e),
-        path: "/course"
-    },
-    {
-        name: "课程审批",
-        role: hasRule(CoursePower, e => e >= 2),
         path: "/admin/course"
     },
+    // {
+    //     name: "课程审批",
+    //     role: hasRule(CoursePower, e => e >= 2),
+    //     path: "/admin/course"
+    // },
     {
         name: "我的话题",
         role: hasRule(DiscussPower, e => e >= 2),

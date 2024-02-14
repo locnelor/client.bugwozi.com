@@ -1,0 +1,15 @@
+#import "./ChapterFields.gql"
+fragment CourseContentFields on CourseContentEntity {
+    id
+    createAt
+    updateAt
+    name
+    description
+    courseChapterId
+    chapter{
+        ...ChapterFields
+    }
+    hash_key
+    type
+    courseId
+}

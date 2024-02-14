@@ -1,0 +1,23 @@
+import BaseEntity from "./BaseEntity";
+import CourseContentEntity from "./CourseContentEntity";
+import { CourseOrderEntity } from "./CourseOrderEntity";
+import UserHeadCourseEntity from "./UserHeadCourseEntity";
+
+
+export default interface CourseEntity extends BaseEntity {
+    hash_key: string;
+
+    name: string;
+
+    price: number;
+
+    prePrice?: number;
+
+    description?: string;
+
+    head?: UserHeadCourseEntity[]
+
+    CourseOrder?: CourseOrderEntity[]
+
+    CourseContent?: CourseContentEntity[]
+}

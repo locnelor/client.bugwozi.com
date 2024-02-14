@@ -1,0 +1,14 @@
+#import "./UserFields.gql"
+fragment CourseOrderFields on CourseOrderEntity {
+    id
+    createAt
+    updateAt
+    endTime
+    courseId
+    userId
+    user{
+        ...UserFields
+    }
+    money
+    status
+}

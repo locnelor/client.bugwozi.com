@@ -1,0 +1,9 @@
+#import "./UserFields.gql"
+
+fragment UserHeadCourseFields on UserHeadCourseEntity{
+    userId
+    user{
+        ...UserFields
+    }
+    courseId
+}

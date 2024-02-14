@@ -1,0 +1,22 @@
+#import "./UserHeadCourseFields.gql"
+#import "./CourseOrderFields.gql"
+#import "./CourseContentFields.gql"
+
+fragment CourseFields on CourseEntity {
+  id
+  createAt
+  updateAt
+  name
+  price
+  prePrice
+  hash_key
+  head{
+    ...UserHeadCourseFields
+  }
+  CourseOrder{
+    ...CourseOrderFields
+  }
+  CourseContent{
+    ...CourseContentFields
+  }
+}

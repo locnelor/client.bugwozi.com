@@ -10,7 +10,7 @@ const Header = () => {
         <div className="navbar bg-base-100 shadow">
             <div className="flex-1">
                 <Link href="/" className="btn btn-ghost text-xl">Bug</Link>
-                <ul className="menu menu-vertical lg:menu-horizontal rounded-box">
+                <ul className="menu menu-vertical lg:menu-horizontal rounded-box                           ">
                     <li><Link href="/posts">博客</Link></li>
                     <li><Link href="/discuss">讨论</Link></li>
                     <li><Link href="/course">课程</Link></li>
