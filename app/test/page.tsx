@@ -23,7 +23,6 @@ const TestPage = () => {
                     editorState={state}
                     onChange={onChange}
                 />
-                <div className='text-center text-left text-right'></div>
                 <DraftRichEditor
                     editorState={state}
                     onChange={onChange}
