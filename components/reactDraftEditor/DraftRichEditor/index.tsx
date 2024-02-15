@@ -11,7 +11,9 @@ import MathDecorator from "../components/MathDecorator";
 export const DraftRichContext = createContext({
     mathBaseURL: "/math"
 });
-export const DraftRichPrivider = DraftRichContext.Provider
+
+
+export const DraftRichProvider = DraftRichContext.Provider
 export const DraftRichConsumer = DraftRichContext.Consumer
 const HeaderOneWrapper = ({ children, type, ...props }: any) => {
     const ref = useRef<HTMLHeadingElement>(null);
