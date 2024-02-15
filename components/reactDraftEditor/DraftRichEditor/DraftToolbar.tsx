@@ -12,6 +12,7 @@ import Divider from "../components/AtomicDivider"
 import Code from "../components/AtomicCode"
 import Table from "../components/AtomicTable"
 import InlineMath from "../components/InlineMath"
+import classNames from "classnames"
 
 
 export const ToolbarSet: { [k in string]: (props: ToggleButtonEditorPtops) => JSX.Element } = {
@@ -103,11 +104,14 @@ const DraftToolbar = ({
     list = ToolbarList,
     ToolbarItemClassName = "flex-shrink-0 flex-grow-0 basis-auto text-mauve11 h-[25px] px-[5px] rounded inline-flex text-[13px] leading-none items-center justify-center ml-0.5 outline-none hover:bg-violet3 hover:text-violet11",
     ToolbarCheckClassName = "flex-shrink-0 flex-grow-0 basis-auto text-mauve11 h-[25px] px-[5px] rounded inline-flex text-[13px] leading-none items-center justify-center bg-white ml-0.5 outline-none bg-violet4 text-violet11 hover:bg-violet3 hover:text-violet11",
-    className = "flex p-[10px] w-full min-w-max rounded-md  shadow-[0_2px_10px] shadow-blackA4"
+    className
 }: DraftToolbarProps) => {
     return (
         <Toolbar
-            className={className}
+            className={classNames(
+                "flex p-[10px] w-full min-w-max rounded-md  shadow-[0_2px_10px] shadow-blackA4",
+                className
+            )}
         >
             {list.map((type, key) => {
                 if (typeof type === "string") {

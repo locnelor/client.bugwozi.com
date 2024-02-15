@@ -31,9 +31,7 @@ const CourseMenu = ({ hash_key }: CourseMenuProps) => {
         courseHashQuery: CourseEntity
     }>(CourseHashQuery, { variables: { hash_key } })
 
-    if (loading) return (
-        <div className="skeleton w-full h-96" />
-    )
+    if (loading) return
 
     return (
         <ul className="menu rounded-box">

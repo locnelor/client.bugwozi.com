@@ -3,6 +3,11 @@ import CourseCard from "@/components/CourseCard"
 import CourseEntity from "@/interfaces/CourseEntity"
 import { getQuery } from "@/lib/client"
 import SelCourse from "@/queries/SelCourse.gql"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: '课程',
+}
 
 const CoursePage = async () => {
     const { data } = await getQuery<{

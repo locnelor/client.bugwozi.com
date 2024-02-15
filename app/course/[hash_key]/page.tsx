@@ -1,9 +1,9 @@
 "use client"
 
 import { createEmpty } from "@/components/reactDraftEditor/DraftRichEditor"
-import DraftToolbar from "@/components/reactDraftEditor/DraftRichEditor/DraftToolbar"
 import dynamic from "next/dynamic"
 import { useState } from "react"
+import EditFooter from "./EditFooter"
 
 const DraftRichEditor = dynamic(() => import("@/components/reactDraftEditor/DraftRichEditor"), { ssr: false })
 const CourseIdPage = () => {
@@ -11,11 +11,11 @@ const CourseIdPage = () => {
     const [editorState, setEditorState] = useState(createEmpty())
     return (
         <div>
-            <DraftToolbar
+            <DraftRichEditor
                 editorState={editorState}
                 onChange={setEditorState}
             />
-            <DraftRichEditor
+            <EditFooter
                 editorState={editorState}
                 onChange={setEditorState}
             />
