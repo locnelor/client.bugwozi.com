@@ -1,10 +1,18 @@
+"use client"
+
 import CourseEntity from "@/interfaces/CourseEntity"
 import UiCard, { UiCardActions, UiCardBody, UiCardFigure, UiCardTitle } from "./ui/UiCard"
 import { GearIcon } from "@radix-ui/react-icons"
 import UiDropdownMenu, { UiDropdownMenuItem } from "./ui/DropdownMenu"
 import UiButton from "./ui/UiButton"
-import { useCallback } from "react"
-import UiModal, { UiModalConfirmFooter, UiModalTitle, openModal, useModalEvent } from "./ui/UiModal"
+import { useCallback, useMemo } from "react"
+import UiModal, { UiModalTitle, openInformationModal, openModal, useModalEvent } from "./ui/UiModal"
+import gql from "graphql-tag"
+import { useMutation } from "@apollo/client"
+import CourseForm from "./CourseForm"
+import { file2base64 } from "@/lib/img"
+import CourseHead from "./CourseHead"
+import Link from "next/link"
 
 export type PriceTagProps = {
     price: number,
@@ -14,56 +22,113 @@ export const PriceTag = ({
     price,
     prePrice
 }: PriceTagProps) => {
-    if (price === 0) return '免费'
-    if (!!prePrice) {
-        return (
-            <span>
-                {prePrice}
-                <span>-{price}-</span>
-            </span>
-        )
-    }
-    return <div>{price}</div>
+    //两种价格为0，免费课
+    if (price === 0 && prePrice === 0) return "免费"
+
+    //两种价格相等，没有促销。
+    if (price === prePrice) return `¥${price}`;
+
+    //price为0，限时免费，其余的折扣
+    return <span>{price === 0 ? "限时免费" : `¥${price}`} <span className="line-through">¥{prePrice}</span></span>
 }
 
-const DelModalFooter = ({ destory }: any) => {
-    
-    return (
-        <div>
-            <div>删除后无法恢复，确认要删除吗？</div>
-            <UiModalConfirmFooter
-                onCancel={destory}
-                onOk={destory}
-                loading
-            />
-        </div>
-    )
-}
+const DelCourseMutation = gql`
+    mutation DelCourseMutation($id:Int!){
+        delCourse(id:$id){
+            message
+        }
+    }
+`
+const UpdCourseMutation = gql`
+    mutation UpdCourseMutation(
+        $id:Int!,
+        $name:String!,
+        $price:Float!,
+        $prePrice:Float!,
+        $description:String,
+        $avatar:String
+    ){
+        updCourse(
+            id:$id,
+            name:$name,
+            price:$price,
+            prePrice:$prePrice,
+            avatar:$avatar,
+            description:$description
+        ){
+            message
+        }
+    }
+`
+
 export type CourseCardProps = {
     readOnly?: boolean,
-    data?: CourseEntity
+    data?: CourseEntity,
+    refetch?: () => void
 }
 const CourseCard = ({
     readOnly = false,
-    data
+    data,
+    refetch
 }: CourseCardProps) => {
-    const onOpenDelModal = useCallback(() => {
+    const [delCourse] = useMutation(DelCourseMutation)
+    const [updModalRef, onOpenUpdModal, onCancelUpdModal] = useModalEvent()
+    const [updHeadModalRef, onOpenHeadModal, onCancelHeadModal] = useModalEvent()
+    const [updCourse, {
+        loading
+    }] = useMutation(UpdCourseMutation, {
+        onError(error) {
+            openInformationModal(() => ({
+                title: "发生了一些错误。。",
+                children: error.message
+            }))
+        },
+        onCompleted() {
+            onCancelUpdModal()
+            if (!!refetch) refetch()
+        },
+    });
+    const onOpenDelModal = useCallback((id: number) => {
         if (!data) return;
-        openModal((destory) => ({
+        openModal(() => ({
             title: `删除 课程 ${data.name}`,
-            children: <DelModalFooter destory={destory} />
+            children: "删除后无法恢复，确认要删除吗？",
+            onOk() {
+                return delCourse({
+                    variables: {
+                        id
+                    }
+                }).then(() => {
+                    if (!!refetch) refetch()
+                    return true;
+                }).catch(({ message }) => {
+                    openModal(() => ({
+                        title: "删除失败",
+                        children: message
+                    }))
+                    return true;
+                })
+            },
         }))
-    }, [data]);
+    }, [data, refetch]);
+    const onUpdCourse = useCallback(async ({ file, price, prePrice, ...rest }: any) => {
+        if (!data) return;
+        const avatar = (!!file && file.size != 0) ? await file2base64(file) : undefined
+        updCourse({
+            variables: {
+                avatar,
+                id: data.id,
+                price: parseFloat(`${price}`),
+                prePrice: parseFloat(`${!!prePrice ? prePrice : price}`),
+                ...rest
+            }
+        })
+    }, [data])
 
-
-    if (!data) return (
-        <UiCard>
-            <div className="h-36 w-56 skeleton" />
-        </UiCard>
-    )
-    return (
-        <UiCard className="w-56 relative">
-            {!readOnly && <UiDropdownMenu
+    const dropdown = useMemo(() => {
+        if (readOnly || !data) return null;
+        return (
+            <UiDropdownMenu
                 trigger={
                     <UiButton
                         size="sm"
@@ -76,22 +141,64 @@ const CourseCard = ({
                 }
             >
                 <UiDropdownMenuItem
-                    onClick={onOpenDelModal}
+                    onClick={onOpenDelModal.bind(null, data.id)}
                 >
                     删除
                 </UiDropdownMenuItem>
-                <UiDropdownMenuItem>
+                <UiDropdownMenuItem
+                    onClick={onOpenUpdModal}
+                >
                     修改
                 </UiDropdownMenuItem>
-            </UiDropdownMenu>}
-            <UiCardFigure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></UiCardFigure>
+                <UiDropdownMenuItem
+                    onClick={onOpenHeadModal}
+                >
+                    查看负责人
+                </UiDropdownMenuItem>
+            </UiDropdownMenu>
+        )
+    }, [readOnly, onOpenDelModal, onOpenUpdModal, data])
+    if (!data) return (
+        <UiCard>
+            <div className="h-36 w-56 skeleton" />
+        </UiCard>
+    )
+    return (
+        <UiCard className="w-56 relative">
+            {dropdown}
+            <UiCardFigure className="h-36 overflow-hidden">
+                <Link href={`/course/${data.hash_key}`}>
+                    <img src={`${process.env.NEXT_PUBLIC_API}/course/${data.hash_key}/avatar`} alt="Shoes" />
+                </Link>
+            </UiCardFigure>
             <UiCardBody className="card-body">
-                <UiCardTitle>{data.name}</UiCardTitle>
+                <Link href={`/course/${data.hash_key}`}>
+                    <UiCardTitle>{data.name}</UiCardTitle>
+                </Link>
                 <p>{data.description}</p>
                 <UiCardActions>
-                    <div>价格:<PriceTag price={data.price} prePrice={data.prePrice} /></div>
+                    <div><PriceTag price={data.price} prePrice={data.prePrice} /></div>
                 </UiCardActions>
             </UiCardBody>
+            <UiModal
+                ref={updModalRef}
+            >
+                <UiModalTitle>修改课程信息</UiModalTitle>
+                <CourseForm
+                    loading={loading}
+                    onSubmit={onUpdCourse}
+                    defaultValue={data}
+                />
+            </UiModal>
+            <UiModal
+                ref={updHeadModalRef}
+            >
+                <UiModalTitle>修改课程负责人</UiModalTitle>
+                <CourseHead
+                    data={data}
+                    refetch={refetch}
+                />
+            </UiModal>
         </UiCard>
     )
 }
