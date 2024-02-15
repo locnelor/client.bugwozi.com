@@ -4,4 +4,5 @@ export default interface UserEntity extends BaseEntity {
     role: number
     name: string
     account: string
+    hash_key: string
 }

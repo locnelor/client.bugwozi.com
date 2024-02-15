@@ -15,18 +15,19 @@ const HomeAdminCoursePage = () => {
     } = useQuery(SelCourse)
     return (
         <div>
-            <AddCourse />
+            <AddCourse refetch={refetch} />
             <UiDivider />
             <div className="flex flex-wrap gap-1">
-                {
-                    ((loading ? new Array(10).fill(0) : data.selCourse) as any[])
-                        .map((e, key) => (
+                {((loading ? new Array(10).fill(0) : data.selCourse) as any[])
+                    .map((e, key) => {
+                        return (
                             <CourseCard
                                 data={e}
-                                key={key}
+                                key={e?.id || key}
+                                refetch={refetch}
                             />
-                        ))
-                }
+                        )
+                    })}
             </div>
         </div>
     )
