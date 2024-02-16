@@ -2,10 +2,10 @@ import CourseEntity from "@/interfaces/CourseEntity"
 import { PageProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import { Metadata } from "next"
-import { CourseHashQuery } from "./layout"
 import CoursePageContext from "./CoursePageContext"
 import UserAvatar from "@/components/UserAvatar"
 import UiButton from "@/components/ui/UiButton"
+import CourseHashQuery from "./CourseHashQuery"
 /**
  * 课程简介页。
  * 获取课程信息、编辑人等

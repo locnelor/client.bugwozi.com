@@ -23,7 +23,7 @@ const CourseIdLayout = async ({
             <div className="min-h-full w-56 shadow fixed">
                 <ul className="menu rounded-box">
                     <li>
-                        <a>简介</a>
+                        <Link href={`/course/${data.courseHashQuery.hash_key}`}>简介</Link>
                     </li>
                     {data.courseEditPower && (
                         <li><Link href={`/course/${hash_key}/chapter`}>目录管理</Link></li>
