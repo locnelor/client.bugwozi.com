@@ -1,5 +1,19 @@
 import { PageProps } from "@/interfaces/page"
+import { gql } from "@apollo/client"
 
+
+const GetCourseContextQuery = gql`
+    query GetCourseContext($hash_key:String!){
+        getCourseContext(hash_key:$hash_key){
+            id
+            createAt
+            description
+            hash_key
+            keywords
+            free
+        }
+    }
+`
 
 const CourseContextPage = ({
     params: {
