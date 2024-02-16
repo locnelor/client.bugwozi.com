@@ -1,15 +1,27 @@
-import { LayoutProps } from "@/interfaces/page"
+import { LayoutProps, PageProps } from "@/interfaces/page"
 import CourseProvider from "./CourseProvider"
 import { gql } from "@apollo/client"
 import { getQuery } from "@/lib/client"
 import CourseEntity from "@/interfaces/CourseEntity"
 import { notFound } from "next/navigation"
 import Link from "next/link"
-const CourseHashQuery = gql`
+export const CourseHashQuery = gql`
     query CourseHashQuery($hash_key:String!){
         courseHashQuery(hash_key:$hash_key){
             id
             hash_key
+            description
+            name
+            keywords
+            createAt
+            updateAt
+            head{
+                user{
+                    id
+                    name
+                    hash_key
+                }
+            }
             CourseChapter{
                 name
                 id
@@ -22,6 +34,7 @@ const CourseHashQuery = gql`
                 }
             }
         }
+        courseEditPower(hash_key:$hash_key)
     }
 `
 const CourseIdLayout = async ({
@@ -61,7 +74,7 @@ const CourseIdLayout = async ({
                 </ul>
             </div>
             <div className="grow flex justify-center">
-                <div style={{ maxWidth: "720px" }} className="w-full">
+                <div style={{ maxWidth: "720px" }} className="w-full mt-2">
                     <CourseProvider>
                         {children}
                     </CourseProvider>

@@ -16,11 +16,13 @@ export default interface CourseEntity extends BaseEntity {
 
     keywords: string;
 
+    description?: string
+
     head?: UserHeadCourseEntity[]
 
     CourseOrder?: CourseOrderEntity[]
 
     CourseContent?: CourseContentEntity[]
-    
+
     CourseChapter?: CourseChapterEntity[]
 }

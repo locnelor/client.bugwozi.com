@@ -90,21 +90,22 @@ export const ToolbarList = [
     "|",
     ["Divider", "Code", "Table", "Math"]
 ]
-export type DraftToolbarProps = {
+export type DraftToolbarProps = React.PropsWithChildren<{
     editorState: EditorState,
     onChange: (editorState: EditorState) => void,
     list?: (string | string[])[],
     ToolbarItemClassName?: string,
     ToolbarCheckClassName?: string,
-    className?: string,
-}
+    className?: string
+}>
 const DraftToolbar = ({
     editorState,
     onChange,
     list = ToolbarList,
     ToolbarItemClassName = "flex-shrink-0 flex-grow-0 basis-auto text-mauve11 h-[25px] px-[5px] rounded inline-flex text-[13px] leading-none items-center justify-center ml-0.5 outline-none hover:bg-violet3 hover:text-violet11",
     ToolbarCheckClassName = "flex-shrink-0 flex-grow-0 basis-auto text-mauve11 h-[25px] px-[5px] rounded inline-flex text-[13px] leading-none items-center justify-center bg-white ml-0.5 outline-none bg-violet4 text-violet11 hover:bg-violet3 hover:text-violet11",
-    className
+    className,
+    children
 }: DraftToolbarProps) => {
     return (
         <Toolbar
@@ -151,6 +152,7 @@ const DraftToolbar = ({
                     </ToggleGroupButton>
                 )
             })}
+            {children}
         </Toolbar >
     )
 }
