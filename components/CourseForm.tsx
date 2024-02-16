@@ -19,7 +19,7 @@ const CourseForm = ({
     return (
         <UiForm onSubmit={onSubmit}>
             <UiFormItem label="封面" name="file">
-                <UiImage required={!!defaultValue} width={200} />
+                <UiImage required={!defaultValue} width={200} />
             </UiFormItem>
             <UiFormItem
                 name="name"

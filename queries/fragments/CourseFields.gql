@@ -10,13 +10,14 @@ fragment CourseFields on CourseEntity {
   price
   prePrice
   hash_key
-  head{
+  keywords
+  head {
     ...UserHeadCourseFields
   }
-  CourseOrder{
+  CourseOrder {
     ...CourseOrderFields
   }
-  CourseContent{
+  CourseContent {
     ...CourseContentFields
   }
 }

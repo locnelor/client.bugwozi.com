@@ -11,7 +11,7 @@ const AddCourseMutation = gql`
         $name:String!,
         $price:Float!,
         $avatar:String!,
-        $keywords:String,
+        $keywords:String!,
         $prePrice:Float!
     ){
         addCourse(

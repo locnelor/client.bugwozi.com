@@ -33,7 +33,7 @@ const CourseIdLayout = async ({
     const { data, error } = await getQuery<{
         courseHashQuery: CourseEntity
     }>(CourseHashQuery, { hash_key });
-    if (!data || error) return notFound()
+    if (!data || error || !data.courseHashQuery) return notFound()
     return (
         <div className="flex gap-4 min-h-full">
             <div className="min-h-full w-56 shadow fixed">

@@ -45,7 +45,7 @@ const UpdCourseMutation = gql`
         $name:String!,
         $price:Float!,
         $prePrice:Float!,
-        $description:String,
+        $keywords:String!,
         $avatar:String
     ){
         updCourse(
@@ -54,7 +54,7 @@ const UpdCourseMutation = gql`
             price:$price,
             prePrice:$prePrice,
             avatar:$avatar,
-            description:$description
+            keywords:$keywords
         ){
             message
         }
@@ -175,7 +175,6 @@ const CourseCard = ({
                 <Link href={`/course/${data.hash_key}`}>
                     <UiCardTitle>{data.name}</UiCardTitle>
                 </Link>
-                <p>{data.description}</p>
                 <UiCardActions>
                     <div><PriceTag price={data.price} prePrice={data.prePrice} /></div>
                 </UiCardActions>
