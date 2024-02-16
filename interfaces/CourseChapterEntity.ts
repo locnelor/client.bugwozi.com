@@ -11,4 +11,6 @@ export default interface CourseChapterEntity extends BaseEntity {
     courseId: number;
 
     course?: CourseEntity
+
+    order: number
 }

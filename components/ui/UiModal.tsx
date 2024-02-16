@@ -85,12 +85,14 @@ export const UiModalConfirmFooter = ({
         </div>
     )
 }
+export type UiModalConfirmFooterType = typeof UiModalConfirmFooter
 export type OpenModalType = (destory: () => void) => React.PropsWithChildren<{
     title?: string,
     onOk?: () => boolean | Promise<boolean>,
     onCancel?: () => void,
     okText?: string,
-    cancelText?: string
+    cancelText?: string,
+    Footer?: UiModalConfirmFooterType | null
 }>
 export const openModal = (getProps: OpenModalType) => {
     const div = document.createElement("div");
@@ -105,7 +107,8 @@ export const openModal = (getProps: OpenModalType) => {
         onOk,
         onCancel,
         okText,
-        cancelText
+        cancelText,
+        Footer = UiModalConfirmFooter
     } = getProps(destory);
 
     const Context = () => {
@@ -129,12 +132,12 @@ export const openModal = (getProps: OpenModalType) => {
             >
                 {!!title && (<UiModalTitle>{title}</UiModalTitle>)}
                 {children}
-                <UiModalConfirmFooter
+                {!!Footer && <Footer
                     onOk={okModal}
                     onCancel={cancelModal}
                     okText={okText}
                     cancelText={cancelText}
-                />
+                />}
             </UiModal>
         )
     }

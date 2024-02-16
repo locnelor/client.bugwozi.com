@@ -19,4 +19,8 @@ export default interface CourseContentEntity extends BaseEntity {
     courseId: number;
 
     course?: CourseEntity
+
+    order: number
+
+    keywords: string
 }

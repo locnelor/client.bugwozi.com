@@ -1,42 +1,12 @@
-import { LayoutProps, PageProps } from "@/interfaces/page"
+import { LayoutProps } from "@/interfaces/page"
 import CourseProvider from "./CourseProvider"
-import { gql } from "@apollo/client"
 import { getQuery } from "@/lib/client"
 import CourseEntity from "@/interfaces/CourseEntity"
 import { notFound } from "next/navigation"
 import Link from "next/link"
-export const CourseHashQuery = gql`
-    query CourseHashQuery($hash_key:String!){
-        courseHashQuery(hash_key:$hash_key){
-            id
-            hash_key
-            description
-            name
-            keywords
-            createAt
-            updateAt
-            head{
-                user{
-                    id
-                    name
-                    hash_key
-                }
-            }
-            CourseChapter{
-                name
-                id
-                createAt
-                updateAt
-                CourseContent{
-                    id
-                    name
-                    hash_key
-                }
-            }
-        }
-        courseEditPower(hash_key:$hash_key)
-    }
-`
+import CourseHashQuery from "./CourseHashQuery"
+import { LineHeightIcon } from "@radix-ui/react-icons"
+
 const CourseIdLayout = async ({
     children,
     params: {
@@ -44,7 +14,8 @@ const CourseIdLayout = async ({
     }
 }: LayoutProps<{}, { hash_key: string }>) => {
     const { data, error } = await getQuery<{
-        courseHashQuery: CourseEntity
+        courseHashQuery: CourseEntity,
+        courseEditPower: boolean
     }>(CourseHashQuery, { hash_key });
     if (!data || error || !data.courseHashQuery) return notFound()
     return (
@@ -54,23 +25,34 @@ const CourseIdLayout = async ({
                     <li>
                         <a>简介</a>
                     </li>
-                    {data.courseHashQuery.CourseChapter?.map(({ id, name, CourseContent }) => (
-                        <li
-                            key={`chapter_${id}`}
-                        >
-                            <a>{name}</a>
-                            <ul>
-                                {CourseContent?.map(({ name, id, hash_key }) => (
-                                    <li
-                                        key={id}
-                                        draggable
-                                    >
-                                        <Link href={`/course/${data.courseHashQuery.hash_key}/${hash_key}`}>{name}</Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </li>
-                    ))}
+                    {data.courseEditPower && (
+                        <li><Link href={`/course/${hash_key}/chapter`}>目录管理</Link></li>
+                    )}
+                    {(Array.from(data.courseHashQuery.CourseChapter || []))
+                        .sort((a, b) => a.order - b.order)
+                        .map(({ id, name, CourseContent }) => (
+                            <li
+                                key={`chapter_${id}`}
+                            >
+                                <span>{name}</span>
+                                <ul>
+                                    {Array.from(CourseContent || [])
+                                        .sort((a, b) => a.order - b.order)
+                                        .map(({ name, id, hash_key, type }) => (
+                                            <li
+                                                key={id}
+                                            >
+                                                <Link href={`/course/${data.courseHashQuery.hash_key}/${hash_key}`}>
+                                                    {type === "PAID" && (
+                                                        <LineHeightIcon />
+                                                    )}
+                                                    {name}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                </ul>
+                            </li>
+                        ))}
                 </ul>
             </div>
             <div className="grow flex justify-center">
