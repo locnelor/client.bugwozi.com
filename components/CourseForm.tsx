@@ -40,10 +40,10 @@ const CourseForm = ({
                 <UiInput defaultValue={defaultValue?.prePrice} step={.1} type="number" required />
             </UiFormItem>
             <UiFormItem
-                name="description"
-                label="描述"
+                name="keywords"
+                label="关键字"
             >
-                <UiTextarea defaultValue={defaultValue?.description} />
+                <UiTextarea defaultValue={defaultValue?.keywords} />
             </UiFormItem>
             <UiFormSubmit>
                 <div className="flex justify-end">

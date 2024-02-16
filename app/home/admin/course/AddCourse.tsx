@@ -1,10 +1,6 @@
 import CourseForm from "@/components/CourseForm";
 import UiButton from "@/components/ui/UiButton";
-import UiForm, { UiFormItem, UiFormSubmit } from "@/components/ui/UiForm";
-import UiImage from "@/components/ui/UiImage";
-import UiInput from "@/components/ui/UiInput";
 import UiModal, { useModalEvent, UiModalTitle, openInformationModal } from "@/components/ui/UiModal";
-import UiTextarea from "@/components/ui/UiTextarea";
 import { file2base64 } from "@/lib/img";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
@@ -15,14 +11,14 @@ const AddCourseMutation = gql`
         $name:String!,
         $price:Float!,
         $avatar:String!,
-        $description:String,
+        $keywords:String,
         $prePrice:Float!
     ){
         addCourse(
             name:$name,
             price:$price,
             avatar:$avatar,
-            description:$description,
+            keywords:$keywords,
             prePrice:$prePrice
         ){
             id
@@ -45,14 +41,14 @@ const AddCourse = ({ refetch }: { refetch: () => void }) => {
             }))
         },
     })
-    const onSubmit = useCallback(async ({ name, price, file, description, prePrice }: any) => {
+    const onSubmit = useCallback(async ({ name, price, file, keywords, prePrice }: any) => {
         const avatar = await file2base64(file);
         addCourse({
             variables: {
                 avatar,
                 name,
                 price: parseFloat(price),
-                description,
+                keywords,
                 prePrice: parseFloat(!!prePrice ? prePrice : price)
             }
         })

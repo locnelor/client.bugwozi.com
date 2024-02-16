@@ -14,7 +14,7 @@ export default interface CourseEntity extends BaseEntity {
 
     prePrice?: number;
 
-    description?: string;
+    keywords: string;
 
     head?: UserHeadCourseEntity[]
 
