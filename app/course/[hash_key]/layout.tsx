@@ -6,6 +6,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import CourseHashQuery from "./CourseHashQuery"
 import { LineHeightIcon } from "@radix-ui/react-icons"
+import { authQuery } from "@/hooks/useAuth"
 
 const CourseIdLayout = async ({
     children,
@@ -13,6 +14,7 @@ const CourseIdLayout = async ({
         hash_key
     }
 }: LayoutProps<{}, { hash_key: string }>) => {
+    await authQuery(`/course/${hash_key}`);
     const { data, error } = await getQuery<{
         courseHashQuery: CourseEntity,
         courseEditPower: boolean

@@ -1,40 +1,39 @@
 "use client"
 
-import { createEmpty, createWithContent } from "@/components/reactDraftEditor/DraftRichEditor"
-import dynamic from "next/dynamic"
+import { createWithContent, createEmpty } from "@/components/reactDraftEditor/DraftRichEditor"
+import CourseContentEntity from "@/interfaces/CourseContentEntity"
 import { useCallback, useState } from "react"
-import EditFooter from "./EditFooter"
-import CourseEntity from "@/interfaces/CourseEntity"
+import EditFooter from "../EditFooter"
 import moment from "moment"
-import { convertToRaw } from "draft-js"
-import { uploadCourseContextPost } from "@/lib/query"
+import dynamic from "next/dynamic"
 import { openModal } from "@/components/ui/UiModal"
+import { convertToRaw } from "draft-js"
+import { uploadContextPost } from "@/lib/query"
+
 
 const DraftRichEditor = dynamic(() => import("@/components/reactDraftEditor/DraftRichEditor"), { ssr: false })
 
-export type CoursePageContextProps = React.PropsWithChildren<{
-    power?: boolean,
-    data?: CourseEntity
-}>
-const CoursePageContext = ({
-    power = false,
-    data,
-    children
-}: CoursePageContextProps) => {
-    const [readOnly, setReadOnly] = useState(true);
-    const [loading, setLoading] = useState(false);
+export type CourseContextProps = {
+    content: CourseContentEntity,
+    power?: boolean
+}
+const CourseContext = ({
+    content,
+    power = false
+}: CourseContextProps) => {
     const [editorState, setEditorState] = useState(() => {
-        if (!!data?.description) return createWithContent(data?.description)
+        if (!!content.description) return createWithContent(content.description)
         else return createEmpty()
     })
+    const [loading, setLoading] = useState(false);
+    const [readOnly, setReadOnly] = useState(true);
     const onSave = useCallback(() => {
-        if (!data) return;
         setLoading(true);
         const context = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
         const file = new Blob([context]);
         const form = new FormData();
         form.append("context", file);
-        uploadCourseContextPost(data.hash_key, form)
+        uploadContextPost(content.hash_key, form)
             .then(() => {
                 openModal(() => ({ title: "修改成功" }))
             }).catch((e) => {
@@ -44,7 +43,7 @@ const CoursePageContext = ({
             .finally(() => {
                 setLoading(false)
             });
-    }, [editorState, data]);
+    }, [editorState, content])
     return (
         <div>
             <DraftRichEditor
@@ -52,16 +51,14 @@ const CoursePageContext = ({
                 onChange={setEditorState}
                 readOnly={readOnly}
             />
-
             {!readOnly && <EditFooter
                 editorState={editorState}
                 onChange={setEditorState}
                 onSave={onSave}
                 loading={loading}
             />}
-            {children}
             <div className="text-right">
-                最后一次编辑:{moment(data?.updateAt).format("YYYY-MM-DD HH:mm:ss")}
+                最后一次编辑:{moment(content?.updateAt).format("YYYY-MM-DD HH:mm:ss")}
             </div>
             {power && (
                 <div className="text-right">
@@ -76,4 +73,4 @@ const CoursePageContext = ({
         </div>
     )
 }
-export default CoursePageContext
+export default CourseContext
