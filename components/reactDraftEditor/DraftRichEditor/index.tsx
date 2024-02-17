@@ -1,4 +1,4 @@
-import Draft, { CompositeDecorator, ContentBlock, Editor, EditorState, Modifier } from "draft-js"
+import Draft, { CompositeDecorator, ContentBlock, Editor, EditorState, Modifier, convertFromRaw } from "draft-js"
 import { CSSProperties, createContext, useCallback, useEffect, useRef } from "react"
 import Immutable from "immutable"
 import { AtomicBlockImage, ImageBlockName } from "../components/AtomicImage";
@@ -11,7 +11,9 @@ import MathDecorator from "../components/MathDecorator";
 export const DraftRichContext = createContext({
     mathBaseURL: "/math"
 });
-export const DraftRichPrivider = DraftRichContext.Provider
+
+
+export const DraftRichProvider = DraftRichContext.Provider
 export const DraftRichConsumer = DraftRichContext.Consumer
 const HeaderOneWrapper = ({ children, type, ...props }: any) => {
     const ref = useRef<HTMLHeadingElement>(null);
@@ -41,11 +43,15 @@ export type DraftRichEditorProps = {
     editorState: EditorState,
     readOnly?: boolean
 }
+const decorator = new CompositeDecorator([
+    LinkDecorator,
+    MathDecorator
+])
 export const createEmpty = () => {
-    return EditorState.createEmpty(new CompositeDecorator([
-        LinkDecorator,
-        MathDecorator
-    ]))
+    return EditorState.createEmpty(decorator)
+}
+export const createWithContent = (value: string) => {
+    return EditorState.createWithContent(convertFromRaw(JSON.parse(value)), decorator)
 }
 const DraftRichEditor = ({
     editorState,

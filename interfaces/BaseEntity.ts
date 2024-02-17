@@ -1,6 +1,6 @@
 interface BaseEntity {
     id: number
-    createAt: Date
-    updateAt: Date
+    createAt: string
+    updateAt: string
 }
 export default BaseEntity

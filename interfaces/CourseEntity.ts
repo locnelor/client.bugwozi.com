@@ -1,4 +1,5 @@
 import BaseEntity from "./BaseEntity";
+import CourseChapterEntity from "./CourseChapterEntity";
 import CourseContentEntity from "./CourseContentEntity";
 import { CourseOrderEntity } from "./CourseOrderEntity";
 import UserHeadCourseEntity from "./UserHeadCourseEntity";
@@ -13,11 +14,15 @@ export default interface CourseEntity extends BaseEntity {
 
     prePrice?: number;
 
-    description?: string;
+    keywords: string;
+
+    description?: string
 
     head?: UserHeadCourseEntity[]
 
     CourseOrder?: CourseOrderEntity[]
 
     CourseContent?: CourseContentEntity[]
+
+    CourseChapter?: CourseChapterEntity[]
 }

@@ -19,7 +19,7 @@ const CourseForm = ({
     return (
         <UiForm onSubmit={onSubmit}>
             <UiFormItem label="封面" name="file">
-                <UiImage required={!!defaultValue} width={200} />
+                <UiImage required={!defaultValue} width={200} />
             </UiFormItem>
             <UiFormItem
                 name="name"
@@ -31,19 +31,19 @@ const CourseForm = ({
                 name="prePrice"
                 label="课程单价"
             >
-                <UiInput defaultValue={defaultValue?.price} step={.1} type="number" required />
+                <UiInput defaultValue={defaultValue?.prePrice} step={.1} type="number" required />
             </UiFormItem>
             <UiFormItem
                 name="price"
                 label="实际价格"
             >
-                <UiInput defaultValue={defaultValue?.prePrice} step={.1} type="number" required />
+                <UiInput defaultValue={defaultValue?.price} step={.1} type="number" required />
             </UiFormItem>
             <UiFormItem
-                name="description"
-                label="描述"
+                name="keywords"
+                label="关键字"
             >
-                <UiTextarea defaultValue={defaultValue?.description} />
+                <UiTextarea defaultValue={defaultValue?.keywords} />
             </UiFormItem>
             <UiFormSubmit>
                 <div className="flex justify-end">
