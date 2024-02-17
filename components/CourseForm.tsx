@@ -31,13 +31,13 @@ const CourseForm = ({
                 name="prePrice"
                 label="课程单价"
             >
-                <UiInput defaultValue={defaultValue?.price} step={.1} type="number" required />
+                <UiInput defaultValue={defaultValue?.prePrice} step={.1} type="number" required />
             </UiFormItem>
             <UiFormItem
                 name="price"
                 label="实际价格"
             >
-                <UiInput defaultValue={defaultValue?.prePrice} step={.1} type="number" required />
+                <UiInput defaultValue={defaultValue?.price} step={.1} type="number" required />
             </UiFormItem>
             <UiFormItem
                 name="keywords"
