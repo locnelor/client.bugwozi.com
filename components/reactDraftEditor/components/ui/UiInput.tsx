@@ -14,4 +14,5 @@ const UiInput = forwardRef<
         />
     )
 })
+UiInput.displayName = "UiInput"
 export default UiInput

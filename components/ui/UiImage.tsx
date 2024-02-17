@@ -22,5 +22,5 @@ const UiImage = forwardRef<
         </div>
     )
 });
-
+UiImage.displayName = "UiImage"
 export default UiImage;

@@ -26,6 +26,7 @@ const UiSelect = forwardRef<
         </select>
     )
 })
+UiSelect.displayName = "UiSelect"
 export const UiOption = forwardRef<
     HTMLOptionElement,
     OptionHTMLAttributes<HTMLOptionElement>
@@ -40,5 +41,6 @@ export const UiOption = forwardRef<
         </option>
     )
 });
+UiOption.displayName = "UiOption"
 
 export default UiSelect

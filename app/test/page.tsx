@@ -1,6 +1,6 @@
 "use client"
 
-import { createEmpty, DraftRichPrivider } from "@/components/reactDraftEditor/DraftRichEditor";
+import { createEmpty, DraftRichProvider } from "@/components/reactDraftEditor/DraftRichEditor";
 import DraftToolbar from "@/components/reactDraftEditor/DraftRichEditor/DraftToolbar";
 import { EditorState } from "draft-js";
 import { useCallback, useState } from "react";
@@ -14,7 +14,7 @@ const TestPage = () => {
     return (
         <div className='ml-auto mr-auto' style={{ width: "1000px" }}>
             <header className='text-center bg-slate-300'>DraftRichEditor</header>
-            <DraftRichPrivider
+            <DraftRichProvider
                 value={{
                     mathBaseURL: "http://localhost:14500/mathjax"
                 }}
@@ -27,7 +27,7 @@ const TestPage = () => {
                     editorState={state}
                     onChange={onChange}
                 />
-            </DraftRichPrivider>
+            </DraftRichProvider>
         </div >
     );
 }

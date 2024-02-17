@@ -45,6 +45,7 @@ export const UiDropdownMenuItem = forwardRef<
         />
     )
 })
+UiDropdownMenuItem.displayName = "UiDropdownMenuItem"
 export type UiDropdownMenuSubProps = React.PropsWithChildren<{
     trigger: React.ReactNode
 }>

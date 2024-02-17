@@ -21,4 +21,5 @@ const UiSelect = forwardRef<
         />
     )
 })
+UiSelect.displayName = "UiSelect"
 export default UiSelect

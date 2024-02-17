@@ -18,6 +18,7 @@ export const UiCardTitle = forwardRef<
         />
     )
 })
+UiCardTitle.displayName = "UiCardTitle"
 export const UiCardFigure = forwardRef<
     HTMLElement,
     HTMLAttributes<HTMLElement>
@@ -29,6 +30,7 @@ export const UiCardFigure = forwardRef<
         />
     )
 })
+UiCardFigure.displayName = "UiCardFigure"
 export const UiCardBody = forwardRef<
     HTMLDivElement,
     HTMLAttributes<HTMLDivElement>
@@ -45,6 +47,7 @@ export const UiCardBody = forwardRef<
         />
     )
 })
+UiCardBody.displayName = "UiCardBody"
 export const UiCardActions = forwardRef<
     HTMLDivElement,
     HTMLAttributes<HTMLDivElement>
@@ -61,6 +64,7 @@ export const UiCardActions = forwardRef<
         />
     )
 })
+UiCardActions.displayName = "UiCardActions"
 const UiCard = forwardRef<
     HTMLDivElement,
     HTMLAttributes<HTMLDivElement>
@@ -76,4 +80,5 @@ const UiCard = forwardRef<
         />
     )
 })
+UiCard.displayName = "UiCard"
 export default UiCard

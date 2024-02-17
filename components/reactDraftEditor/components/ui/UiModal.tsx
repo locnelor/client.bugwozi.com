@@ -27,4 +27,5 @@ export const UiModalTitle = ({ children }: React.PropsWithChildren) => {
         </div>
     )
 }
+UiModal.displayName = "UiModal"
 export default UiModal

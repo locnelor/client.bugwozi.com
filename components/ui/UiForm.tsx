@@ -22,6 +22,7 @@ const UiForm = forwardRef<
     )
 })
 export default UiForm
+UiForm.displayName = "UiForm"
 
 export type UiFormItemProps = PropsWithChildren<{
     name: string,

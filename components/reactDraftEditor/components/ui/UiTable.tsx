@@ -17,4 +17,5 @@ const UiTable = forwardRef<
         />
     )
 })
+UiTable.displayName = "UiTable"
 export default UiTable

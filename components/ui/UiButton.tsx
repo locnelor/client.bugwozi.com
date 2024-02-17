@@ -54,4 +54,5 @@ const UiButton = forwardRef<
         </button>
     )
 })
+UiButton.displayName = "UiButton"
 export default UiButton

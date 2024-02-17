@@ -36,6 +36,7 @@ const UiModal = forwardRef<
         </dialog>
     )
 })
+UiModal.displayName = "UiModal"
 export const UiModalTitle = ({ children }: React.PropsWithChildren) => {
     return (
         <div className="mb-3 text-xl font-bold">

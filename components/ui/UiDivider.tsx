@@ -18,4 +18,5 @@ const UiDivider = forwardRef<
         />
     )
 })
+UiDivider.displayName = "UiDivider"
 export default UiDivider

@@ -18,4 +18,5 @@ const UiRadio = forwardRef<
         />
     )
 })
+UiRadio.displayName = "UiRadio"
 export default UiRadio

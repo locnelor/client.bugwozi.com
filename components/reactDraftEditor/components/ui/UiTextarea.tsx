@@ -18,4 +18,5 @@ const UiTextarea = forwardRef<
         />
     )
 })
+UiTextarea.displayName = "UiTextarea"
 export default UiTextarea

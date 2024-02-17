@@ -35,4 +35,5 @@ const ToggleButton = forwardRef<
     )
     return btn
 })
+ToggleButton.displayName = "ToggleButton"
 export default ToggleButton
