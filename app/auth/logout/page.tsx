@@ -9,7 +9,9 @@ const Logout = () => {
     const store = useApolloClient();
     useEffect(() => {
         setCookie("token", "");
-        store.clearStore().then(() => navigate("/auth"))
+        store.resetStore().then(() => {
+            navigate("/auth")
+        })
     }, []);
     return (
         <div className="h-96">

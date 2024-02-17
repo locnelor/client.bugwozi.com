@@ -1,6 +1,6 @@
 import withToggleButton from "../hooks/withToggleButton"
 import ToggleButton from "./ToggleButton"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { insertBlock, mergeBlock } from "../hooks/blockUtil"
 import withAtomic from "../hooks/withAtomic"
 import openModal from "./openModal"
@@ -28,7 +28,7 @@ export const languages = [
 export type AtomicCodeData = {
     language: string,
     context: string,
-    __html?: string
+    __html: string
 }
 export const AtomicBlockCode = withAtomic<AtomicCodeData>(({
     block,
@@ -43,13 +43,7 @@ export const AtomicBlockCode = withAtomic<AtomicCodeData>(({
         readOnly
     }
 }) => {
-    const [html] = useState<string>(() => {
-        try {
-            return hljs.highlight(language, context).value
-        } catch (e) {
-            return context
-        }
-    })
+    const ref = useRef<HTMLPreElement>(null);
     const onDoubleClick = useCallback(() => {
         if (!!readOnly) return;
         const destory = openModal({
@@ -99,10 +93,19 @@ export const AtomicBlockCode = withAtomic<AtomicCodeData>(({
             title: "修改代码"
         })
     }, [editorState, onChange, readOnly, language, block, context]);
+    useEffect(() => {
+        if (!ref.current) return;
+        ref.current.innerHTML = __html;
+    }, [__html])
     return (
         <div className="text-slate-400 overflow-y-auto bg-slate-700 p-3 rounded">
             <code>
-                <pre className="break-normal" dangerouslySetInnerHTML={{ __html: __html || html }} onDoubleClick={onDoubleClick} />
+                <pre
+                    className="break-normal"
+                    // dangerouslySetInnerHTML={{ __html }}
+                    ref={ref}
+                    onDoubleClick={onDoubleClick}
+                />
             </code>
         </div>
     )
@@ -116,7 +119,8 @@ const Code = withToggleButton(({
     const onmousedown = useCallback(() => {
         insertBlock(onChange, editorState, CodeBlockName, {
             language: "Shell",
-            context: "双击此处编辑代码"
+            context: "双击此处编辑代码",
+            __html: "双击此处编辑代码"
         });
     }, [editorState, onChange])
     return (

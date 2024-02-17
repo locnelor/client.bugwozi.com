@@ -7,6 +7,7 @@ import { AtomicBlockDivider, DividerBlockName } from "../components/AtomicDivide
 import { AtomicBlockCode, CodeBlockName } from "../components/AtomicCode";
 import { AtomicBlockTable, TableBlockName } from "../components/AtomicTable";
 import MathDecorator from "../components/MathDecorator";
+import useDraftPatch from "../hooks/useDraftPatch";
 
 export const DraftRichContext = createContext({
     mathBaseURL: "/math"
@@ -64,6 +65,11 @@ const DraftRichEditor = ({
         if (!ref.current.editor) return;
         ref.current.editor.style.minHeight = "200px";
     }, []);
+    useDraftPatch({
+        editorRef: ref,
+        onChange,
+        editorState
+    })
     const customStyleFn = useCallback((
         style: Draft.DraftInlineStyle
     ) => {

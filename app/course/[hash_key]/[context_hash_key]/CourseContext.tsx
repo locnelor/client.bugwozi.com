@@ -30,10 +30,7 @@ const CourseContext = ({
     const onSave = useCallback(() => {
         setLoading(true);
         const context = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-        const file = new Blob([context]);
-        const form = new FormData();
-        form.append("context", file);
-        uploadContextPost(content.hash_key, form)
+        uploadContextPost(content.hash_key, { context })
             .then(() => {
                 openModal(() => ({ title: "修改成功" }))
             }).catch((e) => {

@@ -25,7 +25,7 @@ const Auth = ({ searchParams: { back = "/" } }) => {
     const [auth, { loading }] = useMutation(AuthMutation, {
         onCompleted({ auth: { token } }) {
             setCookie("token", token);
-            client.clearStore().then(() => {
+            client.resetStore().then(() => {
                 navigate(back);
             });
         },
