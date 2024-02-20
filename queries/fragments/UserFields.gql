@@ -5,7 +5,6 @@ fragment UserFields on UserEntity{
     updateAt
     name
     role
-    account
     profile{
         id
     }

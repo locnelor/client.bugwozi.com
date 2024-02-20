@@ -7,7 +7,7 @@ import Link from "next/link";
 const Header = () => {
     const { data } = useClientViewer();
     return (
-        <div className="navbar bg-base-100 shadow fixed top-0">
+        <div className="navbar h-16 bg-base-100 shadow fixed top-0">
             <div className="flex-1">
                 <Link href="/" className="btn btn-ghost text-xl">Bug</Link>
                 <ul className="menu menu-vertical lg:menu-horizontal rounded-box                           ">

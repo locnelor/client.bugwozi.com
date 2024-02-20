@@ -1,10 +1,24 @@
 "use client"
 import User from "@/interfaces/UserEntity"
+import { setCookie } from "@/lib/cookie"
+import navigate from "@/lib/navigate"
+import { useApolloClient } from "@apollo/client"
 import Link from "next/link"
+import { useCallback } from "react"
 export type UserButtonProps = {
     user?: User
 }
 const UserButton = ({ user }: UserButtonProps) => {
+    const client = useApolloClient()
+    const onLogout = useCallback(() => {
+        setCookie("token", "")
+        client.resetStore().then(() => {
+            navigate("/auth")
+        }).catch((e) => {
+            console.log(e)
+            navigate("/auth")
+        })
+    }, [])
     if (!user) {
         return (
             <div className="dropdown dropdown-end">
@@ -33,9 +47,9 @@ const UserButton = ({ user }: UserButtonProps) => {
                 </li>
                 <li><Link href="/home/setting">设置</Link></li>
                 <li>
-                    <Link href="/auth/logout">
+                    <a onClick={onLogout}>
                         退出登录
-                    </Link>
+                    </a>
                 </li>
             </ul>
         </div>

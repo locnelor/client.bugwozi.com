@@ -21,11 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html data-theme="light" lang="en">
-      <body className="min-h-screen overflow-x-hidden">
+    <html className="h-full" data-theme="light" lang="en">
+      <body className="h-full">
         <ApolloWrapper>
           <Header />
-          <main style={{ minHeight: 800, marginTop: "68px" }}>
+          <main className="pt-16 min-h-full">
             {children}
           </main>
           <Footer />

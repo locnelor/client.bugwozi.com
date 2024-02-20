@@ -57,8 +57,8 @@ const CourseIdLayout = async ({
                         ))}
                 </ul>
             </div>
-            <div className="grow flex justify-center">
-                <div style={{ maxWidth: "720px" }} className="w-full mt-2">
+            <div className="grow flex justify-center min-h-full">
+                <div style={{ maxWidth: "720px" }} className="w-full  mt-2">
                     <CourseProvider>
                         {children}
                     </CourseProvider>

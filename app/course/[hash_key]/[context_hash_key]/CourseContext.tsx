@@ -42,7 +42,7 @@ const CourseContext = ({
             });
     }, [editorState, content])
     return (
-        <div>
+        <div className="min-h-full">
             <DraftRichEditor
                 editorState={editorState}
                 onChange={setEditorState}
