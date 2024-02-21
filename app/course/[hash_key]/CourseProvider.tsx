@@ -8,7 +8,7 @@ const CourseProvider = ({ children }: React.PropsWithChildren) => {
     return (
         <DraftRichProvider
             value={{
-                mathBaseURL: "http://localhost:14500/mathjax"
+                mathBaseURL: `${process.env.NEXT_PUBLIC_API}/mathjax`
             }}
 
         >

@@ -6,6 +6,7 @@ import classNames from "classnames"
 import UiButton from "./ui/UiButton"
 import { insertText } from "../hooks/blockUtil"
 import { DraftRichContext } from "../DraftRichEditor"
+import { SVGSend } from "./MathDecorator"
 
 
 const items = [{
@@ -49,7 +50,7 @@ const InlineMath = withToggleButton(({
         setText(text + jax);
     }, [text]);
     const onFinish = useCallback(() => {
-        insertText(onChange, editorState, ` $_start{ ${text} }end_$ `);
+        insertText(onChange, editorState, ` $_start{ ${encodeURI(text)} }end_$ `);
 
         setTimeout(() => {
             ref.current?.close()
@@ -85,13 +86,15 @@ const InlineMath = withToggleButton(({
                             className="flex flex-wrap gap-2"
                         >
                             {jaxs.map((jax, i) => (
-                                <img
-                                    src={`${mathBaseURL}?s=${encodeURI(jax)}`}
+                                <span
                                     key={i}
-                                    alt=""
                                     className="cursor-pointer h-7"
                                     onMouseDown={insertMath.bind(null, jax)}
-                                />
+                                >
+                                    <SVGSend
+                                        src={`${mathBaseURL}?s=${encodeURI(jax)}`}
+                                    />
+                                </span>
                             ))}
                         </div>
                     ))}
@@ -105,7 +108,9 @@ const InlineMath = withToggleButton(({
                     />
                 </div>
                 <div>
-                    <img src={`${mathBaseURL}?s=${encodeURI(data.slice(8, data.length - 6))}`} alt="" />
+                    <SVGSend
+                        src={`${mathBaseURL}?s=${encodeURI(data.slice(8, data.length - 6))}`}
+                    />
                 </div>
                 <div className="flex justify-end">
                     <UiButton onClick={onFinish}>添加公式</UiButton>

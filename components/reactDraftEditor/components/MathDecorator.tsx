@@ -1,8 +1,22 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { DraftRichContext } from "../DraftRichEditor";
 import withDecorator from "../hooks/withDecorator";
 
+export const SVGSend = ({
+    src = ""
+}) => {
+    const ref = useRef<HTMLSpanElement>(null);
+    useEffect(() => {
+        fetch(src).then(e => e.text()).then(e => {
+            if (ref.current) ref.current.innerHTML = e
+        })
+    }, [src]);
+    return (
+        <span ref={ref}>
 
+        </span>
+    )
+}
 const MathDecorator = withDecorator(({
     decoratedText
 }) => {
@@ -11,9 +25,7 @@ const MathDecorator = withDecorator(({
     return (
         <span>
             &nbsp;
-            <img
-                className="inline"
-                alt={decoratedText}
+            <SVGSend
                 src={`${mathBaseURL}?s=${decoratedText}`}
             />
             &nbsp;
