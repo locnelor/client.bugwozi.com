@@ -1,47 +1,46 @@
 "use client"
 
 import { createEmpty, createWithContent } from "@/components/reactDraftEditor/DraftRichEditor"
+import { convertToRaw } from "draft-js"
 import dynamic from "next/dynamic"
 import { useCallback, useState } from "react"
-import EditFooter from "./EditFooter"
-import CourseEntity from "@/interfaces/CourseEntity"
+import EditorFooter from "./EditorFooter"
 import moment from "moment"
-import { convertToRaw } from "draft-js"
-import { uploadCourseContextPost } from "@/lib/query"
-import { openModal } from "@/components/ui/UiModal"
-
+import { openInformationModal } from "./ui/UiModal"
+import query from "@/lib/query"
 const DraftRichEditor = dynamic(() => import("@/components/reactDraftEditor/DraftRichEditor"), { ssr: false })
 
-export type CoursePageContextProps = React.PropsWithChildren<{
+
+export type EditorContext = {
+    context?: string,
     power?: boolean,
-    data?: CourseEntity
-}>
-const CoursePageContext = ({
+    updateAt?: string,
+    savePath?: string
+}
+const EditorContext = ({
+    context,
+    savePath,
     power = false,
-    data,
+    updateAt,
     children
-}: CoursePageContextProps) => {
+}: React.PropsWithChildren<EditorContext>) => {
     const [readOnly, setReadOnly] = useState(true);
     const [loading, setLoading] = useState(false);
     const [editorState, setEditorState] = useState(() => {
-        if (!!data?.description) return createWithContent(data?.description)
-        else return createEmpty()
+        if (!!context) return createWithContent(context);
+        return createEmpty()
     })
+
     const onSave = useCallback(() => {
-        if (!data) return;
+        if (!savePath) return;
         setLoading(true);
         const context = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-        uploadCourseContextPost(data.hash_key, { context })
-            .then(() => {
-                openModal(() => ({ title: "修改成功" }))
-            }).catch((e) => {
-                console.log(e)
-                openModal(() => ({ children: e.message, title: "修改失败" }))
-            })
-            .finally(() => {
-                setLoading(false)
-            });
-    }, [editorState, data]);
+        query.post(savePath, { context })
+            .then(() => openInformationModal(() => ({ title: "修改成功" })))
+            .catch((e) => openInformationModal(() => ({ title: "修改失败", children: e.message })))
+            .finally(() => setLoading(false));
+    }, [editorState])
+
     return (
         <div>
             <DraftRichEditor
@@ -49,8 +48,7 @@ const CoursePageContext = ({
                 onChange={setEditorState}
                 readOnly={readOnly}
             />
-
-            {!readOnly && <EditFooter
+            {!readOnly && <EditorFooter
                 editorState={editorState}
                 onChange={setEditorState}
                 onSave={onSave}
@@ -58,7 +56,7 @@ const CoursePageContext = ({
             />}
             {children}
             <div className="text-right">
-                最后一次编辑:{moment(data?.updateAt).format("YYYY-MM-DD HH:mm:ss")}
+                最后一次编辑:{moment(updateAt).format("YYYY-MM-DD HH:mm:ss")}
             </div>
             {power && (
                 <div className="text-right">
@@ -73,4 +71,4 @@ const CoursePageContext = ({
         </div>
     )
 }
-export default CoursePageContext
+export default EditorContext

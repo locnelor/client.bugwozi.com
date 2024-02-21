@@ -4,6 +4,7 @@ import { ApolloWrapper } from "@/lib/apollo-provider";
 import Header from "./Header";
 import "./globals.css";
 import Footer from "./Footer";
+import EditorProvider from "@/lib/EditorProvider";
 const __DEV__ = process.env.NODE_ENV !== "production"
 if (__DEV__) {
   loadDevMessages();
@@ -26,7 +27,9 @@ export default function RootLayout({
         <ApolloWrapper>
           <Header />
           <main className="pt-16 min-h-full">
-            {children}
+            <EditorProvider>
+              {children}
+            </EditorProvider>
           </main>
           <Footer />
         </ApolloWrapper>

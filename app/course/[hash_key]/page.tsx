@@ -2,14 +2,11 @@ import CourseEntity from "@/interfaces/CourseEntity"
 import { PageProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import { Metadata } from "next"
-import CoursePageContext from "./CoursePageContext"
 import UserAvatar from "@/components/UserAvatar"
 import UiButton from "@/components/ui/UiButton"
 import CourseHashQuery from "./CourseHashQuery"
-/**
- * 课程简介页。
- * 获取课程信息、编辑人等
- */
+import EditorContext from "@/components/EditorContext"
+
 export async function generateMetadata(
     { params: { hash_key } }: PageProps<{}, { hash_key: string }>
 ): Promise<Metadata> {
@@ -47,10 +44,11 @@ const CourseIdPage = async ({
                 ))}
             </div>
             <h1 className="text-4xl">{data?.courseHashQuery.name}</h1>
-
-            <CoursePageContext
+            <EditorContext
+                context={data?.courseHashQuery.description}
+                updateAt={data?.courseHashQuery.createAt}
                 power={data?.courseEditPower}
-                data={data?.courseHashQuery}
+                savePath={`/course/${hash_key}/context`}
             >
                 <div>
                     <h1 className="text-xl">贡献者:</h1>
@@ -63,8 +61,7 @@ const CourseIdPage = async ({
                         ))}
                     </div>
                 </div>
-            </CoursePageContext>
-
+            </EditorContext>
         </div>
     )
 }
