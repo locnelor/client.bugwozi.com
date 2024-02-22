@@ -55,7 +55,7 @@ const CourseContextPage = async ({
                 context={data.getCourseContext.description}
                 power={data.contextEditPower}
                 updateAt={data.getCourseContext.updateAt}
-                savePath={`/context/${context_hash_key}/context`}
+                savePath={`/content/${context_hash_key}/context`}
             />
         </EditorContainer>
     )
