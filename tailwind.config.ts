@@ -12,7 +12,7 @@ const config: Config = {
       colors: {
         ...blackA,
         ...mauve,
-        ...violet,
+        ...violet
       },
       keyframes: {
         slideDownAndFade: {
@@ -42,12 +42,10 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-      backgroundColor: {
-        'background': 'currentColor', // 与current相反的颜色
-      },
+      }
     },
   },
+  mode: 'jit',
   plugins: [require("daisyui")],
   daisyui: {
     themes: [

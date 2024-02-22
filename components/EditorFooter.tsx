@@ -18,7 +18,7 @@ const EditorFooter = ({
     onSave
 }: EditorFooterProps) => {
     return (
-        <div className="z-40 fixed top-3 flex">
+        <div className="z-40 fixed top-16 left-0 bg-base-100 flex">
             <DraftToolbar
                 onChange={onChange}
                 editorState={editorState}

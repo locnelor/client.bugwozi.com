@@ -330,7 +330,7 @@ const CourseChapterContext = ({ data }: CourseChapterContextProps) => {
                     />
                 </UiModal>
             </div>
-            <ul className="menu rounded-box">
+            <ul className="menu rounded-box z-10">
                 {chapter.sort((a, b) => a.order - b.order).map((chapter) => {
                     const { id, CourseContent } = chapter
                     return (

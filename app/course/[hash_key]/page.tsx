@@ -6,6 +6,7 @@ import UserAvatar from "@/components/UserAvatar"
 import UiButton from "@/components/ui/UiButton"
 import CourseHashQuery from "./CourseHashQuery"
 import EditorContext from "@/components/EditorContext"
+import EditorContainer from "@/components/EditorContainer"
 
 export async function generateMetadata(
     { params: { hash_key } }: PageProps<{}, { hash_key: string }>
@@ -33,7 +34,7 @@ const CourseIdPage = async ({
     })
 
     return (
-        <div>
+        <EditorContainer>
             <div className="flex flex-wrap gap-2">
                 {data?.courseHashQuery.keywords.split(",").map((keyword, key) => (
                     <div key={key}>
@@ -62,7 +63,7 @@ const CourseIdPage = async ({
                     </div>
                 </div>
             </EditorContext>
-        </div>
+        </EditorContainer>
     )
 }
 export default CourseIdPage

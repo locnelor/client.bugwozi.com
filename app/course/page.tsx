@@ -15,7 +15,7 @@ const CoursePage = async () => {
     }>(SelCourse)
     return (
         <Container>
-            <div className="flex gap-2">
+            <div className="flex gap-4 flex-wrap">
                 {data?.selCourse.map((e) => (
                     <CourseCard
                         key={e.id}
