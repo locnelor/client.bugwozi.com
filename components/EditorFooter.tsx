@@ -5,20 +5,20 @@ import { EditorState } from "draft-js"
 
 
 
-export type EditFooterProps = {
+export type EditorFooterProps = {
     onChange: (editorState: EditorState) => void,
     editorState: EditorState,
     onSave: () => void,
     loading?: boolean
 }
-const EditFooter = ({
+const EditorFooter = ({
     onChange,
     editorState,
     loading = false,
     onSave
-}: EditFooterProps) => {
+}: EditorFooterProps) => {
     return (
-        <div className="z-40 fixed top-3 flex">
+        <div className="z-40 fixed top-16 left-0 bg-base-100 flex">
             <DraftToolbar
                 onChange={onChange}
                 editorState={editorState}
@@ -35,4 +35,4 @@ const EditFooter = ({
         </div>
     )
 }
-export default EditFooter
+export default EditorFooter

@@ -164,7 +164,7 @@ const CourseCard = ({
         </UiCard>
     )
     return (
-        <UiCard className="w-56 relative">
+        <UiCard className="relative sm:w-56 w-full">
             {dropdown}
             <UiCardFigure className="h-36 overflow-hidden">
                 <Link href={`/course/${data.hash_key}`}>

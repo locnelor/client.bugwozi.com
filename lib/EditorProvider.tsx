@@ -3,7 +3,7 @@
 import { DraftRichProvider } from "@/components/reactDraftEditor/DraftRichEditor"
 
 
-const CourseProvider = ({ children }: React.PropsWithChildren) => {
+const EditorProvider = ({ children }: React.PropsWithChildren) => {
 
     return (
         <DraftRichProvider
@@ -16,4 +16,4 @@ const CourseProvider = ({ children }: React.PropsWithChildren) => {
         </DraftRichProvider>
     )
 }
-export default CourseProvider
+export default EditorProvider

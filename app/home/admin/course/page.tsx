@@ -17,7 +17,7 @@ const HomeAdminCoursePage = () => {
         <div>
             <AddCourse refetch={refetch} />
             <UiDivider />
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-4">
                 {((loading ? new Array(10).fill(0) : data.selCourse) as any[])
                     .map((e, key) => {
                         return (

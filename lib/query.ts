@@ -10,8 +10,8 @@ query.interceptors.request.use(config => {
     return config
 })
 
-export const uploadCourseContextPost = (hash_key: string, data: any) => query.post(`/course/${hash_key}/context`, data)
+// export const uploadCourseContextPost = (hash_key: string, data: any) => query.post(`/course/${hash_key}/context`, data)
 
-export const uploadContextPost = (hash_key: string, data: any) => query.post(`/content/${hash_key}/context`, data)
+// export const uploadContextPost = (hash_key: string, data: any) => query.post(`/content/${hash_key}/context`, data)
 
 export default query
