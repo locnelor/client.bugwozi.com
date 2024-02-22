@@ -4,6 +4,7 @@ import { getQuery } from "@/lib/client"
 import { gql } from "@apollo/client"
 import { Metadata } from "next"
 import EditorContext from "@/components/EditorContext"
+import EditorContainer from "@/components/EditorContainer"
 
 
 const GetCourseContextQuery = gql`
@@ -49,12 +50,14 @@ const CourseContextPage = async ({
 
     if (!data?.getCourseContext) return "404";
     return (
-        <EditorContext
-            context={data.getCourseContext.description}
-            power={data.contextEditPower}
-            updateAt={data.getCourseContext.updateAt}
-            savePath={`/context/${context_hash_key}/context`}
-        />
+        <EditorContainer>
+            <EditorContext
+                context={data.getCourseContext.description}
+                power={data.contextEditPower}
+                updateAt={data.getCourseContext.updateAt}
+                savePath={`/context/${context_hash_key}/context`}
+            />
+        </EditorContainer>
     )
 }
 export default CourseContextPage
