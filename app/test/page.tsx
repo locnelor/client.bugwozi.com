@@ -1,33 +1,63 @@
 "use client"
 
-import { createEmpty, DraftRichProvider } from "@/components/reactDraftEditor/DraftRichEditor";
-import DraftToolbar from "@/components/reactDraftEditor/DraftRichEditor/DraftToolbar";
+import { createEmpty } from "@/components/reactDraftEditor/DraftRichEditor";
 import { EditorState } from "draft-js";
-import { useCallback, useState } from "react";
-import dynamic from "next/dynamic";
-const DraftRichEditor = dynamic(() => import("@/components/reactDraftEditor/DraftRichEditor"), { ssr: false })
+import { useCallback, useEffect, useState } from "react";
+import { gql, useMutation, useSubscription } from "@apollo/client";
+import UiButton from "@/components/ui/UiButton";
+
+const SubscriptionTest = gql`
+    subscription HandleMessage{
+        handleMessage{
+            message
+        }
+    }
+`
+
+const PublishMutation = gql`
+    mutation Publish($data:String!){
+        publishTest(data:$data){
+            message
+        }
+    }
+`
+
 const TestPage = () => {
+    const [publish] = useMutation(PublishMutation)
+    const { data, loading, error } = useSubscription(SubscriptionTest, {
+        onError(error) {
+            console.log(error)
+        },
+        onComplete() {
+            console.log("asd")
+        },
+    })
+    console.log(data?.handleMessage)
+    useEffect(() => {
+
+    }, [])
+    // console.log(data, loading, error)
+
     const [state, setState] = useState(createEmpty());
     const onChange = useCallback((value: EditorState) => {
         setState(value);
     }, [])
+    const onClick = useCallback(() => {
+        publish({
+            variables: {
+                data: `${Date.now()}`
+            }
+        })
+    }, [])
     return (
         <div className='ml-auto mr-auto' style={{ width: "1000px" }}>
-            <header className='text-center bg-slate-300'>DraftRichEditor</header>
-            <DraftRichProvider
-                value={{
-                    mathBaseURL: "http://localhost:14500/mathjax"
-                }}
+            <UiButton
+                onClick={onClick}
             >
-                <DraftToolbar
-                    editorState={state}
-                    onChange={onChange}
-                />
-                <DraftRichEditor
-                    editorState={state}
-                    onChange={onChange}
-                />
-            </DraftRichProvider>
+                publish
+            </UiButton>
+            <header className='text-center bg-slate-300'>DraftRichEditor</header>
+
         </div >
     );
 }
