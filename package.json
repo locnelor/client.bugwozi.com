@@ -26,6 +26,7 @@
     "graphql": "^16.8.1",
     "graphql-loader": "^1.2.1",
     "graphql-tag": "^2.12.6",
+    "graphql-ws": "^5.15.0",
     "highlight.js": "^11.9.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
