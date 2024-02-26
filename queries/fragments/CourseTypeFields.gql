@@ -1,0 +1,5 @@
+
+fragment CourseTypeFields on CourseTypeEntity{
+    id
+    name
+}

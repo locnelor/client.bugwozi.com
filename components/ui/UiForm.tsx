@@ -59,7 +59,7 @@ export const UiFormItem = ({
                     {matchMessage}
                 </FormMessage>}
             </div>
-            <FormControl asChild>
+            <FormControl className="flex" asChild>
                 {children}
             </FormControl>
             {!!serverInvalid && <FormMessage>

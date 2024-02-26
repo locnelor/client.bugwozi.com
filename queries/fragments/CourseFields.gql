@@ -1,6 +1,7 @@
 #import "./UserHeadCourseFields.gql"
 #import "./CourseOrderFields.gql"
 #import "./CourseContentFields.gql"
+#import "./CourseTypeFields.gql"
 
 fragment CourseFields on CourseEntity {
   id
@@ -11,6 +12,11 @@ fragment CourseFields on CourseEntity {
   prePrice
   hash_key
   keywords
+  status
+  courseTypeId
+  type{
+    ...CourseTypeFields
+  }
   head {
     ...UserHeadCourseFields
   }

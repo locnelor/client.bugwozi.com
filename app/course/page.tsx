@@ -1,5 +1,6 @@
 import Container from "@/components/Container"
 import CourseCard from "@/components/CourseCard"
+import CourseContext from "@/components/CourseContext"
 import CourseEntity from "@/interfaces/CourseEntity"
 import { getQuery } from "@/lib/client"
 import SelCourse from "@/queries/SelCourse.gql"
@@ -15,7 +16,10 @@ const CoursePage = async () => {
     }>(SelCourse)
     return (
         <Container>
-            <div className="flex gap-4 flex-wrap">
+            <CourseContext
+                course={data?.selCourse || []}
+            />
+            {/* <div className="flex gap-4 flex-wrap">
                 {data?.selCourse.map((e) => (
                     <CourseCard
                         key={e.id}
@@ -23,7 +27,7 @@ const CoursePage = async () => {
                         readOnly
                     />
                 ))}
-            </div>
+            </div> */}
         </Container>
     )
 }
