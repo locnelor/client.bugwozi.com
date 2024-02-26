@@ -2,7 +2,7 @@
 import UiButton from "@/components/ui/UiButton"
 import UiForm, { UiFormItem, UiFormSubmit } from "@/components/ui/UiForm"
 import UiInput from "@/components/ui/UiInput"
-import { Metadata } from "next"
+import useUser from "@/hooks/useUser"
 import { useCallback } from "react"
 
 // export const metadata: Metadata = {
@@ -10,7 +10,7 @@ import { useCallback } from "react"
 // }
 
 const HomePage = () => {
-
+    const { data } = useUser()
     const onSubmit = useCallback((data: any) => {
 
     }, []);
@@ -21,7 +21,7 @@ const HomePage = () => {
                 name="name"
                 label="昵称"
             >
-                <UiInput required />
+                <UiInput required defaultValue={data?.viewer.name} />
             </UiFormItem>
             <UiFormItem
                 name="test"

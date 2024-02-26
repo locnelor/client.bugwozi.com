@@ -2,7 +2,7 @@
 
 import UploadAvatar from "@/components/UploadAvatar"
 import User from "@/interfaces/UserEntity"
-import { PowerEnum, getPowers, ClassesPower, PostsPower, CoursePower, DiscussPower } from "@/lib/route"
+import { PowerEnum, getPowers, PostsPower, CoursePower } from "@/lib/route"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { join } from "path"
@@ -24,21 +24,21 @@ export const routes = [
     //     role: hasRule(ClassesPower, (e) => !!e),
     //     path: "/classes"
     // },
-    {
-        name: "班级管理",
-        role: hasRule(ClassesPower, (e) => e >= 2),
-        path: "/admin/classes"
-    },
+    // {
+    //     name: "班级管理",
+    //     role: hasRule(ClassesPower, (e) => e >= 2),
+    //     path: "/admin/classes"
+    // },
     {
         name: "文章管理",
         role: hasRule(PostsPower, (e) => !!e),
         path: "/posts"
     },
-    {
-        name: "文章审批",
-        role: hasRule(PostsPower, (e) => e >= 2),
-        path: "/admin/posts"
-    },
+    // {
+    //     name: "文章审批",
+    //     role: hasRule(PostsPower, (e) => e >= 2),
+    //     path: "/admin/posts"
+    // },
     {
         name: "课程管理",
         role: hasRule(CoursePower, e => !!e),
@@ -49,16 +49,16 @@ export const routes = [
     //     role: hasRule(CoursePower, e => e >= 2),
     //     path: "/admin/course"
     // },
-    {
-        name: "我的话题",
-        role: hasRule(DiscussPower, e => e >= 2),
-        path: "/discuss"
-    },
-    {
-        name: "话题管理",
-        role: hasRule(DiscussPower, e => e >= 3),
-        path: "/admin/discuss"
-    }
+    // {
+    //     name: "我的话题",
+    //     role: hasRule(DiscussPower, e => e >= 2),
+    //     path: "/discuss"
+    // },
+    // {
+    //     name: "话题管理",
+    //     role: hasRule(DiscussPower, e => e >= 3),
+    //     path: "/admin/discuss"
+    // }
 ]
 const HomeMenu = ({ user }: { user: User }) => {
     const pathname = usePathname();
