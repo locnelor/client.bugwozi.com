@@ -8,7 +8,7 @@ const UserAvatar = ({
 }: UserAvatarProps) => {
     if (!user) return null;
     return (
-        <div className="w-10 rounded-full">
+        <div className="rounded-full">
             <img src={`${process.env.NEXT_PUBLIC_API_URL}/media/user/${user.hash_key}/avatar`} alt="" />
         </div>
     )
