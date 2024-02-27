@@ -46,6 +46,8 @@ const UpdCourseMutation = gql`
         $price:Float!,
         $prePrice:Float!,
         $keywords:String!,
+        $type:String!,
+        $status:String!,
         $avatar:String
     ){
         updCourse(
@@ -54,6 +56,8 @@ const UpdCourseMutation = gql`
             price:$price,
             prePrice:$prePrice,
             avatar:$avatar,
+            type:$type,
+            status:$status,
             keywords:$keywords
         ){
             message
@@ -168,7 +172,7 @@ const CourseCard = ({
             {dropdown}
             <UiCardFigure className="h-36 overflow-hidden">
                 <Link href={`/course/${data.hash_key}`}>
-                    <img src={`${process.env.NEXT_PUBLIC_API}/course/${data.hash_key}/avatar`} alt="Shoes" />
+                    <img src={`${process.env.NEXT_PUBLIC_API_URL}/course/${data.hash_key}/avatar`} alt="Shoes" />
                 </Link>
             </UiCardFigure>
             <UiCardBody className="card-body">

@@ -4,12 +4,15 @@ import CourseContentEntity from "./CourseContentEntity";
 import { CourseOrderEntity } from "./CourseOrderEntity";
 import CourseTypeEntity from "./CourseTypeEntity";
 import UserHeadCourseEntity from "./UserHeadCourseEntity";
+import { CourseStatus } from "./enums";
 
 
 export default interface CourseEntity extends BaseEntity {
     courseTypeId: number
 
     type?: CourseTypeEntity
+
+    status: CourseStatus
 
     hash_key: string;
 

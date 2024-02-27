@@ -8,6 +8,8 @@ import EditorFooter from "./EditorFooter"
 import moment from "moment"
 import { openInformationModal } from "./ui/UiModal"
 import query from "@/lib/query"
+import UserAvatar from "./UserAvatar"
+import UserEntity from "@/interfaces/UserEntity"
 const DraftRichEditor = dynamic(() => import("@/components/reactDraftEditor/DraftRichEditor"), { ssr: false })
 
 type MenuType = {
@@ -72,7 +74,7 @@ export type EditorContext = {
     power?: boolean,
     updateAt?: string,
     savePath?: string,
-    title?: string
+    authors?: UserEntity[]
 }
 const EditorContext = ({
     context,
@@ -80,7 +82,7 @@ const EditorContext = ({
     power = false,
     updateAt,
     children,
-    title = "asd"
+    authors = []
 }: React.PropsWithChildren<EditorContext>) => {
     const [readOnly, setReadOnly] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -145,21 +147,10 @@ const EditorContext = ({
     }, [editorState])
 
     return (
-        <div className="drawer  drawer-end lg:drawer-open">
+        <div className="drawer drawer-end lg:drawer-open">
             <input id="context-drawer" type="checkbox" className="drawer-toggle" />
             <div style={{ maxWidth: 720 }} className="w-full drawer-content">
                 <div className="drawer-content">
-                    {/* <div className="fixed w-full bg-base-100 z-30 flex justify-between bottom-0 right-0 lg:hidden">
-                        <div>
-                            {title}
-                        </div>
-                        <label
-                            htmlFor="context-drawer"
-                            className="drawer-button btn btn-primary"
-                        >
-                            导航
-                        </label>
-                    </div> */}
                     <label
                         htmlFor="context-drawer"
                         className="drawer-button btn btn-primary lg:hidden fixed bottom-0 right-0"
@@ -181,6 +172,17 @@ const EditorContext = ({
                     loading={loading}
                 />}
                 {children}
+                <div>
+                    <h1 className="text-xl">作者</h1>
+                    <div className="flex flex-wrap gap-2">
+                        {authors?.map((user) => (
+                            <UserAvatar
+                                key={user?.id}
+                                user={user}
+                            />
+                        ))}
+                    </div>
+                </div>
                 <div className="text-right">
                     最后一次编辑:{moment(updateAt).format("YYYY-MM-DD HH:mm:ss")}
                 </div>

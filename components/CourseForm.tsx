@@ -4,6 +4,9 @@ import UiForm, { UiFormItem, UiFormSubmit } from "./ui/UiForm"
 import UiImage from "./ui/UiImage"
 import UiInput from "./ui/UiInput"
 import UiTextarea from "./ui/UiTextarea"
+import UiSelect from "./ui/UiSelect"
+import { UiOption } from "./reactDraftEditor/components/ui/UiSelect"
+import { CourseStatus } from "@/interfaces/enums"
 
 
 export type CourseFormProps = {
@@ -28,22 +31,52 @@ const CourseForm = ({
                 <UiInput defaultValue={defaultValue?.name} required />
             </UiFormItem>
             <UiFormItem
+                name="type"
+                label="课程类型"
+            >
+                <UiInput
+                    defaultValue={defaultValue?.type?.name}
+                    required
+                />
+            </UiFormItem>
+            <UiFormItem
+                name="status"
+                label="课程状态"
+            >
+                <UiSelect defaultValue={defaultValue?.status || CourseStatus.HIDE}>
+                    <UiOption value="HIDE">隐藏</UiOption>
+                    <UiOption value="DISPLAY">显示</UiOption>
+                    <UiOption value="SUSPEND">停止</UiOption>
+                </UiSelect>
+            </UiFormItem>
+            <UiFormItem
                 name="prePrice"
                 label="课程单价"
             >
-                <UiInput defaultValue={defaultValue?.prePrice} step={.1} type="number" required />
+                <UiInput
+                    defaultValue={defaultValue?.prePrice}
+                    step={.1}
+                    type="number"
+                    required
+                />
             </UiFormItem>
             <UiFormItem
                 name="price"
                 label="实际价格"
             >
-                <UiInput defaultValue={defaultValue?.price} step={.1} type="number" required />
+                <UiInput
+                    defaultValue={defaultValue?.price}
+                    step={.1}
+                    type="number"
+                    required />
             </UiFormItem>
             <UiFormItem
                 name="keywords"
                 label="关键字"
             >
-                <UiTextarea defaultValue={defaultValue?.keywords} />
+                <UiTextarea
+                    defaultValue={defaultValue?.keywords}
+                />
             </UiFormItem>
             <UiFormSubmit>
                 <div className="flex justify-end">
