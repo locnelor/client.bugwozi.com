@@ -5,6 +5,7 @@ import { gql } from "@apollo/client"
 import { Metadata } from "next"
 import EditorContext from "@/components/EditorContext"
 import EditorContainer from "@/components/EditorContainer"
+import UserEntity from "@/interfaces/UserEntity"
 
 
 const GetCourseContextQuery = gql`
@@ -18,6 +19,13 @@ const GetCourseContextQuery = gql`
             keywords
             type
             name
+            authors{
+                user{
+                    id
+                    name
+                    hash_key
+                }
+            }
         }
         contextEditPower(hash_key:$hash_key)
     }
@@ -56,6 +64,7 @@ const CourseContextPage = async ({
                 power={data.contextEditPower}
                 updateAt={data.getCourseContext.updateAt}
                 savePath={`/content/${context_hash_key}/context`}
+                authors={data.getCourseContext.authors?.map(e => e.user).filter(e => !!e) as UserEntity[]}
             />
         </EditorContainer>
     )

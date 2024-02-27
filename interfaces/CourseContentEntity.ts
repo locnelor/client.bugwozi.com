@@ -1,4 +1,5 @@
 import BaseEntity from "./BaseEntity";
+import { ContentOnUserEntity } from "./ContentOnUserEntity.entity";
 import CourseChapterEntity from "./CourseChapterEntity";
 import CourseEntity from "./CourseEntity";
 
@@ -23,4 +24,6 @@ export default interface CourseContentEntity extends BaseEntity {
     order: number
 
     keywords: string
+
+    authors?: ContentOnUserEntity[]
 }

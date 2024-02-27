@@ -10,16 +10,20 @@ const AddCourseMutation = gql`
     mutation AddCourse(
         $name:String!,
         $price:Float!,
-        $avatar:String!,
+        $prePrice:Float!,
         $keywords:String!,
-        $prePrice:Float!
+        $type:String!,
+        $status:String!,
+        $avatar:String!
     ){
         addCourse(
             name:$name,
             price:$price,
+            prePrice:$prePrice,
             avatar:$avatar,
-            keywords:$keywords,
-            prePrice:$prePrice
+            type:$type,
+            status:$status,
+            keywords:$keywords
         ){
             id
             hash_key
@@ -41,15 +45,15 @@ const AddCourse = ({ refetch }: { refetch: () => void }) => {
             }))
         },
     })
-    const onSubmit = useCallback(async ({ name, price, file, keywords, prePrice }: any) => {
+    const onSubmit = useCallback(async ({ price, file, prePrice, ...rest }: any) => {
         const avatar = await file2base64(file);
+        console.log(rest)
         addCourse({
             variables: {
                 avatar,
-                name,
                 price: parseFloat(price),
-                keywords,
-                prePrice: parseFloat(!!prePrice ? prePrice : price)
+                prePrice: parseFloat(!!prePrice ? prePrice : price),
+                ...rest
             }
         })
     }, []);
