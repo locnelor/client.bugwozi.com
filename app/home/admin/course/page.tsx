@@ -5,6 +5,7 @@ import AddCourse from "./AddCourse"
 import { useQuery } from "@apollo/client"
 import AllCourse from "@/queries/AllCourse.gql"
 import CourseCard from "@/components/CourseCard"
+import CourseContext from "@/components/CourseContext"
 
 const HomeAdminCoursePage = () => {
     const {
@@ -17,18 +18,11 @@ const HomeAdminCoursePage = () => {
         <div>
             <AddCourse refetch={refetch} />
             <UiDivider />
-            <div className="flex flex-wrap gap-4">
-                {((loading ? new Array(10).fill(0) : data.allCourse) as any[])
-                    .map((e, key) => {
-                        return (
-                            <CourseCard
-                                data={e}
-                                key={e?.id || key}
-                                refetch={refetch}
-                            />
-                        )
-                    })}
-            </div>
+            <CourseContext
+                course={((loading ? new Array(10).fill(0) : data.allCourse) as any[])}
+                refetch={refetch}
+                readOnly={false}
+            />
         </div>
     )
 }
