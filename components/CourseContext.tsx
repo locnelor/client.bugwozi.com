@@ -73,9 +73,9 @@ const CourseContext = ({
                 ))}
             </div>
             <div className="flex flex-wrap gap-4">
-                {data.map((item) => (
+                {data.map((item, key) => (
                     <CourseCard
-                        key={item.id}
+                        key={key}
                         data={item}
                         readOnly={readOnly}
                         refetch={refetch}
