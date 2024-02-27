@@ -23,46 +23,16 @@ export const routes = [
         name: "账号设置",
         path: "/setting"
     },
-    // {
-    //     name: "我的班级",
-    //     role: hasRule(ClassesPower, (e) => !!e),
-    //     path: "/classes"
-    // },
-    // {
-    //     name: "班级管理",
-    //     role: hasRule(ClassesPower, (e) => e >= 2),
-    //     path: "/admin/classes"
-    // },
     {
         name: "文章管理",
         role: hasRule(PostsPower, (e) => !!e),
         path: "/posts"
     },
-    // {
-    //     name: "文章审批",
-    //     role: hasRule(PostsPower, (e) => e >= 2),
-    //     path: "/admin/posts"
-    // },
     {
         name: "课程管理",
         role: hasRule(CoursePower, e => !!e),
         path: "/admin/course"
     },
-    // {
-    //     name: "课程审批",
-    //     role: hasRule(CoursePower, e => e >= 2),
-    //     path: "/admin/course"
-    // },
-    // {
-    //     name: "我的话题",
-    //     role: hasRule(DiscussPower, e => e >= 2),
-    //     path: "/discuss"
-    // },
-    // {
-    //     name: "话题管理",
-    //     role: hasRule(DiscussPower, e => e >= 3),
-    //     path: "/admin/discuss"
-    // }
 ]
 const UploadAvatarMutation = gql`
     mutation UploadAvatar($avatar:String!){
@@ -99,7 +69,6 @@ const HomeMenu = ({ user }: { user: User }) => {
                             <UserAvatar
                                 user={user}
                             />
-                            {/* <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" /> */}
                         </div>
                     </div>
                 </UploadAvatar>
