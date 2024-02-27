@@ -19,11 +19,11 @@ const makeClient = () => {
         };
     });
     const httpLink = authLink.concat(new HttpLink({
-        uri: `${process.env.NEXT_PUBLIC_API_URL}`
+        uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`
     }))
     const wsLink = new GraphQLWsLink(
         createClient({
-            url: `${process.env.NEXT_PUBLIC_WSGRAPHQL}`,
+            url: `${process.env.NEXT_PUBLIC_WSGRAPHQL}/graphql`,
             connectionParams: () => {
                 const token = getCookie("token")
                 return {

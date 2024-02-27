@@ -1,7 +1,7 @@
 import axios from "axios"
 import { getCookie } from "./cookie"
 const query = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API,
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true
 })
 query.interceptors.request.use(config => {
