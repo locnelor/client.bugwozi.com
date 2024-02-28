@@ -24,9 +24,14 @@ export const routes = [
         path: "/setting"
     },
     {
-        name: "文章管理",
+        name: "我的文章",
         role: hasRule(PostsPower, (e) => !!e),
         path: "/posts"
+    },
+    {
+        name: "文章管理",
+        role: hasRule(PostsPower, (e) => e === 3),
+        path: "/admin/posts"
     },
     {
         name: "课程管理",
