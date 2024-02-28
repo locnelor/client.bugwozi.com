@@ -6,14 +6,17 @@ import UiInput from "./ui/UiInput"
 import UiSelect from "./ui/UiSelect"
 import UiTags from "./ui/UiTags"
 import UiButton from "./ui/UiButton"
+import UiTextarea from "./ui/UiTextarea"
 
 
 export type PostsFormProps = {
     onSubmit: (data: any) => void,
-    defaultValue?: any
+    defaultValue?: any,
+    loading?: boolean
 }
 const PostsForm = ({
     onSubmit,
+    loading = false,
     defaultValue
 }: PostsFormProps) => {
     return (
@@ -33,12 +36,6 @@ const PostsForm = ({
                 <UiInput />
             </UiFormItem>
             <UiFormItem
-                label="简介"
-                name="description"
-            >
-                <UiInput />
-            </UiFormItem>
-            <UiFormItem
                 label="标签"
                 name="tags"
             >
@@ -46,7 +43,7 @@ const PostsForm = ({
             </UiFormItem>
             <UiFormItem
                 name="status"
-                label="课程状态"
+                label="文章状态"
             >
                 <UiSelect defaultValue={defaultValue?.status || CourseStatus.HIDE}>
                     <UiOption value="HIDE">隐藏</UiOption>
@@ -54,11 +51,17 @@ const PostsForm = ({
                     <UiOption value="SUSPEND">停止</UiOption>
                 </UiSelect>
             </UiFormItem>
+            <UiFormItem
+                label="简介"
+                name="description"
+            >
+                <UiTextarea />
+            </UiFormItem>
             <UiFormSubmit>
                 <div className="flex justify-end">
                     <UiButton
                         submit
-                    // loading={loading}
+                        loading={loading}
                     >
                         提交
                     </UiButton>

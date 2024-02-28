@@ -1,86 +1,86 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react"
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
 import UiButton from "./UiButton"
 import UiInput from "./UiInput"
 
 
 export type UiTagsProps = {
-    value?: string[],
-    // onChange?: (value: string[]) => void,
-    // onClick?: (value: string) => void,
+    defaultValue?: string,
+    onClick?: (value: string) => void,
     readOnly?: boolean
 }
 const UiTags = forwardRef<HTMLInputElement, UiTagsProps>(({
-    value = [],
-    readOnly = false
+    defaultValue,
+    readOnly = false,
+    onClick,
+    ...rest
 }: UiTagsProps, ref) => {
+    const [tag, setTag] = useState("");
+    const [edit, setEdit] = useState(false);
+    const [data, setData] = useState(() => defaultValue?.split(",") || []);
+    const blurRef = useRef<HTMLInputElement>(null);
+    const onBlur = useCallback(() => {
+        setEdit(false)
+        setTag("");
+        if (!tag) return;
+        const result = new Set([...data, tag]);
+        setData([...result])
+    }, [tag, data])
+    const onFocus = useCallback(() => {
+        setEdit(true);
+    }, []);
+    useEffect(() => {
+        if (edit) blurRef.current?.focus()
+    }, [edit])
+    const onDel = useCallback((name: string) => {
+        const result = new Set(data)
+        result.delete(name);
+        setData([...result])
+    }, [data])
     return (
-        <div>
-
+        <div className="flex flex-wrap gap-2">
+            {data.map(((name, key) => (
+                <div
+                    key={key}
+                    className="rounded pl-2 pt-1 pr-2 pb-1 bg-base-300"
+                >
+                    <span
+                        className="cursor-pointer"
+                        onClick={onClick?.bind(null, name)}
+                    >
+                        {name}
+                    </span>
+                    {
+                        !readOnly && <svg onClick={onDel.bind(null, name)} xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 cursor-pointer inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    }
+                </div>
+            )))}
+            {!readOnly && (
+                <div>
+                    {edit && <UiInput
+                        onBlur={onBlur}
+                        value={tag}
+                        onChange={({ target: { value } }) => setTag(value)}
+                        ref={blurRef}
+                        className="input-sm"
+                    />}
+                    {!edit && (
+                        <UiButton
+                            onClick={onFocus}
+                            size="sm"
+                        >
+                            新增
+                        </UiButton>
+                    )}
+                </div>
+            )}
             <input
-                className="hidden"
                 ref={ref}
+                {...rest}
+                value={data.join(",")}
+                className="hidden"
             />
         </div>
     )
-
-    // const [tag, setTag] = useState("")
-    // const [edit, setEdit] = useState(false);
-    // const [values, setValues] = useState(value);
-    // const onChange = useCallback((value: string[]) => {
-    //     setValues(value);
-    // }, [])
-    // useEffect(() => {
-    //     console.log(values, value)
-    // }, [values, value])
-    // const onClick = useCallback((value: string) => {
-
-    // }, []);
-    // const onBlur = useCallback(() => {
-    //     setEdit(false);
-    //     if (!tag) return;
-    //     const data = new Set([...value, tag]);
-    //     onChange([...data]);
-    // }, [tag, value])
-    // useImperativeHandle(ref, () => ({
-    //     onChange,
-    //     onClick
-    // }))
-    // return (
-    //     <div className="flex flex-wrap gap-2">
-    //         {value.map((e) => (
-    //             <UiButton
-    //                 onClick={onClick?.bind(null, e)}
-    //                 key={e}
-    //                 size="sm"
-    //             >
-    //                 {e}
-    //                 <button
-    //                     className="btn btn-square btn-sm"
-    //                     onClick={() => console.log(e)}
-    //                 >
-    //                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-    //                 </button>
-    //             </UiButton>
-    //         ))}
-    //         {!readOnly && <div>
-    //             {edit && (
-    //                 <UiInput
-    //                     onChange={({ target: { value } }) => setTag(value)}
-    //                     onBlur={onBlur}
-    //                 />
-    //             )}
-    //             {!edit && (
-    //                 <UiButton
-    //                     type="secondary"
-    //                     size="sm"
-    //                     onClick={() => setEdit(true)}
-    //                 >
-    //                     新增
-    //                 </UiButton>
-    //             )}
-    //         </div>}
-    //     </div>
-    // )
 })
 UiTags.displayName = "UiTags"
 export default UiTags

@@ -43,18 +43,14 @@ const AddPosts = ({ refetch }: { refetch: () => void }) => {
         },
     })
     const onSubmit = useCallback(async ({ file, ...rest }: any) => {
-        // const avatar = await fileShear(file, 300, 200);
-        // addPosts({
-        //     variables: {
-        //         avatar,
-        //         price: parseFloat(price),
-        //         prePrice: parseFloat(!!prePrice ? prePrice : price),
-        //         ...rest
-        //     }
-        // })
-        console.log(rest)
+        const avatar = await fileShear(file, 300, 200);
+        addPosts({
+            variables: {
+                avatar,
+                ...rest
+            }
+        })
     }, []);
-
     return (
         <div>
             <UiButton onClick={open}>添加文章</UiButton>
@@ -62,12 +58,9 @@ const AddPosts = ({ refetch }: { refetch: () => void }) => {
                 ref={modalRef}
             >
                 <UiModalTitle>添加文章</UiModalTitle>
-                {/* <CourseForm
-                    onSubmit={onSubmit}
-                    loading={loading}
-                /> */}
                 <PostsForm
                     onSubmit={onSubmit}
+                    loading={loading}
                 />
             </UiModal>
         </div>
