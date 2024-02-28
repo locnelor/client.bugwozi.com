@@ -2,7 +2,7 @@ import CourseForm from "@/components/CourseForm";
 import PostsForm from "@/components/PostsForm";
 import UiButton from "@/components/ui/UiButton";
 import UiModal, { useModalEvent, UiModalTitle, openInformationModal } from "@/components/ui/UiModal";
-import { file2base64, fileShear } from "@/lib/img";
+import { fileShear } from "@/lib/img";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import { useCallback } from "react";
