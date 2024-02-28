@@ -1,7 +1,7 @@
 import CourseForm from "@/components/CourseForm";
 import UiButton from "@/components/ui/UiButton";
 import UiModal, { useModalEvent, UiModalTitle, openInformationModal } from "@/components/ui/UiModal";
-import { file2base64 } from "@/lib/img";
+import { fileShear } from "@/lib/img";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import { useCallback } from "react";
@@ -46,8 +46,7 @@ const AddCourse = ({ refetch }: { refetch: () => void }) => {
         },
     })
     const onSubmit = useCallback(async ({ price, file, prePrice, ...rest }: any) => {
-        const avatar = await file2base64(file);
-        console.log(rest)
+        const avatar = await fileShear(file, 300, 200);
         addCourse({
             variables: {
                 avatar,
