@@ -2,15 +2,22 @@ import { useContext, useEffect, useRef } from "react";
 import { DraftRichContext } from "../DraftRichEditor";
 import withDecorator from "../hooks/withDecorator";
 
+const hash = new Map<string, string>()
 export const SVGSend = ({
     src = ""
 }) => {
     const ref = useRef<HTMLSpanElement>(null);
     useEffect(() => {
+        if (!ref.current) return;
+        if (hash.has(src)) {
+            ref.current.innerHTML = hash.get(src) as string
+            return;
+        }
         fetch(src).then(e => e.text()).then(e => {
             if (ref.current) ref.current.innerHTML = e
+            hash.set(src, e)
         })
-    }, [src]);
+    }, []);
     return (
         <span ref={ref}>
 
