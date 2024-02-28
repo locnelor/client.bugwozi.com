@@ -12,15 +12,15 @@ const AddPostsMutation = gql`
         $name:String!,
         $description:String,
         $status:String!,
-        $keywords:[String!]!,
-        $avatar:String!
+        $avatar:String!,
+        $tags:String!
     ){
         addPosts(
             name:$name,
             description:$description,
             status:$status,
-            keywords:$keywords,
-            avatar:$avatar
+            avatar:$avatar,
+            tags:$tags
         ){
             id
             hash_key

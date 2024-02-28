@@ -1,0 +1,17 @@
+#import "./UserFields.gql"
+
+fragment PostsField on PostsEntity {
+    id
+    createAt
+    updateAt
+    hash_key
+    description
+    userId
+    status
+    name
+    author{
+        ...UserFields
+    }
+    context
+    tags
+}

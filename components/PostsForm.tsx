@@ -7,11 +7,12 @@ import UiSelect from "./ui/UiSelect"
 import UiTags from "./ui/UiTags"
 import UiButton from "./ui/UiButton"
 import UiTextarea from "./ui/UiTextarea"
+import { PostsEntity } from "@/interfaces/PostsEntity"
 
 
 export type PostsFormProps = {
     onSubmit: (data: any) => void,
-    defaultValue?: any,
+    defaultValue?: PostsEntity,
     loading?: boolean
 }
 const PostsForm = ({
@@ -33,13 +34,17 @@ const PostsForm = ({
                 label="标题"
                 name="name"
             >
-                <UiInput />
+                <UiInput
+                    defaultValue={defaultValue?.name}
+                />
             </UiFormItem>
             <UiFormItem
                 label="标签"
                 name="tags"
             >
-                <UiTags />
+                <UiTags
+                    defaultValue={defaultValue?.tags}
+                />
             </UiFormItem>
             <UiFormItem
                 name="status"
@@ -55,7 +60,9 @@ const PostsForm = ({
                 label="简介"
                 name="description"
             >
-                <UiTextarea />
+                <UiTextarea
+                    defaultValue={defaultValue?.description}
+                />
             </UiFormItem>
             <UiFormSubmit>
                 <div className="flex justify-end">

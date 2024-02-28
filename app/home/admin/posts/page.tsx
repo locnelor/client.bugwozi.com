@@ -1,22 +1,21 @@
 "use client"
-import UiDivider from "@/components/ui/UiDivider"
-import AddPosts from "./AddPosts"
 import { gql, useQuery } from "@apollo/client"
 import { PostsEntity, PostsFields } from "@/interfaces/PostsEntity"
-import PostsCard from "@/components/PostsCard"
 import PostsContext from "@/components/PostsContext"
 
 
-const MyPostsQuery = gql`
-    query MyPosts(
+const AllPostsQuery = gql`
+    query AllPosts(
         $id:Int,
         $take:Int,
-        $keywords:String
+        $keywords:String,
+        $userId:Int
     ){
-        myPosts(
+        allPosts(
             id:$id,
             take:$take,
-            keywords:$keywords
+            keywords:$keywords,
+            userId:$userId
         ){
             ${PostsFields}
         }
@@ -29,16 +28,12 @@ const HomePostsPage = () => {
         error,
         refetch
     } = useQuery<{
-        myPosts: PostsEntity[]
-    }>(MyPostsQuery)
+        allPosts: PostsEntity[]
+    }>(AllPostsQuery)
     return (
         <div>
-            <AddPosts
-                refetch={refetch}
-            />
-            <UiDivider />
             <PostsContext
-                data={data?.myPosts || []}
+                data={data?.allPosts || []}
                 refetch={refetch}
             />
         </div>
