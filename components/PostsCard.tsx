@@ -118,6 +118,13 @@ const PostsCard = ({
                     </UiButton>
                 }
             >
+                <Link href={`/home/admin/posts/${posts.hash_key}`}>
+                    <UiDropdownMenuItem
+                        onClick={onOpenDelModal.bind(null, posts.id)}
+                    >
+                        编辑内容
+                    </UiDropdownMenuItem>
+                </Link>
                 <UiDropdownMenuItem
                     onClick={onOpenDelModal.bind(null, posts.id)}
                 >
