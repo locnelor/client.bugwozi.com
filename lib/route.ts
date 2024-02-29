@@ -1,4 +1,4 @@
-import User from "@/interfaces/UserEntity";
+import UserEntity from "@/interfaces/UserEntity";
 
 export const getPowers = ([begin, end]: PowerEnum, n: number) => {
     let num = 0;
@@ -16,8 +16,7 @@ export const getPowers = ([begin, end]: PowerEnum, n: number) => {
 export type PowerEnum = [number, number];
 /**
  * 3 账号权限
- * 1  可登录                 
- * 10 可编辑信息（修改姓名、密码等）       
+ * 1  可登录                     
  * 11 可编辑他人信息
  */
 export const AccountPower: PowerEnum = [0, 1];
@@ -31,16 +30,13 @@ export const PowerSize: PowerEnum = [2, 4];
 /**
  * 文章权限
  * 01 可发布文章
- * 10 可审批文章
- * 11 可编辑文章
+ * 11 可编辑所有人文章
  */
 export const PostsPower: PowerEnum = [5, 6]
 
 /**
  * 课程权限
- * 01 可发布课程
- * 10 可审批课程
- * 11 可编辑课程
+ * 1 可发布编辑课程
  */
 export const CoursePower: PowerEnum = [7, 8]
 
@@ -53,10 +49,54 @@ export const CoursePower: PowerEnum = [7, 8]
 export const DiscussPower: PowerEnum = [9, 10]
 
 /**
- * 班级权限
- * 00 无
- * 01 可创建班级
- * 10 可编辑班级
- * 11 可编辑班级
+ * 订单权限
+ * 0 无
+ * 1 可查看所有订单
+ * 10 可进行退款等
+ * 11 可进行编辑等
  */
-export const ClassesPower: PowerEnum = [11, 12];
+export const OrderPower: PowerEnum = [11, 12];
+
+const hasRule = (power: PowerEnum, callback: (p: number) => boolean) => {
+    return (user: UserEntity) => callback(getPowers(power, user.role))
+}
+
+export const routes = [
+    {
+        name: "个人信息",
+        path: "/"
+    },
+    {
+        name: "账号设置",
+        path: "/setting"
+    },
+    {
+        name: "我的文章",
+        role: hasRule(PostsPower, (e) => !!e),
+        path: "/posts"
+    },
+    {
+        name: "文章管理",
+        role: hasRule(PostsPower, (e) => e === 3),
+        path: "/admin/posts"
+    },
+    {
+        name: "课程管理",
+        role: hasRule(CoursePower, e => !!e),
+        path: "/admin/course"
+    },
+    {
+        name: "账号管理",
+        role: hasRule(AccountPower, e => e == 3),
+        path: "/admin/account"
+    },
+    {
+        name: "我的订单",
+        path: "/order"
+    },
+    {
+        name: "订单管理",
+        role: hasRule(OrderPower, e => !!e),
+        path: "/admin/order"
+    }
+]
