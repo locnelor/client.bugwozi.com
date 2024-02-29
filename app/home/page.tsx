@@ -5,9 +5,7 @@ import UiInput from "@/components/ui/UiInput"
 import useUser from "@/hooks/useUser"
 import { useCallback } from "react"
 
-// export const metadata: Metadata = {
-//     title: "个人中心"
-// }
+
 
 const HomePage = () => {
     const { data } = useUser()
