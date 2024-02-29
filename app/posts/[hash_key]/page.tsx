@@ -13,15 +13,13 @@ const SelPostsQuery = gql`
         getByHashKey(hash_key:$hash_key){
             ${PostsFields}
         }
-        getPostsPower(hash_key:$hash_key)
     }
 `
 const PostsContextPage = async ({
     params: { hash_key }
 }: PageProps<{}, { hash_key: string }>) => {
     const { data, error } = await getQuery<{
-        getByHashKey: PostsEntity,
-        getPostsPower: boolean
+        getByHashKey: PostsEntity
     }>(SelPostsQuery, {
         hash_key
     })
@@ -33,7 +31,6 @@ const PostsContextPage = async ({
                 context={data.getByHashKey.context}
                 savePath={`/posts/${hash_key}/context`}
                 updateAt={data.getByHashKey.updateAt}
-                power={data.getPostsPower}
                 authors={[data.getByHashKey.author as any]}
             />
         </div>
