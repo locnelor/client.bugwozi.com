@@ -23,7 +23,10 @@ const PostsContextPage = async ({
     }>(SelPostsQuery, {
         hash_key
     })
-    if (!data) return notFound()
+    if (!data) {
+        console.log(error)
+        return notFound()
+    }
     return (
         <div className="container m-auto" style={{ maxWidth: 700 }}>
             <h1>{data.getByHashKey.name}</h1>
