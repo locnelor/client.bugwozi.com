@@ -8,7 +8,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     return (
         <DraftRichProvider
             value={{
-                mathBaseURL: `${process.env.NEXT_PUBLIC_API}/mathjax`
+                mathBaseURL: `${process.env.NEXT_PUBLIC_API_URL}/mathjax`
             }}
 
         >

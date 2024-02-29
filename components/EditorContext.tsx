@@ -10,6 +10,7 @@ import { openInformationModal } from "./ui/UiModal"
 import query from "@/lib/query"
 import UserAvatar from "./UserAvatar"
 import UserEntity from "@/interfaces/UserEntity"
+import UserNameAvatar from "./UserNameAvatar"
 const DraftRichEditor = dynamic(() => import("@/components/reactDraftEditor/DraftRichEditor"), { ssr: false })
 
 type MenuType = {
@@ -175,9 +176,9 @@ const EditorContext = ({
                 <div>
                     <h1 className="text-xl">作者</h1>
                     <div className="flex flex-wrap gap-2">
-                        {authors?.map((user) => (
-                            <UserAvatar
-                                key={user?.id}
+                        {authors?.map((user, key) => (
+                            <UserNameAvatar
+                                key={key}
                                 user={user}
                             />
                         ))}

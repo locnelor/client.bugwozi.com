@@ -1,4 +1,5 @@
 import CourseForm from "@/components/CourseForm";
+import PostsForm from "@/components/PostsForm";
 import UiButton from "@/components/ui/UiButton";
 import UiModal, { useModalEvent, UiModalTitle, openInformationModal } from "@/components/ui/UiModal";
 import { fileShear } from "@/lib/img";
@@ -6,24 +7,20 @@ import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import { useCallback } from "react";
 
-const AddCourseMutation = gql`
-    mutation AddCourse(
+const AddPostsMutation = gql`
+    mutation AddPosts(
         $name:String!,
-        $price:Float!,
-        $prePrice:Float!,
-        $keywords:String!,
-        $type:String!,
+        $description:String,
         $status:String!,
-        $avatar:String!
+        $avatar:String!,
+        $tags:String!
     ){
-        addCourse(
+        addPosts(
             name:$name,
-            price:$price,
-            prePrice:$prePrice,
-            avatar:$avatar,
-            type:$type,
+            description:$description,
             status:$status,
-            keywords:$keywords
+            avatar:$avatar,
+            tags:$tags
         ){
             id
             hash_key
@@ -31,9 +28,9 @@ const AddCourseMutation = gql`
     }
 `
 
-const AddCourse = ({ refetch }: { refetch: () => void }) => {
+const AddPosts = ({ refetch }: { refetch: () => void }) => {
     const [modalRef, open, cancel] = useModalEvent();
-    const [addCourse, { loading }] = useMutation(AddCourseMutation, {
+    const [addPosts, { loading }] = useMutation(AddPostsMutation, {
         onCompleted() {
             cancel()
             refetch()
@@ -45,26 +42,23 @@ const AddCourse = ({ refetch }: { refetch: () => void }) => {
             }))
         },
     })
-    const onSubmit = useCallback(async ({ price, file, prePrice, ...rest }: any) => {
+    const onSubmit = useCallback(async ({ file, ...rest }: any) => {
         const avatar = await fileShear(file, 300, 200);
-        addCourse({
+        addPosts({
             variables: {
                 avatar,
-                price: parseFloat(price),
-                prePrice: parseFloat(!!prePrice ? prePrice : price),
                 ...rest
             }
         })
     }, []);
-
     return (
         <div>
-            <UiButton onClick={open}>添加课程</UiButton>
+            <UiButton onClick={open}>添加文章</UiButton>
             <UiModal
                 ref={modalRef}
             >
-                <UiModalTitle>添加课程</UiModalTitle>
-                <CourseForm
+                <UiModalTitle>添加文章</UiModalTitle>
+                <PostsForm
                     onSubmit={onSubmit}
                     loading={loading}
                 />
@@ -72,4 +66,4 @@ const AddCourse = ({ refetch }: { refetch: () => void }) => {
         </div>
     )
 }
-export default AddCourse
+export default AddPosts

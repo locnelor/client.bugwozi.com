@@ -6,3 +6,15 @@ export default interface UserEntity extends BaseEntity {
     account: string
     hash_key: string
 }
+
+export const  UserFields = `
+    id
+    createAt
+    updateAt
+    name
+    role
+    hash_key
+    profile{
+        id
+    }
+`
