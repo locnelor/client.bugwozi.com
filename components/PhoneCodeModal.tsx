@@ -63,6 +63,7 @@ const CodeItem = forwardRef<
         </div>
     )
 })
+CodeItem.displayName = "CodeItem"
 const PhoneCodeModal = forwardRef<
     HTMLDialogElement,
     DialogHTMLAttributes<HTMLDialogElement> & { onFinish: (data: { phone: string, code: string } & any) => void }
@@ -109,4 +110,5 @@ const PhoneCodeModal = forwardRef<
         </UiModal>
     )
 })
+PhoneCodeModal.displayName = "PhoneCodeModal"
 export default PhoneCodeModal
