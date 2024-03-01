@@ -13,7 +13,7 @@ import { useCallback, useMemo } from "react"
 
 
 const UpdSelfInformationMutation = gql`
-    mutation UpdSelfInformation($name:String!,$gender:Int,$information:String){
+    mutation UpdSelfInformation($name:String!,$gender:Int!,$information:String){
         updSelfInformation(name:$name,gender:$gender,information:$information){
             message
         }
@@ -33,6 +33,7 @@ const HomePage = () => {
     })
     const user = useMemo(() => data?.viewer, [data]);
     const onSubmit = useCallback((variables: any) => {
+        variables.gender = parseInt(variables.gender)
         updSelfInformation({ variables })
     }, [])
     return (
