@@ -5,14 +5,18 @@ export default interface UserEntity extends BaseEntity {
     name: string
     account: string
     hash_key: string
+    gender: number
+    information: string
 }
 
-export const  UserFields = `
+export const UserFields = `
     id
     createAt
     updateAt
     name
+    gender
     role
+    information
     hash_key
     profile{
         id
