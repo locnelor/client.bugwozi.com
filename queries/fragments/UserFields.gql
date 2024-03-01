@@ -6,6 +6,8 @@ fragment UserFields on UserEntity{
     name
     role
     hash_key
+    gender
+    information
     profile{
         id
     }
