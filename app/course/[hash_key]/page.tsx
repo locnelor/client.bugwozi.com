@@ -7,6 +7,7 @@ import UiButton from "@/components/ui/UiButton"
 import CourseHashQuery from "./CourseHashQuery"
 import EditorContext from "@/components/EditorContext"
 import EditorContainer from "@/components/EditorContainer"
+import UserNameAvatar from "@/components/UserNameAvatar"
 
 export async function generateMetadata(
     { params: { hash_key } }: PageProps<{}, { hash_key: string }>
@@ -55,9 +56,9 @@ const CourseIdPage = async ({
                     <h1 className="text-xl">贡献者:</h1>
                     <div className="flex flex-wrap gap-2">
                         {data?.courseHashQuery.head?.map(({ user }) => (
-                            <UserAvatar
-                                key={user?.id}
+                            <UserNameAvatar
                                 user={user}
+                                key={user?.id}
                             />
                         ))}
                     </div>
