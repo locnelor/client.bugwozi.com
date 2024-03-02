@@ -98,5 +98,15 @@ export const routes = [
         name: "订单管理",
         role: hasRule(OrderPower, e => !!e),
         path: "/admin/order"
+    },
+    {
+        name: "系统管理",
+        role: hasRule(PowerSize, e => e === 7),
+        path: "/admin/system"
+    },
+    {
+        name: "日志管理",
+        role: hasRule(PowerSize, e => e >= 6),
+        path: "/admin/logs"
     }
 ]
