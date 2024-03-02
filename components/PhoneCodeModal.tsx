@@ -18,7 +18,7 @@ export type CodeItemProps = {
     phone: string,
     required?: boolean
 }
-const CodeItem = forwardRef<
+export const CodeItem = forwardRef<
     HTMLInputElement,
     CodeItemProps
 >(({ phone, required }, ref) => {
@@ -45,6 +45,8 @@ const CodeItem = forwardRef<
             <UiInput
                 ref={ref}
                 required={required}
+                minLength={6}
+                maxLength={6}
             />
             <UiButton
                 onClick={onClick}
@@ -56,6 +58,45 @@ const CodeItem = forwardRef<
         </div>
     )
 })
+export type PhoneItemProps = {
+    phone: string,
+    setPhone: (phone: string) => void
+}
+export const PhoneItem = ({ phone, setPhone }: PhoneItemProps) => {
+    return (
+        <UiFormItem
+            name="phone"
+            label="手机号"
+            valueMissing="手机号不得为空"
+            typeMismatch="请输入11位手机号"
+            match={value => !/^\d+$/.test(value)}
+            matchMessage="手机号格式不合法"
+        >
+            <UiInput
+                value={phone}
+                onChange={({ target: { value } }) => setPhone(value)}
+                required
+                maxLength={11}
+                minLength={11}
+            />
+        </UiFormItem>
+    )
+}
+export const PhoneCodeItem = ({ phone = "" }) => {
+    return (
+        <UiFormItem
+            name="code"
+            label="验证码"
+            typeMismatch="请输入6位验证码"
+            valueMissing="验证码不得为空"
+        >
+            <CodeItem
+                phone={phone}
+                required
+            />
+        </UiFormItem>
+    )
+}
 CodeItem.displayName = "CodeItem"
 const PhoneCodeModal = forwardRef<
     HTMLDialogElement,
@@ -71,29 +112,13 @@ const PhoneCodeModal = forwardRef<
             <UiForm
                 onSubmit={onFinish}
             >
-                <UiFormItem
-                    name="phone"
-                    label="手机号"
-                    valueMissing="手机号不得为空"
-                    typeMismatch="请输入11位手机号"
-                >
-                    <UiInput
-                        value={phone}
-                        onChange={({ target: { value } }) => setPhone(value)}
-                        required
-                        maxLength={11}
-                        minLength={11}
-                    />
-                </UiFormItem>
-                <UiFormItem
-                    name="phone"
-                    label="验证码"
-                >
-                    <CodeItem
-                        phone={phone}
-                        required
-                    />
-                </UiFormItem>
+                <PhoneItem
+                    phone={phone}
+                    setPhone={setPhone}
+                />
+                <PhoneCodeItem
+                    phone={phone}
+                />
                 <UiFormSubmit>
                     <div className="flex justify-end">
                         <UiButton submit>提交</UiButton>
