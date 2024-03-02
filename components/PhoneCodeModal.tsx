@@ -3,9 +3,8 @@ import UiModal, { UiModalTitle } from "./ui/UiModal"
 import UiForm, { UiFormItem, UiFormSubmit } from "./ui/UiForm"
 import UiInput from "./ui/UiInput"
 import UiButton from "./ui/UiButton"
-import { gql, useMutation, useQuery } from "@apollo/client"
+import { gql, useMutation } from "@apollo/client"
 import { gqlError } from "@/lib/apollo-error"
-import GetCode from "@/queries/GetCode.gql"
 
 const GetPhoneCodeMutation = gql`
     mutation GetPhoneCode($phone:String!){
@@ -24,7 +23,6 @@ const CodeItem = forwardRef<
     CodeItemProps
 >(({ phone, required }, ref) => {
     const [count, setCount] = useState(0);
-    const { data, refetch } = useQuery(GetCode)
     const [getPhoneCode] = useMutation(GetPhoneCodeMutation, {
         onError(error) {
             gqlError(error)
@@ -37,6 +35,7 @@ const CodeItem = forwardRef<
         }, 1000)
         return () => clearTimeout(time)
     }, [count])
+    const disabled = !(!count && phone.length === 11);
     const onClick = useCallback(() => {
         setCount(60);
         getPhoneCode({ variables: { phone } })
@@ -47,15 +46,9 @@ const CodeItem = forwardRef<
                 ref={ref}
                 required={required}
             />
-            <div
-                onClick={() => refetch()}
-                className="cursor-pointer"
-                dangerouslySetInnerHTML={{ __html: data?.getCode }}
-            >
-            </div>
             <UiButton
                 onClick={onClick}
-                disabled={(!!count && phone.length === 11)}
+                disabled={disabled}
                 className="w-32"
             >
                 {!!count ? count : "获取验证码"}
