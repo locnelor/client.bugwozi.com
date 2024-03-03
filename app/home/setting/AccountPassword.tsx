@@ -1,5 +1,5 @@
 "use client"
-import { PhoneCodeItem, PhoneItem } from "@/components/PhoneCodeModal"
+import { SelfPhoneCodeItem } from "@/components/PhoneCodeModal"
 import UiButton from "@/components/ui/UiButton"
 import UiForm, { UiFormItem, UiFormSubmit } from "@/components/ui/UiForm"
 import UiInput from "@/components/ui/UiInput"
@@ -7,7 +7,7 @@ import UiModal, { UiModalTitle, openInformationModal, useModalEvent } from "@/co
 import UiTabs, { UiTabsItem } from "@/components/ui/UiTabs"
 import { gqlError } from "@/lib/apollo-error"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 
 
 const UpdPwdMutation = gql`
@@ -18,8 +18,8 @@ const UpdPwdMutation = gql`
     }
 `
 const UpdPwdForCodeMutation = gql`
-    mutation UpdPwdForCode($phone:String!,$password:String!,$code:String){
-        updPwdForCode(phone:$phone,password:$password,code:$code){
+    mutation UpdPwdForCode($password:String!,$code:String!){
+        updPwdForCode(password:$password,code:$code){
             message
         }
     }
@@ -27,7 +27,6 @@ const UpdPwdForCodeMutation = gql`
 
 const AccountPassword = () => {
     const [modalRef, open, cancel] = useModalEvent()
-    const [phone, setPhone] = useState("");
     const client = useApolloClient()
     const [updPwd, { loading }] = useMutation(UpdPwdMutation, {
         onError(error) {
@@ -100,6 +99,7 @@ const AccountPassword = () => {
                                     <UiInput
                                         required
                                         minLength={6}
+                                        type="password"
                                     />
                                 </UiFormItem>
                                 <UiFormItem
@@ -111,6 +111,7 @@ const AccountPassword = () => {
                                     <UiInput
                                         required
                                         minLength={6}
+                                        type="password"
                                     />
                                 </UiFormItem>
                                 <UiFormItem
@@ -122,6 +123,7 @@ const AccountPassword = () => {
                                     <UiInput
                                         required
                                         minLength={6}
+                                        type="password"
                                     />
                                 </UiFormItem>
                                 <UiFormSubmit>
@@ -146,6 +148,7 @@ const AccountPassword = () => {
                                     <UiInput
                                         required
                                         minLength={6}
+                                        type="password"
                                     />
                                 </UiFormItem>
                                 <UiFormItem
@@ -157,15 +160,10 @@ const AccountPassword = () => {
                                     <UiInput
                                         required
                                         minLength={6}
+                                        type="password"
                                     />
                                 </UiFormItem>
-                                <PhoneItem
-                                    phone={phone}
-                                    setPhone={setPhone}
-                                />
-                                <PhoneCodeItem
-                                    phone={phone}
-                                />
+                                <SelfPhoneCodeItem />
                                 <UiFormSubmit>
                                     <div className="flex justify-end">
                                         <UiButton loading={updPwdForCodeLoading} submit>提交</UiButton>

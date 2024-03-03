@@ -3,13 +3,30 @@ import PhoneCodeModal from "@/components/PhoneCodeModal"
 import UiButton from "@/components/ui/UiButton"
 import UiInput from "@/components/ui/UiInput"
 import { useModalEvent } from "@/components/ui/UiModal"
+import { gqlError } from "@/lib/apollo-error"
+import { gql, useMutation } from "@apollo/client"
 import { useCallback } from "react"
 
-
-const BindPhone = ({ phone }: { phone?: string }) => {
-    const [ref, openModal] = useModalEvent()
+const SetAccountPhoneMutation = gql`
+    mutation setAccountPhone($phone:String!,$code:String!){
+        setAccountPhone(phone:$phone,code:$code){
+            message
+        }
+    }
+`
+const BindPhone = ({ phone = "" }) => {
+    const [ref, openModal, cancel] = useModalEvent()
+    const [setPhone, { loading }] = useMutation(SetAccountPhoneMutation, {
+        onError(error) {
+            gqlError(error)
+        },
+        onCompleted() {
+            cancel()
+            window.location.reload()
+        }
+    })
     const onFinish = useCallback(({ phone, code }: any) => {
-        console.log(phone, code)
+        setPhone({ variables: { phone, code } })
     }, [])
     return (
         <div className="mt-5 mb-5">
@@ -23,6 +40,8 @@ const BindPhone = ({ phone }: { phone?: string }) => {
                     ref={ref}
                     title="绑定手机号"
                     onFinish={onFinish}
+                    loading={loading}
+                    equal
                 />
             </div>
         </div>

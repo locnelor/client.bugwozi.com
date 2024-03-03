@@ -7,25 +7,37 @@ import { gql, useMutation } from "@apollo/client"
 import { gqlError } from "@/lib/apollo-error"
 
 const GetPhoneCodeMutation = gql`
-    mutation GetPhoneCode($phone:String!){
-        getPhoneCode(phone:$phone){
+    mutation GetPhoneCode($phone:String!,$equal:Boolean){
+        getPhoneCode(phone:$phone,equal:$equal){
             message
         }
     }
 
 `
+const GetSelfCodeMutation = gql`
+    mutation GetSelfCode{
+        getSelfCode{
+            message
+        }
+    }
+`
 export type CodeItemProps = {
     phone: string,
-    required?: boolean
+    required?: boolean,
+    equal?: boolean
 }
 export const CodeItem = forwardRef<
     HTMLInputElement,
     CodeItemProps
->(({ phone, required }, ref) => {
+>(({ phone, required, equal = false, ...rest }, ref) => {
     const [count, setCount] = useState(0);
     const [getPhoneCode] = useMutation(GetPhoneCodeMutation, {
         onError(error) {
             gqlError(error)
+            setCount(0)
+        },
+        onCompleted() {
+            setCount(60)
         }
     })
     useEffect(() => {
@@ -37,9 +49,8 @@ export const CodeItem = forwardRef<
     }, [count])
     const disabled = !(!count && phone.length === 11);
     const onClick = useCallback(() => {
-        setCount(60);
-        getPhoneCode({ variables: { phone } })
-    }, [phone])
+        getPhoneCode({ variables: { phone, equal } })
+    }, [phone, equal])
     return (
         <div className="flex gap-5">
             <UiInput
@@ -47,6 +58,7 @@ export const CodeItem = forwardRef<
                 required={required}
                 minLength={6}
                 maxLength={6}
+                {...rest}
             />
             <UiButton
                 onClick={onClick}
@@ -60,6 +72,7 @@ export const CodeItem = forwardRef<
 })
 export type PhoneItemProps = {
     phone: string,
+    equal?: boolean,
     setPhone: (phone: string) => void
 }
 export const PhoneItem = ({ phone, setPhone }: PhoneItemProps) => {
@@ -82,7 +95,62 @@ export const PhoneItem = ({ phone, setPhone }: PhoneItemProps) => {
         </UiFormItem>
     )
 }
-export const PhoneCodeItem = ({ phone = "" }) => {
+export const SelfPhoneCode = forwardRef<
+    HTMLInputElement
+>((props, ref) => {
+    const [count, setCount] = useState(0);
+    const [getPhoneCode] = useMutation(GetSelfCodeMutation, {
+        onError(error) {
+            gqlError(error)
+            setCount(0)
+        },
+        onCompleted() {
+            setCount(60)
+        }
+    })
+    useEffect(() => {
+        if (!count) return;
+        const time = setTimeout(() => {
+            setCount(count - 1);
+        }, 1000)
+        return () => clearTimeout(time)
+    }, [count])
+    const onClick = useCallback(() => {
+        getPhoneCode()
+    }, [])
+    return (
+        <div className="flex gap-5">
+            <UiInput
+                ref={ref}
+                required
+                minLength={6}
+                maxLength={6}
+                {...props}
+            />
+            <UiButton
+                onClick={onClick}
+                disabled={!!count}
+                className="w-32"
+            >
+                {!!count ? count : "获取验证码"}
+            </UiButton>
+        </div>
+    )
+})
+SelfPhoneCode.displayName = "SelfPhoneCode"
+export const SelfPhoneCodeItem = () => {
+    return (
+        <UiFormItem
+            name="code"
+            label="验证码"
+            typeMismatch="请输入6位验证码"
+            valueMissing="验证码不得为空"
+        >
+            <SelfPhoneCode />
+        </UiFormItem>
+    )
+}
+export const PhoneCodeItem = ({ phone = "", equal = false }) => {
     return (
         <UiFormItem
             name="code"
@@ -93,6 +161,7 @@ export const PhoneCodeItem = ({ phone = "" }) => {
             <CodeItem
                 phone={phone}
                 required
+                equal={equal}
             />
         </UiFormItem>
     )
@@ -100,8 +169,8 @@ export const PhoneCodeItem = ({ phone = "" }) => {
 CodeItem.displayName = "CodeItem"
 const PhoneCodeModal = forwardRef<
     HTMLDialogElement,
-    DialogHTMLAttributes<HTMLDialogElement> & { onFinish: (data: { phone: string, code: string } & any) => void }
->(({ title, onFinish, ...props }, ref) => {
+    DialogHTMLAttributes<HTMLDialogElement> & { loading?: boolean, equal?: boolean, onFinish: (data: { phone: string, code: string } & any) => void }
+>(({ title, equal = false, onFinish, loading, ...props }, ref) => {
     const [phone, setPhone] = useState("");
     return (
         <UiModal
@@ -118,10 +187,11 @@ const PhoneCodeModal = forwardRef<
                 />
                 <PhoneCodeItem
                     phone={phone}
+                    equal={equal}
                 />
                 <UiFormSubmit>
                     <div className="flex justify-end">
-                        <UiButton submit>提交</UiButton>
+                        <UiButton loading={loading} submit>提交</UiButton>
                     </div>
                 </UiFormSubmit>
             </UiForm>
