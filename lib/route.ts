@@ -8,7 +8,12 @@ export const getPowers = ([begin, end]: PowerEnum, n: number) => {
     }
     return num;
 }
-
+export const setPowers = ([begin, end]: PowerEnum, n: number, value: number) => {
+    const length = end - begin + 1;
+    const max = ~(~(~0 << length) << begin)
+    value = (~(~0 << length) & value) << begin;
+    return (n & max) | value
+}
 //采用位判断权限。0-31有效
 /**
  * [begin,end].开区间
@@ -57,6 +62,27 @@ export const DiscussPower: PowerEnum = [9, 10]
  */
 export const OrderPower: PowerEnum = [11, 12];
 
+export const PowerList = [
+    {
+        name: "账号权限",
+        power: AccountPower
+    }, {
+        name: "权限大小",
+        power: PowerSize
+    }, {
+        name: "文章权限",
+        power: PostsPower
+    }, {
+        name: "课程权限",
+        power: CoursePower
+    }, {
+        name: "讨论权限",
+        power: DiscussPower
+    }, {
+        name: "订单权限",
+        power: OrderPower
+    }
+]
 const hasRule = (power: PowerEnum, callback: (p: number) => boolean) => {
     return (user: UserEntity) => callback(getPowers(power, user.role))
 }

@@ -8,6 +8,7 @@ import UserEntity, { UserFields } from "@/interfaces/UserEntity"
 import { gql, useQuery } from "@apollo/client"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
+import AccountInformationModal from "./AccountInformationModal"
 
 
 const GetUserQuery = gql`
@@ -83,11 +84,9 @@ const HomeAdminAccountPage = () => {
                                     user={item}
                                 />
                             </div>
-                            <div>
-                                <UiButton>
-                                    查看
-                                </UiButton>
-                            </div>
+                            <AccountInformationModal
+                                user={item}
+                            />
                         </div>
                     ))}
                 </InfiniteScroll>
