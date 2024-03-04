@@ -41,7 +41,7 @@ const CourseContext = ({
         }, ...course.map(e => ({
             label: e.type?.name as string,
             value: e.type?.name as string,
-            render: (course: CourseEntity) =>course.type?.name === e.type?.name
+            render: (course: CourseEntity) => course.type?.name === e.type?.name
         }))]
     }], [course]);
     const [types, setType] = useState([selections[0].values[0], selections[1].values[0]]);
@@ -63,7 +63,7 @@ const CourseContext = ({
     return (
         <div className="container">
             <div className="flex flex-col gap-2 mb-2">
-                {selections.map(({ label, name, values }, key) => (
+                {selections.map(({ name, values }, key) => (
                     <UiButtonRadios
                         key={`${key}_${name}`}
                         options={values}

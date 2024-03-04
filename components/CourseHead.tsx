@@ -1,5 +1,4 @@
 import CourseEntity from "@/interfaces/CourseEntity"
-import UserAvatar from "./UserAvatar"
 import UiButton from "./ui/UiButton"
 import { useCallback } from "react"
 import UiModal, { UiModalTitle, openInformationModal, openModal, useModalEvent } from "./ui/UiModal"
@@ -7,6 +6,7 @@ import gql from "graphql-tag"
 import { useMutation } from "@apollo/client"
 import UiForm, { UiFormItem, UiFormSubmit } from "./ui/UiForm"
 import UiInput from "./ui/UiInput"
+import UserNameAvatar from "./UserNameAvatar"
 
 const DelCourseHeadMutation = gql`
     mutation DelCourseHead($courseId:Int!,$userId:Int!){
@@ -16,8 +16,8 @@ const DelCourseHeadMutation = gql`
     }
 `
 const AddCourseHeadMutation = gql`
-    mutation AddCourseHead($courseId:Int!,$account:String!){
-        addHead(courseId:$courseId,account:$account){
+    mutation AddCourseHead($courseId:Int!,$phone:String!){
+        addHead(courseId:$courseId,phone:$phone){
             message
         }
     }
@@ -64,11 +64,11 @@ const CourseHead = ({
             }
         }))
     }, [data]);
-    const onSubmit = useCallback(({ account }: any) => {
+    const onSubmit = useCallback(({ phone }: any) => {
         addHead({
             variables: {
                 courseId: data.id,
-                account
+                phone
             }
         })
     }, [data])
@@ -78,11 +78,11 @@ const CourseHead = ({
             <UiModal
                 ref={addHeadRef}
             >
-                <UiModalTitle>添加负人</UiModalTitle>
+                <UiModalTitle>添加负责人</UiModalTitle>
                 <UiForm
                     onSubmit={onSubmit}
                 >
-                    <UiFormItem label="负责人账号" name="account">
+                    <UiFormItem label="负责人手机号" name="phone">
                         <UiInput required />
                     </UiFormItem>
                     <UiFormSubmit>
@@ -102,7 +102,7 @@ const CourseHead = ({
                     {data.head?.map((item, key) => (
                         <tr key={key}>
                             <th>{item.userId}</th>
-                            <td><UserAvatar user={item.user} /></td>
+                            <td><UserNameAvatar user={item.user} /></td>
                             <td><UiButton color="error" onClick={onClick.bind(null, item.userId)}>删除</UiButton></td>
                         </tr>
                     ))}
