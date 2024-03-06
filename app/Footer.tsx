@@ -18,7 +18,7 @@ const Footer = () => {
                 </div>
             </nav>
             <aside>
-                <p>Copyright © 2024 - All right reserved by ACME Industries Ltd</p>
+                <p>冀ICP备2024054498号</p>
             </aside>
         </footer>
     )
