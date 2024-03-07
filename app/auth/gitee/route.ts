@@ -1,16 +1,16 @@
-import { giteeLogin } from "@/lib/query"
-import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 export async function GET(request: Request) {
-    const { searchParams } = new URL(request.url)
-    const code = searchParams.get('code')
-    if (!code) redirect("/auth")
-    const { access_token } = await (await giteeLogin(code)).json()
-    cookies().set({
-        name: "token",
-        value: access_token,
-        path: "/"
-    })
-    redirect("/home")
+    const baseUrl = "https://gitee.com/oauth/authorize";
+    const params: {
+        [k in string]?: string
+    } = {
+        client_id: process.env.NEXT_PUBLIC_GITEE,
+        redirect_uri: encodeURI(process.env.NEXT_PUBLIC_GITEE_REDIRECT || ""),
+        response_type: "code"
+    }
+    const url = `${baseUrl}?${Object.keys(params).map((key) => {
+        return `${key}=${params[key]}`
+    }).join("&")}`
+    redirect(url)
 }

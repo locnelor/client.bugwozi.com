@@ -11,7 +11,9 @@ query.interceptors.request.use(config => {
     return config
 })
 
-export const giteeLogin = (code: string) => fetch(`${baseURL}/gitee/auth?code=${code}`)
+export const giteeLogin = (code: string, headers: any) => fetch(`${baseURL}/gitee/auth?code=${code}`, {
+    headers
+})
 // export const uploadCourseContextPost = (hash_key: string, data: any) => query.post(`/course/${hash_key}/context`, data)
 
 // export const uploadContextPost = (hash_key: string, data: any) => query.post(`/content/${hash_key}/context`, data)

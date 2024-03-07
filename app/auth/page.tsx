@@ -74,8 +74,7 @@ const Auth = ({ searchParams: { back = "/" } }) => {
             <div className="flex gap-3 justify-end mt-5">
                 <div className="cursor-pointer">
                     <Link
-                        href={`${process.env.NEXT_PUBLIC_API_URL}/auth/gitee`}
-                    // href={`https://gitee.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITEE}&redirect_uri=${encodeURI(process.env.NEXT_PUBLIC_GITEE_REDIRECT || "")}&response_type=code`}
+                        href={`/auth/gitee`}
                     >
                         gitee
                     </Link>
