@@ -1,3 +1,4 @@
+"use client"
 export const setCookie = (name: string, value: string, options?: any) => {
     options = options || {};
     options.path = "/"
