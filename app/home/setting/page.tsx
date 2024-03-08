@@ -11,16 +11,24 @@ export const metadata: Metadata = {
     title: "账号设置"
 }
 
-const getSelfPhoneQuery = gql`
-    query GetSelfPhone{
+const GetSelfInfoQuery = gql`
+    query getSelfInfo{
         getSelfPhone{
             message
+        }
+        getSelfBindInfo{
+            giteeid
+            qqOpenid
+            wxOpenid
+            githubid
         }
     }
 `
 const SettingPage = async () => {
-    const { data } = await getQuery<{ getSelfPhone: ResultEntity }>(getSelfPhoneQuery)
-
+    const { data, error } = await getQuery<{
+        getSelfPhone: ResultEntity,
+        getSelfBindInfo: any
+    }>(GetSelfInfoQuery)
     return (
         <div>
             <h1 className="text-2xl">账号设置</h1>
@@ -29,7 +37,7 @@ const SettingPage = async () => {
             <BindPhone phone={data?.getSelfPhone.message} />
             <AccountPassword />
             <h1 className="text-xl">第三方绑定</h1>
-            <BindOther info={{}} />
+            <BindOther info={data?.getSelfBindInfo || {}} />
         </div>
     )
 }

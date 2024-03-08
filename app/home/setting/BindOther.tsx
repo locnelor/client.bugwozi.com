@@ -1,3 +1,4 @@
+"use client"
 import UiButton from "@/components/ui/UiButton"
 import UiTable from "@/components/ui/UiTable"
 import { useMemo } from "react"
@@ -21,7 +22,6 @@ const BindButtonText = ({ bind = false }) => {
 const BindOther = ({
     info
 }: BindOtherProps) => {
-
     return (
         <div className="mt-5 mb-5" style={{ maxWidth: "700px" }}>
             <h1 className="mt-5 mb-5">使用以下任一方式都可以登录到您的 Bug窝子 帐号，避免由于某个帐号失效导致无法登录</h1>

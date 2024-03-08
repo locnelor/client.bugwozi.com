@@ -24,9 +24,8 @@ const CreateGiteeMutation = gql`
 const AuthBindPage = ({
     searchParams: { token, back = "/home" }
 }: PageProps<{ token: string, back?: string }>) => {
-    console.log(token)
     const [bind, { loading }] = useMutation(BindGiteeMutation, {
-        onCompleted({ token }) {
+        onCompleted({ bindGitee: { token } }) {
             setCookie("token", token);
             window.location.href = back
         },
@@ -35,7 +34,7 @@ const AuthBindPage = ({
         },
     })
     const [create] = useMutation(CreateGiteeMutation, {
-        onCompleted({ token }) {
+        onCompleted({ createGitee: { token } }) {
             setCookie("token", token);
             window.location.href = back
         },
