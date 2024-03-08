@@ -6,7 +6,7 @@ const UiTabs = ({ children }: React.PropsWithChildren) => {
     const childrenArray = Children.toArray(children);
     useEffect(() => {
         childrenArray.forEach((child: any) => {
-            if (child.type.name !== "UiTabsItem") throw new Error("UiTabsItem")
+            if (child.type.displayName !== "UiTabsItem") throw new Error("UiTabsItem")
         })
     }, [childrenArray])
     return (
@@ -35,10 +35,11 @@ export default UiTabs
 export type UiTabsItemProps = React.PropsWithChildren<{
     name: string
 }>
-export const UiTabsItem = ({ children }: UiTabsItemProps) => {
+export const UiTabsItem: React.FC<UiTabsItemProps> = ({ children }: UiTabsItemProps) => {
     return (
         <div>
             {children}
         </div>
     )
 }
+UiTabsItem.displayName = "UiTabsItem"
