@@ -36,5 +36,9 @@ export type UiTabsItemProps = React.PropsWithChildren<{
     name: string
 }>
 export const UiTabsItem = ({ children }: UiTabsItemProps) => {
-    return children
+    return (
+        <div>
+            {children}
+        </div>
+    )
 }
