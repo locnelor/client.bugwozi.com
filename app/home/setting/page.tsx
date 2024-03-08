@@ -16,18 +16,11 @@ const GetSelfInfoQuery = gql`
         getSelfPhone{
             message
         }
-        getSelfBindInfo{
-            giteeid
-            qqOpenid
-            wxOpenid
-            githubid
-        }
     }
 `
 const SettingPage = async () => {
     const { data, error } = await getQuery<{
-        getSelfPhone: ResultEntity,
-        getSelfBindInfo: any
+        getSelfPhone: ResultEntity
     }>(GetSelfInfoQuery)
     return (
         <div>
@@ -37,7 +30,7 @@ const SettingPage = async () => {
             <BindPhone phone={data?.getSelfPhone.message} />
             <AccountPassword />
             <h1 className="text-xl">第三方绑定</h1>
-            <BindOther info={data?.getSelfBindInfo || {}} />
+            <BindOther />
         </div>
     )
 }
