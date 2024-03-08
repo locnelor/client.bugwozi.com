@@ -10,8 +10,11 @@ export const GET = async (request: Request) => {
     const headers = new Headers();
     const token = cookies().get("token")?.value
     headers.append("authorization", `Bearer ${token}`);
-    console.log(headers)
-    const res = await (await giteeLogin(code, headers)).json()
-    return Response.json(res)
-    redirect("/home")
+    const result = await (await giteeLogin(code, headers)).json()
+    if (!!result.redirect) redirect(result.redirect)
+    if (!!result.access_token) {
+        cookies().set("token", result.access_token);
+        redirect("/home")
+    }
+    redirect("/auth")
 }

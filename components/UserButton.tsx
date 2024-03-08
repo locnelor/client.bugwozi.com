@@ -1,8 +1,6 @@
 "use client"
 import User from "@/interfaces/UserEntity"
 import { setCookie } from "@/lib/cookie"
-import navigate from "@/lib/navigate"
-import { useApolloClient } from "@apollo/client"
 import Link from "next/link"
 import { useCallback } from "react"
 import UserAvatar from "./UserAvatar"
@@ -10,15 +8,9 @@ export type UserButtonProps = {
     user?: User
 }
 const UserButton = ({ user }: UserButtonProps) => {
-    const client = useApolloClient()
     const onLogout = useCallback(() => {
         setCookie("token", "")
-        client.resetStore().then(() => {
-            navigate("/auth")
-        }).catch((e) => {
-            console.log(e)
-            navigate("/auth")
-        })
+        window.location.href = "/auth"
     }, [])
     if (!user) {
         return (
