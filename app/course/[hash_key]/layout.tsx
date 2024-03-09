@@ -2,9 +2,9 @@ import { LayoutProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import CourseEntity from "@/interfaces/CourseEntity"
 import { notFound } from "next/navigation"
-import CourseHashQuery from "./CourseHashQuery"
 import { authQuery } from "@/hooks/useAuth"
 import CourseMenu from "./CourseMenu"
+import { GetCourseContextQuery } from "./GetCourseContextQuery"
 
 
 
@@ -16,18 +16,18 @@ const CourseIdLayout = async ({
 }: LayoutProps<{}, { hash_key: string }>) => {
     await authQuery(`/course/${hash_key}`);
     const { data, error } = await getQuery<{
-        courseHashQuery: CourseEntity,
-        courseEditPower: boolean
-    }>(CourseHashQuery, { hash_key });
-    if (!data || error || !data.courseHashQuery) return notFound()
+        getCourseContext: CourseEntity,
+        getContextPowers: boolean
+    }>(GetCourseContextQuery, { hash_key, type: "course" });
+    if (!data || error || !data.getCourseContext) return notFound()
     return (
         <div className="drawer lg:drawer-open">
             <input id="course-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-side z-40 border-r lg:-mt-16 pt-16">
                 <label htmlFor="course-drawer" aria-label="close sidebar" className="drawer-overlay" />
                 <CourseMenu
-                    data={data.courseHashQuery}
-                    power={data.courseEditPower}
+                    data={data.getCourseContext}
+                    power={data.getContextPowers}
                 />
             </div>
             <div className="drawer-content pt-10 pl-1 pr-1 relation">

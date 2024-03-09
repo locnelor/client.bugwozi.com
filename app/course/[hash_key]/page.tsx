@@ -1,32 +1,13 @@
-import CourseEntity, { CourseFields } from "@/interfaces/CourseEntity"
+import CourseEntity from "@/interfaces/CourseEntity"
 import { PageProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import { Metadata } from "next"
 import UiButton from "@/components/ui/UiButton"
 import UserNameAvatar from "@/components/UserNameAvatar"
-import { gql } from "@apollo/client"
-import { UserHeadCourseFields } from "@/interfaces/UserHeadCourseEntity"
-import { CourseChapterFields } from "@/interfaces/CourseChapterEntity"
-import { CourseContentFields } from "@/interfaces/CourseContentEntity"
 import RichEditorContext from "@/components/RichEditorContext"
+import { GetCourseContextQuery } from "./GetCourseContextQuery"
 
-const GetCourseContextQuery = gql`
-    query GetCourseContext($hash_key:String!,$type:String!){
-        getContextPowers(hash_key:$hash_key,type:$type)
-        getCourseContext(hash_key:$hash_key){
-            ${CourseFields}
-            head{
-                ${UserHeadCourseFields}
-            }
-            CourseChapter{
-                ${CourseChapterFields}
-                CourseContent{
-                    ${CourseContentFields}
-                }
-            }
-        }
-    }
-`
+
 export async function generateMetadata(
     { params: { hash_key } }: PageProps<{}, { hash_key: string }>
 ): Promise<Metadata> {
