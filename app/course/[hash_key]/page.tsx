@@ -33,38 +33,38 @@ const CourseIdPage = async ({
     }>(CourseHashQuery, {
         hash_key
     })
-
-    return (
-        <EditorContainer>
-            <div className="flex flex-wrap gap-2">
-                {data?.courseHashQuery.keywords.split(",").map((keyword, key) => (
-                    <div key={key}>
-                        <UiButton size="sm">
-                            {keyword}
-                        </UiButton>
-                    </div>
-                ))}
-            </div>
-            <h1 className="text-4xl">{data?.courseHashQuery.name}</h1>
-            <EditorContext
-                context={data?.courseHashQuery.description}
-                updateAt={data?.courseHashQuery.createAt}
-                power={data?.courseEditPower}
-                savePath={`/course/${hash_key}/context`}
-            >
-                <div>
-                    <h1 className="text-xl">贡献者:</h1>
-                    <div className="flex flex-wrap gap-2">
-                        {data?.courseHashQuery.head?.map(({ user }) => (
-                            <UserNameAvatar
-                                user={user}
-                                key={user?.id}
-                            />
-                        ))}
-                    </div>
-                </div>
-            </EditorContext>
-        </EditorContainer>
-    )
+    
+    // return (
+    //     <EditorContainer>
+    //         <div className="flex flex-wrap gap-2">
+    //             {data?.courseHashQuery.keywords.split(",").map((keyword, key) => (
+    //                 <div key={key}>
+    //                     <UiButton size="sm">
+    //                         {keyword}
+    //                     </UiButton>
+    //                 </div>
+    //             ))}
+    //         </div>
+    //         <h1 className="text-4xl">{data?.courseHashQuery.name}</h1>
+    //         <EditorContext
+    //             context={data?.courseHashQuery.description}
+    //             updateAt={data?.courseHashQuery.createAt}
+    //             power={data?.courseEditPower}
+    //             savePath={`/course/${hash_key}/context`}
+    //         >
+    //             <div>
+    //                 <h1 className="text-xl">贡献者:</h1>
+    //                 <div className="flex flex-wrap gap-2">
+    //                     {data?.courseHashQuery.head?.map(({ user }) => (
+    //                         <UserNameAvatar
+    //                             user={user}
+    //                             key={user?.id}
+    //                         />
+    //                     ))}
+    //                 </div>
+    //             </div>
+    //         </EditorContext>
+    //     </EditorContainer>
+    // )
 }
 export default CourseIdPage
