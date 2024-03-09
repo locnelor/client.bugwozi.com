@@ -14,3 +14,10 @@ export default interface CourseChapterEntity extends BaseEntity {
 
     order: number
 }
+export const CourseChapterFields = `
+    id
+    createAt
+    updateAt
+    name
+    order
+`

@@ -1,18 +1,39 @@
-import CourseEntity from "@/interfaces/CourseEntity"
+import CourseEntity, { CourseFields } from "@/interfaces/CourseEntity"
 import { PageProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import { Metadata } from "next"
 import UserAvatar from "@/components/UserAvatar"
 import UiButton from "@/components/ui/UiButton"
-import CourseHashQuery from "./CourseHashQuery"
+// import CourseHashQuery from "./CourseHashQuery"
 import EditorContext from "@/components/EditorContext"
 import EditorContainer from "@/components/EditorContainer"
 import UserNameAvatar from "@/components/UserNameAvatar"
+import { gql } from "@apollo/client"
+import { UserHeadCourseFields } from "@/interfaces/UserHeadCourseEntity"
+import { CourseChapterFields } from "@/interfaces/CourseChapterEntity"
+import { CourseContentFields } from "@/interfaces/CourseContentEntity"
 
+const GetCourseContextQuery = gql`
+    query GetCourseContext($hash_key:string){
+        courseEditPower(hash_key:$hash_key)
+        getCourseContext(hash_key:$hash_key){
+            ${CourseFields}
+            head{
+                ${UserHeadCourseFields}
+            }
+            CourseChapter{
+                ${CourseChapterFields}
+                CourseContent{
+                    ${CourseContentFields}
+                }
+            }
+        }
+    }
+`
 export async function generateMetadata(
     { params: { hash_key } }: PageProps<{}, { hash_key: string }>
 ): Promise<Metadata> {
-    const { data, error } = await getQuery<{ courseHashQuery: CourseEntity }>(CourseHashQuery, {
+    const { data } = await getQuery<{ courseHashQuery: CourseEntity }>(GetCourseContextQuery, {
         hash_key
     })
     return {
@@ -30,10 +51,21 @@ const CourseIdPage = async ({
     const { data, error } = await getQuery<{
         courseHashQuery: CourseEntity,
         courseEditPower: boolean
-    }>(CourseHashQuery, {
-        hash_key
-    })
-    
+    }>(GetCourseContextQuery, { hash_key })
+    const __html = data?.courseHashQuery.description || ""
+    return (
+        <div>
+            <div dangerouslySetInnerHTML={{ __html }}>
+
+            </div>
+        </div>
+    )
+    // const { data, error } = await getQuery<{
+    //     courseHashQuery: CourseEntity,
+    //     courseEditPower: boolean
+    // }>(CourseHashQuery, {
+    //     hash_key
+    // })    
     // return (
     //     <EditorContainer>
     //         <div className="flex flex-wrap gap-2">

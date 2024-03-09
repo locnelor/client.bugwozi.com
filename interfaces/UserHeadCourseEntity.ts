@@ -1,7 +1,13 @@
 import CourseEntity from "./CourseEntity";
-import UserEntity from "./UserEntity";
+import UserEntity, { UserFields } from "./UserEntity";
 
-
+export const UserHeadCourseFields=`
+    userId
+    user{
+        ${UserFields}
+    }
+    courseId
+`
 export default interface UserHeadCourseEntity {
     userId: number;
 
