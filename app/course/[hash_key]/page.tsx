@@ -2,20 +2,17 @@ import CourseEntity, { CourseFields } from "@/interfaces/CourseEntity"
 import { PageProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import { Metadata } from "next"
-import UserAvatar from "@/components/UserAvatar"
 import UiButton from "@/components/ui/UiButton"
-// import CourseHashQuery from "./CourseHashQuery"
-import EditorContext from "@/components/EditorContext"
-import EditorContainer from "@/components/EditorContainer"
 import UserNameAvatar from "@/components/UserNameAvatar"
 import { gql } from "@apollo/client"
 import { UserHeadCourseFields } from "@/interfaces/UserHeadCourseEntity"
 import { CourseChapterFields } from "@/interfaces/CourseChapterEntity"
 import { CourseContentFields } from "@/interfaces/CourseContentEntity"
+import RichEditorContext from "@/components/RichEditorContext"
 
 const GetCourseContextQuery = gql`
-    query GetCourseContext($hash_key:string){
-        courseEditPower(hash_key:$hash_key)
+    query GetCourseContext($hash_key:String!,$type:String!){
+        getContextPowers(hash_key:$hash_key,type:$type)
         getCourseContext(hash_key:$hash_key){
             ${CourseFields}
             head{
@@ -33,12 +30,13 @@ const GetCourseContextQuery = gql`
 export async function generateMetadata(
     { params: { hash_key } }: PageProps<{}, { hash_key: string }>
 ): Promise<Metadata> {
-    const { data } = await getQuery<{ courseHashQuery: CourseEntity }>(GetCourseContextQuery, {
-        hash_key
+    const { data } = await getQuery<{ getCourseContext: CourseEntity }>(GetCourseContextQuery, {
+        hash_key,
+        type: "course"
     })
     return {
-        title: data?.courseHashQuery.name,
-        keywords: data?.courseHashQuery.keywords
+        title: data?.getCourseContext?.name,
+        keywords: data?.getCourseContext?.keywords
     }
 }
 
@@ -48,55 +46,43 @@ const CourseIdPage = async ({
         hash_key
     }
 }: PageProps<{}, { hash_key: string }>) => {
-    const { data, error } = await getQuery<{
-        courseHashQuery: CourseEntity,
-        courseEditPower: boolean
-    }>(GetCourseContextQuery, { hash_key })
-    const __html = data?.courseHashQuery.description || ""
+    const { data } = await getQuery<{
+        getCourseContext: CourseEntity,
+        getContextPowers: boolean
+    }>(GetCourseContextQuery, { hash_key, type: "course" })
+    const __html = data?.getCourseContext?.description || ""
     return (
         <div>
-            <div dangerouslySetInnerHTML={{ __html }}>
-
+            <div className="flex flex-wrap gap-2">
+                {data?.getCourseContext.keywords.split(",").map((keyword, key) => (
+                    <div key={key}>
+                        <UiButton size="sm">
+                            {keyword}
+                        </UiButton>
+                    </div>
+                ))}
             </div>
+            <h1 className="text-4xl">{data?.getCourseContext.name}</h1>
+            <RichEditorContext
+                __html={__html}
+                updateAt={data?.getCourseContext?.updateAt}
+                power={data?.getContextPowers}
+                hash_key={hash_key}
+                type="course"
+            >
+                <div>
+                    <h1 className="text-xl">贡献者:</h1>
+                    <div className="flex flex-wrap gap-2">
+                        {data?.getCourseContext.head?.map(({ user }) => (
+                            <UserNameAvatar
+                                user={user}
+                                key={user?.id}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </RichEditorContext>
         </div>
     )
-    // const { data, error } = await getQuery<{
-    //     courseHashQuery: CourseEntity,
-    //     courseEditPower: boolean
-    // }>(CourseHashQuery, {
-    //     hash_key
-    // })    
-    // return (
-    //     <EditorContainer>
-    //         <div className="flex flex-wrap gap-2">
-    //             {data?.courseHashQuery.keywords.split(",").map((keyword, key) => (
-    //                 <div key={key}>
-    //                     <UiButton size="sm">
-    //                         {keyword}
-    //                     </UiButton>
-    //                 </div>
-    //             ))}
-    //         </div>
-    //         <h1 className="text-4xl">{data?.courseHashQuery.name}</h1>
-    //         <EditorContext
-    //             context={data?.courseHashQuery.description}
-    //             updateAt={data?.courseHashQuery.createAt}
-    //             power={data?.courseEditPower}
-    //             savePath={`/course/${hash_key}/context`}
-    //         >
-    //             <div>
-    //                 <h1 className="text-xl">贡献者:</h1>
-    //                 <div className="flex flex-wrap gap-2">
-    //                     {data?.courseHashQuery.head?.map(({ user }) => (
-    //                         <UserNameAvatar
-    //                             user={user}
-    //                             key={user?.id}
-    //                         />
-    //                     ))}
-    //                 </div>
-    //             </div>
-    //         </EditorContext>
-    //     </EditorContainer>
-    // )
 }
 export default CourseIdPage

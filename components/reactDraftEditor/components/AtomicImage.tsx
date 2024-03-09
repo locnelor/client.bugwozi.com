@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import useImage, { fileToCanvas } from "../hooks/useImage";
 import { insertBlock } from "../hooks/blockUtil";
 import withAtomic from "../hooks/withAtomic";
+import { uploadContext, uploadMedia } from "@/lib/query";
 
 export const AtomicBlockImage = withAtomic<AtomicBlockImageData>(({
     data: {
@@ -37,7 +38,9 @@ export type AtomicBlockImageData = {
 const AtomicImage = withToggleButton(({
     className,
     editorState,
-    onChange
+    onChange,
+    type,
+    hash_key
 }) => {
     const open = useImage();
     const onmousedown = useCallback(() => {
@@ -54,13 +57,21 @@ const AtomicImage = withToggleButton(({
                 // }
                 // reader.readAsDataURL(file)
             } else {
+
+
                 fileToCanvas(file)
                     .then((canvas) => {
                         const base64 = canvas.toDataURL("jpg");
-                        insertBlock(onChange, editorState, ImageBlockName, {
-                            base64,
-                            type: "image"
+                        uploadMedia(type, hash_key, base64).then((e) => {
+                            insertBlock(onChange, editorState, ImageBlockName, {
+                                type: "url",
+                                url: e.data
+                            })
                         })
+                        // insertBlock(onChange, editorState, ImageBlockName, {
+                        //     base64,
+                        //     type: "image"
+                        // })
                     })
             }
         })

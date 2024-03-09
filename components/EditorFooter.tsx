@@ -10,28 +10,36 @@ export type EditorFooterProps = {
     editorState: EditorState,
     onSave: () => void,
     loading?: boolean
+    type: string
+    hash_key: string
 }
 const EditorFooter = ({
     onChange,
     editorState,
     loading = false,
-    onSave
+    onSave,
+    type,
+    hash_key
 }: EditorFooterProps) => {
     return (
-        <div className="z-50 fixed top-3     bg-base-100 flex">
-            <DraftToolbar
-                onChange={onChange}
-                editorState={editorState}
-                className="z-40 relative"
-            >
-                <UiButton
-                    loading={loading}
-                    onClick={onSave}
-                    size="sm"
+        <div className="h-14 fixed z-50 top-0 flex gap-2 w-full">
+            <div className="flex justify-center">
+                <DraftToolbar
+                    onChange={onChange}
+                    editorState={editorState}
+                    className=""
+                    type={type}
+                    hash_key={hash_key}
                 >
-                    保存
-                </UiButton>
-            </DraftToolbar>
+                    <UiButton
+                        loading={loading}
+                        onClick={onSave}
+                        size="sm"
+                    >
+                        保存
+                    </UiButton>
+                </DraftToolbar>
+            </div>
         </div>
     )
 }

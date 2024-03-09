@@ -11,7 +11,6 @@ export const CourseFields = `
     createAt
     updateAt
     courseTypeId
-    type
     status
     hash_key
     name

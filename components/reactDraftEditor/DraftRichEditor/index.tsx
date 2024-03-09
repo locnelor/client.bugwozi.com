@@ -7,7 +7,6 @@ import { AtomicBlockDivider, DividerBlockName } from "../components/AtomicDivide
 import { AtomicBlockCode, CodeBlockName } from "../components/AtomicCode";
 import { AtomicBlockTable, TableBlockName } from "../components/AtomicTable";
 import MathDecorator from "../components/MathDecorator";
-import useDraftPatch from "../hooks/useDraftPatch";
 
 export const DraftRichContext = createContext({
     mathBaseURL: "/math"
@@ -42,7 +41,7 @@ const blockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(Immutable.Map({
 export type DraftRichEditorProps = {
     onChange: (editorState: EditorState) => void,
     editorState: EditorState,
-    readOnly?: boolean
+    readOnly?: boolean,
 }
 const decorator = new CompositeDecorator([
     LinkDecorator,
@@ -54,7 +53,7 @@ export const createEmpty = () => {
 export const createWithContent = (value: string) => {
     return EditorState.createWithContent(convertFromRaw(JSON.parse(value)), decorator)
 }
-const DraftRichEditor = ({
+const DraftRichEditor = (({
     editorState,
     onChange,
     readOnly = false
@@ -64,12 +63,8 @@ const DraftRichEditor = ({
         if (!ref.current) return;
         if (!ref.current.editor) return;
         ref.current.editor.style.minHeight = "200px";
+        ref.current.editor.id = "DraftEditor"
     }, []);
-    // useDraftPatch({
-    //     editorRef: ref,
-    //     onChange,
-    //     editorState
-    // })
     const customStyleFn = useCallback((
         style: Draft.DraftInlineStyle
     ) => {
@@ -106,8 +101,8 @@ const DraftRichEditor = ({
         )
     }, [editorState, onChange]);
     const blockRendererFn = useCallback((block: ContentBlock) => {
-        const type = block.getType();
-        if (type === "atomic") {
+        const blockType = block.getType();
+        if (blockType === "atomic") {
             const entityKey = block.getEntityAt(0)
             if (!entityKey) return;
             const currentContent = editorState.getCurrentContent()
@@ -143,10 +138,10 @@ const DraftRichEditor = ({
     }, [editorState, readOnly, onChange]);
     return (
         <Editor
-            ref={ref}
             editorState={editorState}
             onChange={onChange}
             onTab={onTab}
+            ref={ref}
             blockRendererFn={blockRendererFn}
             customStyleFn={customStyleFn}
             blockRenderMap={blockRenderMap}
@@ -154,5 +149,5 @@ const DraftRichEditor = ({
             readOnly={readOnly}
         />
     )
-}
+})
 export default DraftRichEditor

@@ -1,24 +1,18 @@
-import CourseContentEntity from "@/interfaces/CourseContentEntity"
+import CourseContentEntity, { CourseContentFields } from "@/interfaces/CourseContentEntity"
 import { PageProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import { gql } from "@apollo/client"
 import { Metadata } from "next"
-import EditorContext from "@/components/EditorContext"
-import EditorContainer from "@/components/EditorContainer"
-import UserEntity from "@/interfaces/UserEntity"
+import RichEditorContext from "@/components/RichEditorContext"
+import UiButton from "@/components/ui/UiButton"
+import UiDivider from "@/components/ui/UiDivider"
 
 
 const GetCourseContextQuery = gql`
-    query GetCourseContext($hash_key:String!){
-        getCourseContext(hash_key:$hash_key){
-            id
-            createAt
-            updateAt
-            description
-            hash_key
-            keywords
-            type
-            name
+    query GetCourseContext($hash_key:String!,$type:String!){
+        getContextPowers(hash_key:$hash_key,type:$type)
+        getCourseChapterContext(hash_key:$hash_key){
+            ${CourseContentFields}
             authors{
                 user{
                     id
@@ -27,7 +21,6 @@ const GetCourseContextQuery = gql`
                 }
             }
         }
-        contextEditPower(hash_key:$hash_key)
     }
 `
 type pageProps = PageProps<{}, {
@@ -38,11 +31,12 @@ export async function generateMetadata(
     { params: { context_hash_key } }: pageProps
 ): Promise<Metadata> {
     const { data } = await getQuery<{
-        getCourseContext: CourseContentEntity
-    }>(GetCourseContextQuery, { hash_key: context_hash_key })
+        getCourseChapterContext: CourseContentEntity,
+        getContextPowers: boolean
+    }>(GetCourseContextQuery, { hash_key: context_hash_key, type: "content" })
     return {
-        title: data?.getCourseContext.name || "发生了一些错误",
-        keywords: data?.getCourseContext.keywords
+        title: data?.getCourseChapterContext.name || "发生了一些错误",
+        keywords: data?.getCourseChapterContext.keywords
     }
 }
 const CourseContextPage = async ({
@@ -51,22 +45,35 @@ const CourseContextPage = async ({
     }
 }: pageProps) => {
     const { data, error } = await getQuery<{
-        getCourseContext: CourseContentEntity,
-        contextEditPower: boolean
-    }>(GetCourseContextQuery, { hash_key: context_hash_key })
+        getCourseChapterContext: CourseContentEntity,
+        getContextPowers: boolean
+    }>(GetCourseContextQuery, { hash_key: context_hash_key, type: "content" })
     if (!!error) return error.message;
 
-    if (!data?.getCourseContext) return "404";
+    if (!data?.getCourseChapterContext) return "404";
+    const __html = data?.getCourseChapterContext?.description || ""
     return (
-        <EditorContainer>
-            <EditorContext
-                context={data.getCourseContext.description}
-                power={data.contextEditPower}
-                updateAt={data.getCourseContext.updateAt}
-                savePath={`/content/${context_hash_key}/context`}
-                authors={data.getCourseContext.authors?.map(e => e.user).filter(e => !!e) as UserEntity[]}
-            />
-        </EditorContainer>
+        <div>
+            <div className="flex flex-wrap gap-2">
+                {data?.getCourseChapterContext.keywords.split(",").map((keyword, key) => (
+                    <div key={key}>
+                        <UiButton size="sm">
+                            {keyword}
+                        </UiButton>
+                    </div>
+                ))}
+            </div>
+            <h1 className="text-4xl mt-4">{data?.getCourseChapterContext.name}</h1>
+            <UiDivider />
+            <RichEditorContext
+                __html={__html}
+                updateAt={data?.getCourseChapterContext?.updateAt}
+                power={data?.getContextPowers}
+                hash_key={context_hash_key}
+                type="content"
+            >
+            </RichEditorContext>
+        </div>
     )
 }
 export default CourseContextPage

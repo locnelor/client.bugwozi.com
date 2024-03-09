@@ -1,30 +1,14 @@
 "use client"
 
-import { createEmpty, createWithContent } from "@/components/reactDraftEditor/DraftRichEditor"
-import { convertToRaw } from "draft-js"
-import dynamic from "next/dynamic"
-import { MouseEvent, useCallback, useMemo, useState } from "react"
-import EditorFooter from "./EditorFooter"
-import moment from "moment"
-import { openInformationModal } from "./ui/UiModal"
-import query from "@/lib/query"
-import UserAvatar from "./UserAvatar"
-import UserEntity from "@/interfaces/UserEntity"
-import UserNameAvatar from "./UserNameAvatar"
-const DraftRichEditor = dynamic(() => import("@/components/reactDraftEditor/DraftRichEditor"), { ssr: false })
-
+import { EditorState, convertToRaw } from "draft-js";
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react"
 type MenuType = {
     title: string,
     type: string,
     value: string,
     children: MenuType[]
 }
-type EditorMenuProps = {
-    menu: MenuType[]
-}
-const EditorMenu = ({
-    menu
-}: EditorMenuProps) => {
+const RenderStack = ({ stack = [] as MenuType[] }) => {
     const onClick = useCallback((e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>) => {
         e.preventDefault(); // 阻止默认的链接跳转行为
         const targetId = (e.target as any).getAttribute('href'); // 获取目标元素的 ID
@@ -40,7 +24,7 @@ const EditorMenu = ({
     }, [])
     return (
         <ul className="menu">
-            {menu.map(({ title, value, children }) => {
+            {stack.map(({ title, value, children }) => {
                 return (
                     <li
                         key={value}
@@ -70,27 +54,9 @@ const EditorMenu = ({
         </ul>
     )
 }
-export type EditorContext = {
-    context?: string,
-    power?: boolean,
-    updateAt?: string,
-    savePath?: string,
-    authors?: UserEntity[]
-}
-const EditorContext = ({
-    context,
-    savePath,
-    power = false,
-    updateAt,
-    children,
-    authors = []
-}: React.PropsWithChildren<EditorContext>) => {
-    const [readOnly, setReadOnly] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [editorState, setEditorState] = useState(() => {
-        if (!!context) return createWithContent(context);
-        return createEmpty()
-    })
+export const RichEditorMenu = ({
+    editorState = EditorState.createEmpty()
+}) => {
     const menu = useMemo(() => {
         const stack: MenuType[] = [];
         const data = convertToRaw(editorState.getCurrentContent()).blocks
@@ -136,19 +102,72 @@ const EditorContext = ({
         }
         return stack
     }, [editorState]);
+    return <RenderStack stack={menu} />
+}
+const EditorMenu = () => {
+    const [headers, setHeaders] = useState(Array.from(document.getElementsByTagName("h1")));
 
-    const onSave = useCallback(() => {
-        if (!savePath) return;
-        setLoading(true);
-        const context = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-        query.post(savePath, { context })
-            .then(() => openInformationModal(() => ({ title: "修改成功" })))
-            .catch((e) => openInformationModal(() => ({ title: "修改失败", children: e.message })))
-            .finally(() => setLoading(false));
-    }, [editorState])
+    const menu = useMemo(() => {
+        const data = headers.map((elem) => {
+            const [type, id] = elem.id.split("_");
+            return { title: elem.innerText, id, type }
+        }).filter(({ id }) => {
+            return !!id
+        })
+        const stack: MenuType[] = []
+        for (const item of data) {
+            const hn = {
+                title: item.title,
+                type: item.type,
+                value: `${item.type}_${item.id}`,
+                children: [],
+            }
+            if (item.type === "h1") {
+                stack.push(hn)
+                continue;
+            }
+            if (item.type === "h2") {
+                const top = stack[stack.length - 1];
+                if (!top || top.type != "h1") {
+                    stack.push(hn)
+                    continue;
+                }
+                top.children.push(hn);
+                continue;
+            }
+            if (item.type === "h3") {
+                const top = stack[stack.length - 1];
+                if (!top || top.type == "h3") {
+                    stack.push(hn);
+                    continue;
+                }
+                const children = top.children;
+                const childrenTop = children[children.length - 1]
+                if (!childrenTop || childrenTop.type === "h3") {
+                    children.push(hn);
+                    continue;
+                }
+                childrenTop.children.push(hn);
+            }
+        }
+        return stack
+    }, [headers])
+    useEffect(() => {
+        setHeaders(Array.from(document.getElementsByTagName("h1")))
+    }, [])
+    return <RenderStack stack={menu} />
+}
+export default EditorMenu
+export type EditorMenuContextType = React.PropsWithChildren<{
+    menu: React.ReactNode
+}>
+export const EditorMenuContext = ({
+    children,
+    menu
+}: EditorMenuContextType) => {
 
     return (
-        <div className="drawer drawer-end lg:drawer-open">
+        <div className="drawer drawer-end lg:drawer-open flex gap-2">
             <input id="context-drawer" type="checkbox" className="drawer-toggle" />
             <div style={{ maxWidth: 720 }} className="w-full drawer-content">
                 <div className="drawer-content">
@@ -160,54 +179,17 @@ const EditorContext = ({
                     </label>
                 </div>
                 <div>
-                    <DraftRichEditor
-                        editorState={editorState}
-                        onChange={setEditorState}
-                        readOnly={readOnly}
-                    />
+                    {children}
                 </div>
-                {!readOnly && <EditorFooter
-                    editorState={editorState}
-                    onChange={setEditorState}
-                    onSave={onSave}
-                    loading={loading}
-                />}
-                {children}
-                <div>
-                    <h1 className="text-xl">作者</h1>
-                    <div className="flex flex-wrap gap-2">
-                        {authors?.map((user, key) => (
-                            <UserNameAvatar
-                                key={key}
-                                user={user}
-                            />
-                        ))}
-                    </div>
-                </div>
-                <div className="text-right">
-                    最后一次编辑:{moment(updateAt).format("YYYY-MM-DD HH:mm:ss")}
-                </div>
-                {power && (
-                    <div className="text-right">
-                        <span
-                            className="cursor-pointer underline"
-                            onClick={() => setReadOnly(!readOnly)}
-                        >
-                            编辑此页
-                        </span>
-                    </div>
-                )}
             </div>
             <div className="grow drawer-side z-30">
                 <label htmlFor="context-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <div className="min-h-full bg-base-100 pt-16">
                     <div className="text-lg text-center">文章导航</div>
-                    <EditorMenu
-                        menu={menu}
-                    />
+                    {menu}
                 </div>
             </div>
+
         </div>
     )
 }
-export default EditorContext

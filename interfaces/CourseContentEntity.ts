@@ -28,11 +28,15 @@ export default interface CourseContentEntity extends BaseEntity {
     authors?: ContentOnUserEntity[]
 }
 export const CourseContentFields = `
-     id
-    name
-    hash_key
-    type
+    id
+    createAt
+    updateAt
     keywords
     order
+    name
+    description
     courseChapterId
+    hash_key
+    type
+    courseId
 `

@@ -6,6 +6,8 @@ export const ToggleGroupButton = ToolbarToggleGroup
 export type ToggleButtonEditorPtops = {
     editorState: EditorState,
     onChange: (editorState: EditorState) => void,
+    type: string,
+    hash_key: string,
     checkClassName?: string,
     className?: string,
     check?: boolean,

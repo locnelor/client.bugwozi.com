@@ -97,6 +97,8 @@ export type DraftToolbarProps = React.PropsWithChildren<{
     ToolbarItemClassName?: string,
     ToolbarCheckClassName?: string,
     className?: string
+    type: string,
+    hash_key: string
 }>
 const DraftToolbar = ({
     editorState,
@@ -105,7 +107,9 @@ const DraftToolbar = ({
     ToolbarItemClassName = "flex-shrink-0 flex-grow-0 basis-auto text-mauve11 h-[25px] px-[5px] rounded inline-flex text-[13px] leading-none items-center justify-center ml-0.5 outline-none hover:bg-violet3 hover:text-violet11",
     ToolbarCheckClassName = "flex-shrink-0 flex-grow-0 basis-auto text-mauve11 h-[25px] px-[5px] rounded inline-flex text-[13px] leading-none items-center justify-center bg-white ml-0.5 outline-none bg-violet4 text-violet11 hover:bg-violet3 hover:text-violet11",
     className,
-    children
+    children,
+    type,
+    hash_key
 }: DraftToolbarProps) => {
     return (
         <Toolbar
@@ -114,8 +118,8 @@ const DraftToolbar = ({
                 className
             )}
         >
-            {list.map((type, key) => {
-                if (typeof type === "string") {
+            {list.map((blockType, key) => {
+                if (typeof blockType === "string") {
                     return (
                         <ToolbarSeparator
                             key={key}
@@ -125,7 +129,7 @@ const DraftToolbar = ({
                 }
                 return (
                     <ToggleGroupButton key={key} type="multiple">
-                        {type.map((v, k) => {
+                        {blockType.map((v, k) => {
                             const Item = ToolbarSet[v];
                             const id = `${key}_${k}`;
                             if (!!Item) {
@@ -136,6 +140,8 @@ const DraftToolbar = ({
                                         onChange={onChange}
                                         checkClassName={ToolbarCheckClassName}
                                         className={ToolbarItemClassName}
+                                        type={type}
+                                        hash_key={hash_key}
                                     />
                                 )
                             }

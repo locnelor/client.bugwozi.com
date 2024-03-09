@@ -3,7 +3,12 @@ import { PostsEntity, PostsFields } from "@/interfaces/PostsEntity"
 import { getQuery } from "@/lib/client"
 import { gql } from "@apollo/client"
 
-
+export async function generateMetadata(
+) {
+    return {
+        title: "文章"
+    }
+}
 const SelPostsQuery = gql`
     query SelPosts(
         $id:Int,
