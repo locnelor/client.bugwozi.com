@@ -12,7 +12,7 @@ const Header = () => {
                 <Link href="/" className="btn btn-ghost text-xl">Bug</Link>
                 <div className="overflow-x-auto">
                     <ul className="menu menu-horizontal flex-nowrap rounded-box ml-0 sm:flex overflow-x-auto">
-                        <li><Link href="/posts">博客</Link></li>
+                        <li><Link href="/posts">文章</Link></li>
                         {/* <li><Link href="/discuss">讨论</Link></li> */}
                         {/* <li><Link href="/course">课程</Link></li> */}
                         <li><Link href="/about">关于</Link></li>
