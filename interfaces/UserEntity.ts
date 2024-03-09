@@ -18,7 +18,5 @@ export const UserFields = `
     role
     information
     hash_key
-    profile{
-        id
-    }
+    profileId
 `

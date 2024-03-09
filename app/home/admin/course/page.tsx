@@ -17,7 +17,7 @@ const HomeAdminCoursePage = () => {
             <AddCourse refetch={refetch} />
             <UiDivider />
             <CourseContext
-                course={((loading ? new Array(10).fill(0) : data.allCourse) as any[])}
+                course={((loading ? new Array(10).fill(0) : data?.allCourse || []) as any[])}
                 refetch={refetch}
                 readOnly={false}
             />
