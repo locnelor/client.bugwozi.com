@@ -127,8 +127,13 @@ export const routes = [
     },
     {
         name: "系统管理",
-        role: hasRule(PowerSize, e => e === 7),
+        role: hasRule(AccountPower, e => e === 3),
         path: "/admin/system"
+    },
+    {
+        name: "文章备份",
+        role: hasRule(AccountPower, e => e === 3),
+        path:"/admin/backup"
     },
     {
         name: "日志管理",
