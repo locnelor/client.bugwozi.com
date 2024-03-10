@@ -64,22 +64,22 @@ export const OrderPower: PowerEnum = [11, 12];
 
 export const PowerList = [
     {
-        name: "账号权限",
+        name: "账号权限(3)",
         power: AccountPower
     }, {
-        name: "权限大小",
+        name: "权限大小(7)",
         power: PowerSize
     }, {
-        name: "文章权限",
+        name: "文章权限(3)",
         power: PostsPower
     }, {
-        name: "课程权限",
+        name: "课程权限(1)",
         power: CoursePower
     }, {
-        name: "讨论权限",
+        name: "讨论权限(3)",
         power: DiscussPower
     }, {
-        name: "订单权限",
+        name: "订单权限(3)",
         power: OrderPower
     }
 ]
