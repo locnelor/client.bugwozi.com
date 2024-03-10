@@ -1,7 +1,8 @@
 import { CourseChapterFields } from "@/interfaces/CourseChapterEntity";
 import { CourseContentFields } from "@/interfaces/CourseContentEntity";
-import { CourseFields } from "@/interfaces/CourseEntity";
+import CourseEntity, { CourseFields } from "@/interfaces/CourseEntity";
 import { UserHeadCourseFields } from "@/interfaces/UserHeadCourseEntity";
+import { getQuery } from "@/lib/client";
 import { gql } from "@apollo/client";
 
 export const GetCourseContextQuery = gql`
@@ -21,3 +22,8 @@ export const GetCourseContextQuery = gql`
         }
     }
 `
+
+export const getCourseContextQuery = (hash_key: string) => getQuery<{
+    getCourseContext: CourseEntity,
+    getContextPowers: boolean
+}>(GetCourseContextQuery, { hash_key, type: "course" })

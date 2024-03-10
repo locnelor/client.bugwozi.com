@@ -1,9 +1,7 @@
-import CourseEntity from "@/interfaces/CourseEntity";
 import { PageProps } from "@/interfaces/page";
-import { getQuery } from "@/lib/client";
 import { redirect } from "next/navigation";
 import CourseChapterContext from "./CourseChapterContext";
-import CourseHashQuery from "../CourseHashQuery";
+import {  getCourseContextQuery } from "../GetCourseContextQuery";
 
 
 const CourseChapterPage = async ({
@@ -11,13 +9,10 @@ const CourseChapterPage = async ({
         hash_key
     }
 }: PageProps<{}, { hash_key: string }>) => {
-    const { data } = await getQuery<{
-        courseHashQuery: CourseEntity,
-        courseEditPower: boolean
-    }>(CourseHashQuery, { hash_key });
+    const { data } = await getCourseContextQuery(hash_key)
     if (!data) redirect(`/course/${hash_key}`)
-    return <CourseChapterContext 
-        data={data.courseHashQuery}
+    return <CourseChapterContext
+        data={data.getCourseContext}
     />
 }
 export default CourseChapterPage

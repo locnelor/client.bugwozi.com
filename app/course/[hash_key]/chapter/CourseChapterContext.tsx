@@ -2,17 +2,17 @@
 
 import UiButton from "@/components/ui/UiButton"
 import UiModal, { UiModalTitle, openInformationModal, openModal, useModalEvent } from "@/components/ui/UiModal"
-import CourseEntity from "@/interfaces/CourseEntity"
+import CourseEntity, { CourseFields } from "@/interfaces/CourseEntity"
 import ChapterForm from "./ChapterForm"
 import { useMutation, useQuery } from "@apollo/client"
 import { useCallback, useMemo, useState } from "react"
-import CourseHashQuery from "../CourseHashQuery"
 import { gql } from "@apollo/client"
 import ContextForm from "./ContextForm"
 import { LineHeightIcon } from "@radix-ui/react-icons"
-import CourseChapterEntity from "@/interfaces/CourseChapterEntity"
+import CourseChapterEntity, { CourseChapterFields } from "@/interfaces/CourseChapterEntity"
 import { UiFormSubmit } from "@/components/ui/UiForm"
-import CourseContentEntity from "@/interfaces/CourseContentEntity"
+import CourseContentEntity, { CourseContentFields } from "@/interfaces/CourseContentEntity"
+import { UserHeadCourseFields } from "@/interfaces/UserHeadCourseEntity"
 
 const addChapterMutation = gql`
     mutation AddChapter(
@@ -243,21 +243,39 @@ const CourseContextMenuRender = ({
 export type CourseChapterContextProps = {
     data: CourseEntity
 }
+export const GetCourseContextQuery = gql`
+    query GetCourseContext($hash_key:String!,$type:String!){
+        getContextPowers(hash_key:$hash_key,type:$type)
+        getCourseContext(hash_key:$hash_key){
+            ${CourseFields}
+            head{
+                ${UserHeadCourseFields}
+            }
+            CourseChapter{
+                ${CourseChapterFields}
+                CourseContent{
+                    ${CourseContentFields}
+                }
+            }
+        }
+    }
+`
 const CourseChapterContext = ({ data }: CourseChapterContextProps) => {
     const [chapterModal, openChapterModal, cancelChapterModal] = useModalEvent();
     const [contextModal, openContextModal, cancelContextModal] = useModalEvent();
     const {
         data: courseQuery,
         refetch
-    } = useQuery<{ courseHashQuery: CourseEntity }>(CourseHashQuery, {
+    } = useQuery<{ getCourseContext: CourseEntity }>(GetCourseContextQuery, {
         variables: {
-            hash_key: data.hash_key
+            hash_key: data.hash_key,
+            type: "course"
         }
     })
     const [loading, setLoading] = useState(false);
     const [addChapter] = useMutation(addChapterMutation);
     const [addContext] = useMutation(addContextMutation);
-    const course = useMemo(() => courseQuery?.courseHashQuery, [courseQuery]);
+    const course = useMemo(() => courseQuery?.getCourseContext, [courseQuery]);
     const chapter = useMemo(() => {
         if (!!course) return [...(course.CourseChapter || [])];
         return []
