@@ -2,11 +2,11 @@
 
 import { createWithContent, createEmpty } from "@/components/reactDraftEditor/DraftRichEditor"
 import dynamic from "next/dynamic"
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useState } from "react"
 import EditorFooter from "./EditorFooter"
 import { EditorMenuContext, RichEditorMenu } from "./EditorMenu"
 import { uploadContext } from "@/lib/query"
-import { Editor, convertToRaw } from "draft-js"
+import { convertToRaw } from "draft-js"
 import { openInformationModal } from "./ui/UiModal"
 
 const DraftRichEditor = dynamic(() => import("@/components/reactDraftEditor/DraftRichEditor"), { ssr: false })
@@ -22,6 +22,7 @@ const RichEditor = ({
         return createEmpty()
     })
     const onSave = useCallback(() => {
+        if (typeof document === "undefined") return;
         const html = document.getElementById("DraftEditor")?.innerHTML
         if (!html) return;
         setLoading(true)
