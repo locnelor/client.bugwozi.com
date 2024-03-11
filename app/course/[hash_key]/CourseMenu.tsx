@@ -1,5 +1,5 @@
+import LockIcon from "@/components/icons/LockIcon"
 import CourseEntity from "@/interfaces/CourseEntity"
-import { LineHeightIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
 
 export type CourseMenuProps = {
@@ -38,10 +38,10 @@ const CourseMenu = ({
                                                 key={id}
                                             >
                                                 <Link href={`/course/${data.hash_key}/${hash_key}`}>
-                                                    {type === "PAID" && (
-                                                        <LineHeightIcon />
-                                                    )}
                                                     {name}
+                                                    {type === "PAID" && (
+                                                        <LockIcon theme="outline" />
+                                                    )}
                                                 </Link>
                                             </li>
                                         ))}

@@ -22,7 +22,9 @@ const SaveBackupMutation = gql`
     }
 `
 const HomeAdminBackupPage = () => {
-    const { data, refetch } = useQuery(GetBackupListQuery)
+    const { data, refetch } = useQuery<{
+        getBackupList: string[]
+    }>(GetBackupListQuery)
     const [backModal, openBackModal, cancelBackModal] = useModalEvent()
     const [savebackup] = useMutation(SaveBackupMutation, {
         onCompleted() {
@@ -34,7 +36,7 @@ const HomeAdminBackupPage = () => {
             gqlError(error)
         },
     })
-    const list = useMemo(() => data?.getBackupList, [data])
+    const list = useMemo(() => data?.getBackupList || [], [data])
 
 
     const onSubmitBackup = useCallback(({ name }: any) => {
@@ -72,10 +74,27 @@ const HomeAdminBackupPage = () => {
                         <tr>
                             <td>备份名称</td>
                             <td>操作</td>
+                            <td>操作</td>
                         </tr>
                     </thead>
                     <tbody>
-                        {JSON.stringify(list)}
+                        {list.map((name, key) => (
+                            <tr key={key}>
+                                <td>
+                                    {name}
+                                </td>
+                                <td>
+                                    <UiButton>
+                                        删除
+                                    </UiButton>
+                                </td>
+                                <td>
+                                    <UiButton>
+                                        恢复
+                                    </UiButton>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

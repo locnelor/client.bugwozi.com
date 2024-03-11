@@ -8,11 +8,11 @@ import { useMutation, useQuery } from "@apollo/client"
 import { useCallback, useMemo, useState } from "react"
 import { gql } from "@apollo/client"
 import ContextForm from "./ContextForm"
-import { LineHeightIcon } from "@radix-ui/react-icons"
 import CourseChapterEntity, { CourseChapterFields } from "@/interfaces/CourseChapterEntity"
 import { UiFormSubmit } from "@/components/ui/UiForm"
 import CourseContentEntity, { CourseContentFields } from "@/interfaces/CourseContentEntity"
 import { UserHeadCourseFields } from "@/interfaces/UserHeadCourseEntity"
+import LockIcon from "@/components/icons/LockIcon"
 
 const addChapterMutation = gql`
     mutation AddChapter(
@@ -232,10 +232,10 @@ const CourseContextMenuRender = ({
         <li>
             <span onClick={onClick}>
                 {context.order} -
-                {context.type === "PAID" && (
-                    <LineHeightIcon />
-                )}
                 {context.name}
+                {context.type === "PAID" && (
+                    <LockIcon theme="outline" />
+                )}
             </span>
         </li>
     )
@@ -360,7 +360,7 @@ const CourseChapterContext = ({ data }: CourseChapterContextProps) => {
                         >
                             {!!CourseContent && (
                                 <ul>
-                                    {CourseContent.sort((a, b) => a.order - b.order).map((context) => {
+                                    {(new Array(...CourseContent)).sort((a, b) => a.order - b.order).map((context) => {
                                         return (
                                             <CourseContextMenuRender
                                                 key={context.id}
