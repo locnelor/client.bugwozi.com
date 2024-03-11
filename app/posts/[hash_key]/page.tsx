@@ -1,4 +1,3 @@
-import EditorContext from "@/components/EditorContext"
 import RichEditorContext from "@/components/RichEditorContext"
 import UiDivider from "@/components/ui/UiDivider"
 import { PostsEntity, PostsFields } from "@/interfaces/PostsEntity"
