@@ -2,6 +2,11 @@
 
 import { EditorState, convertToRaw } from "draft-js";
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react"
+
+const getDocument = () => {
+    if (typeof document === "undefined") return null;
+    return document;
+}
 type MenuType = {
     title: string,
     type: string,
@@ -12,7 +17,7 @@ const RenderStack = ({ stack = [] as MenuType[] }) => {
     const onClick = useCallback((e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>) => {
         e.preventDefault(); // 阻止默认的链接跳转行为
         const targetId = (e.target as any).getAttribute('href'); // 获取目标元素的 ID
-        const targetElement = document.querySelector(targetId); // 获取目标元
+        const targetElement = getDocument()?.querySelector(targetId); // 获取目标元
         if (targetElement) {
             const headerHeight = 64; // header 的高度
             const scrollOffset = targetElement.offsetTop - headerHeight; // 目标元素位置 - header 高度
@@ -105,7 +110,7 @@ export const RichEditorMenu = ({
     return <RenderStack stack={menu} />
 }
 const EditorMenu = () => {
-    const [headers, setHeaders] = useState(Array.from(document.getElementsByTagName("h1")));
+    const [headers, setHeaders] = useState(Array.from(getDocument()?.getElementsByTagName("h1") || []));
 
     const menu = useMemo(() => {
         const data = headers.map((elem) => {
@@ -153,7 +158,7 @@ const EditorMenu = () => {
         return stack
     }, [headers])
     useEffect(() => {
-        setHeaders(Array.from(document.getElementsByTagName("h1")))
+        setHeaders(Array.from(getDocument()?.getElementsByTagName("h1") || []))
     }, [])
     return <RenderStack stack={menu} />
 }
