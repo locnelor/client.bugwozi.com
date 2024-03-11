@@ -170,14 +170,6 @@ export const EditorMenuContext = ({
         <div className="drawer drawer-end lg:drawer-open flex gap-2">
             <input id="context-drawer" type="checkbox" className="drawer-toggle" />
             <div style={{ maxWidth: 720 }} className="w-full drawer-content">
-                <div className="drawer-content">
-                    <label
-                        htmlFor="context-drawer"
-                        className="drawer-button btn btn-primary lg:hidden fixed bottom-0 right-0"
-                    >
-                        导航
-                    </label>
-                </div>
                 <div>
                     {children}
                 </div>

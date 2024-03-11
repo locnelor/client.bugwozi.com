@@ -16,14 +16,6 @@ const RichEditorContext = ({
         <div style={{ maxWidth: 900 }} className="drawer drawer-end lg:drawer-open">
             <input id="context-drawer" type="checkbox" className="drawer-toggle" />
             <div style={{ maxWidth: 720 }} className="w-full drawer-content">
-                <div className="drawer-content">
-                    <label
-                        htmlFor="context-drawer"
-                        className="drawer-button btn btn-primary lg:hidden fixed bottom-0 right-0"
-                    >
-                        导航
-                    </label>
-                </div>
                 <div id="RichEditorContext" dangerouslySetInnerHTML={{ __html }} />
                 {children}
                 <div className="text-right">

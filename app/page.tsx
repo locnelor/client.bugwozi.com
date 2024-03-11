@@ -15,7 +15,7 @@ const HomePage = async () => {
   }>(SelCourse)
   return (
     <Container>
-      <div className="flex flex-wrap gap-5">
+      <div className="flex flex-wrap justify-center gap-5">
         <div className="grow h-96 skeleton min-w-96">
 
         </div>
