@@ -1,6 +1,7 @@
 import moment from "moment"
 import Link from "next/link"
 import EditorMenu from "./EditorMenu"
+import TopAffix from "./TopAffix"
 
 
 const RichEditorContext = ({
@@ -47,6 +48,7 @@ const RichEditorContext = ({
                     <EditorMenu />
                 </div>
             </div>
+            <TopAffix />
         </div>
     )
 }
