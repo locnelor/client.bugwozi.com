@@ -35,3 +35,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.vscode/c_cpp_properties.json
+.vscode/settings.json
+.vscode/launch.json
