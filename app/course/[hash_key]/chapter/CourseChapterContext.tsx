@@ -13,6 +13,7 @@ import { UiFormSubmit } from "@/components/ui/UiForm"
 import CourseContentEntity, { CourseContentFields } from "@/interfaces/CourseContentEntity"
 import { UserHeadCourseFields } from "@/interfaces/UserHeadCourseEntity"
 import LockIcon from "@/components/icons/LockIcon"
+import { gqlError } from "@/lib/apollo-error"
 
 const addChapterMutation = gql`
     mutation AddChapter(
@@ -181,7 +182,7 @@ const CourseContextMenuRender = ({
             destory()
             return true;
         }).catch((e) => {
-            openInformationModal(() => ({ title: "修改失败", children: e.message }))
+            gqlError(e)
             return false;
         }).finally(() => setLoading(false))
     }, [context]);
@@ -200,7 +201,7 @@ const CourseContextMenuRender = ({
                     refetch()
                     return true;
                 }).catch((e) => {
-                    openInformationModal(() => ({ title: "删除失败", children: e.message }))
+                    gqlError(e)
                     return false;
                 })
             }
@@ -335,6 +336,7 @@ const CourseChapterContext = ({ data }: CourseChapterContextProps) => {
                     <ChapterForm
                         onSubmit={onAddChapter}
                         loading={loading}
+                        count={data.CourseChapter?.length}
                     />
                 </UiModal>
                 <UiModal
