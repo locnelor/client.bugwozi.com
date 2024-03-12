@@ -28,7 +28,7 @@ const PostsForm = ({
                 label="封面"
                 name="file"
             >
-                <UiImage />
+                <UiImage width={200} />
             </UiFormItem>
             <UiFormItem
                 label="标题"

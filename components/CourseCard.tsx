@@ -10,7 +10,7 @@ import UiModal, { UiModalTitle, openInformationModal, openModal, useModalEvent }
 import gql from "graphql-tag"
 import { useMutation } from "@apollo/client"
 import CourseForm from "./CourseForm"
-import { file2base64 } from "@/lib/img"
+import { file2base64, fileShear } from "@/lib/img"
 import CourseHead from "./CourseHead"
 import Link from "next/link"
 
@@ -117,7 +117,7 @@ const CourseCard = ({
     }, [data, refetch]);
     const onUpdCourse = useCallback(async ({ file, price, prePrice, ...rest }: any) => {
         if (!data) return;
-        const avatar = (!!file && file.size != 0) ? await file2base64(file) : undefined
+        const avatar = (!!file && file.size != 0) ? await fileShear(file, 300, 200) : undefined
         updCourse({
             variables: {
                 avatar,
