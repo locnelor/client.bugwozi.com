@@ -2,6 +2,7 @@ import moment from "moment"
 import Link from "next/link"
 import EditorMenu from "./EditorMenu"
 import TopAffix from "./TopAffix"
+import { NoCopy } from "@/hooks/useNoCopy"
 
 
 const RichEditorContext = ({
@@ -41,6 +42,7 @@ const RichEditorContext = ({
                 </div>
             </div>
             <TopAffix />
+            <NoCopy />
         </div>
     )
 }
