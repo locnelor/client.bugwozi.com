@@ -1,10 +1,10 @@
 import withToggleButton from "../hooks/withToggleButton";
 import ToggleButton from "./ToggleButton";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import useImage, { fileToCanvas } from "../hooks/useImage";
 import { insertBlock } from "../hooks/blockUtil";
 import withAtomic from "../hooks/withAtomic";
-import { uploadContext, uploadMedia } from "@/lib/query";
+import { uploadMedia } from "@/lib/query";
 
 export const AtomicBlockImage = withAtomic<AtomicBlockImageData>(({
     data: {
@@ -43,38 +43,42 @@ const AtomicImage = withToggleButton(({
     hash_key
 }) => {
     const open = useImage();
-    const onmousedown = useCallback(() => {
-        open().then((file) => {
-            const name = file.name;
-            const suffix = name.slice(name.lastIndexOf(".") + 1).toLowerCase();
-            if (suffix === "gif") {
-                // const reader = new FileReader();
-                // reader.onload = ({ target: { result } }) => {
-                //     insertBlock(onChange, editorState, imageBlockName, {
-                //         type: "gif",
-                //         base64: result
-                //     })
-                // }
-                // reader.readAsDataURL(file)
-            } else {
-
-
-                fileToCanvas(file)
-                    .then((canvas) => {
-                        const base64 = canvas.toDataURL("jpg");
-                        uploadMedia(type, hash_key, base64).then((e) => {
-                            insertBlock(onChange, editorState, ImageBlockName, {
-                                type: "url",
-                                url: e.data
-                            })
+    const insert = (file: File) => {
+        const name = file.name;
+        const suffix = name.slice(name.lastIndexOf(".") + 1).toLowerCase();
+        if (suffix === "gif") {
+            // const reader = new FileReader();
+            // reader.onload = ({ target: { result } }) => {
+            //     insertBlock(onChange, editorState, imageBlockName, {
+            //         type: "gif",
+            //         base64: result
+            //     })
+            // }
+            // reader.readAsDataURL(file)
+        } else {
+            fileToCanvas(file)
+                .then((canvas) => {
+                    const base64 = canvas.toDataURL("jpg");
+                    uploadMedia(type, hash_key, base64).then((e) => {
+                        insertBlock(onChange, editorState, ImageBlockName, {
+                            type: "url",
+                            url: e.data
                         })
-                        // insertBlock(onChange, editorState, ImageBlockName, {
-                        //     base64,
-                        //     type: "image"
-                        // })
                     })
-            }
-        })
+                })
+        }
+    }
+    useEffect(() => {
+        const onPaste = (e: any) => {
+            const file = e.clipboardData?.items?.[0]?.getAsFile();
+            if (!file) return;
+            insert(file);
+        }
+        window.addEventListener("paste", onPaste)
+        return () => window.removeEventListener("paste", onPaste)
+    }, []);
+    const onmousedown = useCallback(() => {
+        open().then(insert)
     }, [editorState, onChange, open]);
     return (
         <ToggleButton
