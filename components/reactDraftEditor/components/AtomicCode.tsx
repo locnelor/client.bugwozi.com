@@ -1,6 +1,6 @@
 import withToggleButton from "../hooks/withToggleButton"
 import ToggleButton from "./ToggleButton"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { memo, useCallback, useEffect, useRef } from "react"
 import { insertBlock, mergeBlock } from "../hooks/blockUtil"
 import withAtomic from "../hooks/withAtomic"
 import openModal from "./openModal"
@@ -8,6 +8,20 @@ import UiTextarea from "./ui/UiTextarea"
 import UiButton from "./ui/UiButton"
 import hljs from "highlight.js";
 import UiSelect, { UiOption } from "./ui/UiSelect"
+import { openInformationModal } from "@/components/ui/UiModal"
+
+
+const RenderCode = memo<{ __html: string }>(({ __html }) => {
+
+    return (
+        <pre
+            className="break-normal"
+            dangerouslySetInnerHTML={{ __html }}
+        />
+    )
+})
+RenderCode.displayName = "RenderCode"
+
 export const languages = [
     "Shell",
     "c",
@@ -43,7 +57,8 @@ export const AtomicBlockCode = withAtomic<AtomicCodeData>(({
         readOnly
     }
 }) => {
-    const ref = useRef<HTMLPreElement>(null);
+    const ref = useRef<HTMLPreElement>(document.createElement("pre"));
+    ref.current.innerHTML = __html
     const onDoubleClick = useCallback(() => {
         if (!!readOnly) return;
         const destory = openModal({
@@ -93,18 +108,25 @@ export const AtomicBlockCode = withAtomic<AtomicCodeData>(({
             title: "修改代码"
         })
     }, [editorState, onChange, readOnly, language, block, context]);
-    useEffect(() => {
-        if (!ref.current) return;
-        ref.current.innerHTML = __html;
-    }, [__html])
+    const onCopy = useCallback(() => {
+        navigator.clipboard.writeText(context)
+            .then(() => {
+                openInformationModal(() => ({ children: "复制成功" }))
+            })
+            .catch((error) => {
+                openInformationModal(() => ({ title: "复制失败", children: error.message }))
+            });
+    }, [context])
     return (
-        <div className="text-slate-400 overflow-y-auto bg-slate-700 p-3 rounded">
-            <code>
-                <pre
-                    className="break-normal"
-                    // dangerouslySetInnerHTML={{ __html }}
-                    ref={ref}
-                    onDoubleClick={onDoubleClick}
+        <div className="text-slate-400 overflow-y-auto relative bg-slate-700 p-3 rounded">
+            <div onClick={onCopy} className="p-1 bg-base-100 absolute right-1 top-1 cursor-pointer rounded">
+                复制代码
+            </div>
+            <code
+                onDoubleClick={onDoubleClick}
+            >
+                <RenderCode
+                    __html={__html}
                 />
             </code>
         </div>
