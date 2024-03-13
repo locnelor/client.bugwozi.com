@@ -2,7 +2,6 @@
 
 import CourseEntity from "@/interfaces/CourseEntity"
 import UiCard, { UiCardActions, UiCardBody, UiCardFigure, UiCardTitle } from "./ui/UiCard"
-import { GearIcon } from "@radix-ui/react-icons"
 import UiDropdownMenu, { UiDropdownMenuItem } from "./ui/DropdownMenu"
 import UiButton from "./ui/UiButton"
 import { useCallback, useMemo } from "react"
@@ -10,9 +9,10 @@ import UiModal, { UiModalTitle, openInformationModal, openModal, useModalEvent }
 import gql from "graphql-tag"
 import { useMutation } from "@apollo/client"
 import CourseForm from "./CourseForm"
-import { file2base64, fileShear } from "@/lib/img"
+import { fileShear } from "@/lib/img"
 import CourseHead from "./CourseHead"
 import Link from "next/link"
+import { SettingOne } from "@icon-park/react"
 
 export type PriceTagProps = {
     price: number,
@@ -140,7 +140,7 @@ const CourseCard = ({
                         type="ghost"
                         className="absolute right-2 top-2"
                     >
-                        <GearIcon />
+                        <SettingOne />
                     </UiButton>
                 }
             >

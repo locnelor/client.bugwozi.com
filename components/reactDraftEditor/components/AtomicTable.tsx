@@ -9,7 +9,7 @@ import openModal from "./openModal";
 import UiButton from "./ui/UiButton";
 import UiTable from "./ui/UiTable";
 import UiInput from "./ui/UiInput";
-import { TableIcon } from "@radix-ui/react-icons";
+import { TableFile } from "@icon-park/react";
 
 const EditTable = ({
     onFinish,
@@ -178,7 +178,7 @@ const Table = withToggleButton(({
                     value={TableBlockName}
                     className={className}
                 >
-                    <TableIcon />
+                    <TableFile />
                 </ToggleButton>
             )}
         >
