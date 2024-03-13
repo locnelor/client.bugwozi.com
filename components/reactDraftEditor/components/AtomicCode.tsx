@@ -1,6 +1,6 @@
 import withToggleButton from "../hooks/withToggleButton"
 import ToggleButton from "./ToggleButton"
-import { memo, useCallback, useEffect, useRef } from "react"
+import { memo, useCallback, useRef } from "react"
 import { insertBlock, mergeBlock } from "../hooks/blockUtil"
 import withAtomic from "../hooks/withAtomic"
 import openModal from "./openModal"
@@ -8,7 +8,7 @@ import UiTextarea from "./ui/UiTextarea"
 import UiButton from "./ui/UiButton"
 import hljs from "highlight.js";
 import UiSelect, { UiOption } from "./ui/UiSelect"
-import { openInformationModal } from "@/components/ui/UiModal"
+import UiCopyText from "./ui/UiCopyText"
 
 
 const RenderCode = memo<{ __html: string }>(({ __html }) => {
@@ -108,20 +108,12 @@ export const AtomicBlockCode = withAtomic<AtomicCodeData>(({
             title: "修改代码"
         })
     }, [editorState, onChange, readOnly, language, block, context]);
-    const onCopy = useCallback(() => {
-        window.navigator.clipboard.writeText(context)
-            .then(() => {
-                openInformationModal(() => ({ children: "复制成功" }))
-            })
-            .catch((error) => {
-                openInformationModal(() => ({ title: "复制失败", children: error.message }))
-            });
-    }, [context])
     return (
         <div className="text-slate-400 overflow-y-auto relative bg-slate-700 p-3 rounded">
-            <div onClick={onCopy} className="p-1 bg-base-100 absolute right-1 top-1 cursor-pointer rounded">
-                复制代码
-            </div>
+            <UiCopyText
+                label="复制代码"
+                context={context}
+            />
             <code
                 onDoubleClick={onDoubleClick}
             >
