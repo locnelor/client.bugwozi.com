@@ -109,7 +109,7 @@ export const AtomicBlockCode = withAtomic<AtomicCodeData>(({
         })
     }, [editorState, onChange, readOnly, language, block, context]);
     const onCopy = useCallback(() => {
-        navigator.clipboard.writeText(context)
+        window.navigator.clipboard.writeText(context)
             .then(() => {
                 openInformationModal(() => ({ children: "复制成功" }))
             })
