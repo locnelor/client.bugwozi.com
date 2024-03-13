@@ -1,3 +1,4 @@
+import { DraftContainer } from "@/components/Container"
 import RichEditorContext from "@/components/RichEditorContext"
 import UiDivider from "@/components/ui/UiDivider"
 import { PostsEntity, PostsFields } from "@/interfaces/PostsEntity"
@@ -47,7 +48,7 @@ const PostsContextPage = async ({
     }
     const __html = data?.getPostsContext?.context || ""
     return (
-        <div className="container ml-auto mr-auto" style={{ maxWidth: 1000 }}>
+        <DraftContainer>
             <h1 className="text-4xl mt-4">{data?.getPostsContext.name}</h1>
             <UiDivider />
             <RichEditorContext
@@ -58,7 +59,7 @@ const PostsContextPage = async ({
                 type="posts"
             >
             </RichEditorContext>
-        </div>
+        </DraftContainer>
     )
 }
 export default PostsContextPage

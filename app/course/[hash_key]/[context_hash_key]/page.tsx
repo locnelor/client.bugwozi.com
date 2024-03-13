@@ -6,6 +6,7 @@ import { Metadata } from "next"
 import RichEditorContext from "@/components/RichEditorContext"
 import UiButton from "@/components/ui/UiButton"
 import UiDivider from "@/components/ui/UiDivider"
+import { DraftContainer } from "@/components/Container"
 
 
 const GetCourseContextQuery = gql`
@@ -53,7 +54,7 @@ const CourseContextPage = async ({
     if (!data?.getCourseChapterContext) return "404";
     const __html = data?.getCourseChapterContext?.description || ""
     return (
-        <div>
+        <DraftContainer>
             <div className="flex flex-wrap gap-2">
                 {data?.getCourseChapterContext.keywords.split(",").map((keyword, key) => (
                     <div key={key}>
@@ -73,7 +74,7 @@ const CourseContextPage = async ({
                 type="content"
             >
             </RichEditorContext>
-        </div>
+        </DraftContainer>
     )
 }
 export default CourseContextPage

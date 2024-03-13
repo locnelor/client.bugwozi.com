@@ -6,6 +6,7 @@ import UiButton from "@/components/ui/UiButton"
 import UserNameAvatar from "@/components/UserNameAvatar"
 import RichEditorContext from "@/components/RichEditorContext"
 import { GetCourseContextQuery } from "./GetCourseContextQuery"
+import { DraftContainer } from "@/components/Container"
 
 
 export async function generateMetadata(
@@ -33,7 +34,7 @@ const CourseIdPage = async ({
     }>(GetCourseContextQuery, { hash_key, type: "course" })
     const __html = data?.getCourseContext?.description || ""
     return (
-        <div>
+        <DraftContainer>
             <div className="flex flex-wrap gap-2">
                 {data?.getCourseContext.keywords.split(",").map((keyword, key) => (
                     <div key={key}>
@@ -63,7 +64,7 @@ const CourseIdPage = async ({
                     </div>
                 </div>
             </RichEditorContext>
-        </div>
+        </DraftContainer>
     )
 }
 export default CourseIdPage
