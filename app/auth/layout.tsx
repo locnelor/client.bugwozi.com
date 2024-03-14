@@ -4,7 +4,7 @@
 const AuthLayout = ({ children }: React.PropsWithChildren) => {
 
     return (
-        <div className="mb-32 pl-1 pr-1">
+        <div className="mb-32 pl-5 pr-5">
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img

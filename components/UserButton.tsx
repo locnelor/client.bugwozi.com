@@ -26,6 +26,15 @@ const UserButton = ({ user }: UserButtonProps) => {
         )
     }
     return (
+        <Link href="/home">
+            <div className="btn btn-ghost btn-circle avatar">
+                <UserAvatar
+                    user={user}
+                />
+            </div>
+        </Link>
+    )
+    return (
         <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <UserAvatar

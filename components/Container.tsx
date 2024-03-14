@@ -8,7 +8,7 @@ const Container = ({
 }: React.PropsWithChildren<{ className?: string, style?: any }>) => {
     return (
         <div
-            className={classNames("container m-auto mt-5 mb-5 pl-1 pr-1")}
+            className={classNames("container m-auto mb-5 pl-1 pr-1",className)}
             style={style}
         >
             {children}
