@@ -1,8 +1,9 @@
 import moment from "moment"
 import Link from "next/link"
-import EditorMenu from "./EditorMenu"
 import TopAffix from "./TopAffix"
 import { NoCopy } from "@/hooks/useNoCopy"
+import dynamic from "next/dynamic"
+const EditorMenu = dynamic(() => import("./EditorMenu"), { ssr: false })
 
 
 const RichEditorContext = ({
