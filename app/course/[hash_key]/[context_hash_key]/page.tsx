@@ -7,6 +7,8 @@ import RichEditorContext from "@/components/RichEditorContext"
 import UiButton from "@/components/ui/UiButton"
 import UiDivider from "@/components/ui/UiDivider"
 import { DraftContainer } from "@/components/Container"
+import useViewer from "@/hooks/useViewer"
+import { authQuery } from "@/hooks/useAuth"
 
 
 const GetCourseContextQuery = gql`
@@ -42,15 +44,18 @@ export async function generateMetadata(
 }
 const CourseContextPage = async ({
     params: {
-        context_hash_key
+        context_hash_key,
+        hash_key
     }
 }: pageProps) => {
     const { data, error } = await getQuery<{
         getCourseChapterContext: CourseContentEntity,
         getContextPowers: boolean
     }>(GetCourseContextQuery, { hash_key: context_hash_key, type: "content" })
-    if (!!error) return error.message;
-
+    if (!!error) {
+        await authQuery(`/course/${hash_key}/${context_hash_key}`)
+        return "购买课程"
+    }
     if (!data?.getCourseChapterContext) return "404";
     const __html = data?.getCourseChapterContext?.description || ""
     return (

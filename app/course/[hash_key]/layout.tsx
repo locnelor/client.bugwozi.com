@@ -2,7 +2,6 @@ import { LayoutProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import CourseEntity from "@/interfaces/CourseEntity"
 import { notFound } from "next/navigation"
-import { authQuery } from "@/hooks/useAuth"
 import CourseMenu from "./CourseMenu"
 import { GetCourseContextQuery } from "./GetCourseContextQuery"
 
@@ -14,12 +13,11 @@ const CourseIdLayout = async ({
         hash_key
     }
 }: LayoutProps<{}, { hash_key: string }>) => {
-    await authQuery(`/course/${hash_key}`);
     const { data, error } = await getQuery<{
         getCourseContext: CourseEntity,
         getContextPowers: boolean
     }>(GetCourseContextQuery, { hash_key, type: "course" });
-    if (!data || error || !data.getCourseContext) return notFound()
+    if (!data || !!error || !data.getCourseContext) return notFound()
     return (
         <div className="drawer lg:drawer-open">
             <input id="course-drawer" type="checkbox" className="drawer-toggle" />

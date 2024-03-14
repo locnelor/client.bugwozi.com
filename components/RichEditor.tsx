@@ -39,7 +39,7 @@ const RichEditor = ({
             })
     }, [editorState])
     return (
-        <div className="container ml-auto mr-auto relative" style={{ maxWidth: 900 }}>
+        <div className="container ml-auto pt-16 mr-auto relative" style={{ maxWidth: 900 }}>
             <EditorFooter
                 editorState={editorState}
                 onChange={setEditorState}

@@ -12,10 +12,12 @@ const HomeLayout = async ({ children }: React.PropsWithChildren) => {
     return (
         <Container>
             <div className="flex gap-5">
-                <HomeMenu
-                    user={user.viewer}
-                />
-                <div className="grow">
+                <div className="hidden sm:block">
+                    <HomeMenu
+                        user={user.viewer}
+                    />
+                </div>
+                <div className="grow pr-5">
                     {children}
                 </div>
             </div>

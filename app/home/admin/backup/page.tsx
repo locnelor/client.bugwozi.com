@@ -3,11 +3,12 @@ import UiButton from "@/components/ui/UiButton"
 import UiDivider from "@/components/ui/UiDivider"
 import UiForm, { UiFormItem, UiFormSubmit } from "@/components/ui/UiForm"
 import UiInput from "@/components/ui/UiInput"
-import UiModal, { UiModalTitle, openInformationModal, useModalEvent } from "@/components/ui/UiModal"
+import UiModal, { UiModalTitle, openInformationModal, openModal, useModalEvent } from "@/components/ui/UiModal"
 import { gqlError } from "@/lib/apollo-error"
 import { useMutation, useQuery } from "@apollo/client"
 import gql from "graphql-tag"
 import { useCallback, useMemo } from "react"
+import SaveBackup from "./SaveBackup"
 
 
 
@@ -21,11 +22,29 @@ const SaveBackupMutation = gql`
         saveBackup(name:$name)
     }
 `
+const DelBackupMudation = gql`
+    mutation DelBackup($name:String!){
+        delBackup(name:$name)
+    }
+`
 const HomeAdminBackupPage = () => {
     const { data, refetch } = useQuery<{
         getBackupList: string[]
     }>(GetBackupListQuery)
     const [backModal, openBackModal, cancelBackModal] = useModalEvent()
+    const onCompleted = useCallback((title: string) => {
+        return () => {
+            refetch()
+            openInformationModal(() => ({ title }))
+            cancelBackModal()
+        }
+    }, [])
+    const [delBackup] = useMutation(DelBackupMudation, {
+        onCompleted: onCompleted("删除成功"),
+        onError(error) {
+            gqlError(error)
+        },
+    })
     const [savebackup] = useMutation(SaveBackupMutation, {
         onCompleted() {
             refetch()
@@ -41,6 +60,15 @@ const HomeAdminBackupPage = () => {
 
     const onSubmitBackup = useCallback(({ name }: any) => {
         savebackup({ variables: { name } })
+    }, [])
+    const onDelBackup = useCallback((name: string) => {
+        openModal(() => ({
+            onOk: () => {
+                delBackup({ variables: { name } })
+                return true;
+            },
+            title: "删除后无法恢复，确认要删除吗？"
+        }))
     }, [])
     return (
         <div>
@@ -84,14 +112,12 @@ const HomeAdminBackupPage = () => {
                                     {name}
                                 </td>
                                 <td>
-                                    <UiButton>
+                                    <UiButton onClick={onDelBackup.bind(null, name)}>
                                         删除
                                     </UiButton>
                                 </td>
                                 <td>
-                                    <UiButton>
-                                        恢复
-                                    </UiButton>
+                                    <SaveBackup name={name} />
                                 </td>
                             </tr>
                         ))}

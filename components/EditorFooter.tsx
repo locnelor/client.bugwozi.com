@@ -22,7 +22,7 @@ const EditorFooter = ({
     hash_key
 }: EditorFooterProps) => {
     return (
-        <div className="h-14 fixed z-50 top-0 flex gap-2 w-full">
+        <div className="h-14 fixed z-50 top-16 flex gap-2 w-full bg-base-100">
             <div className="flex justify-center">
                 <DraftToolbar
                     onChange={onChange}

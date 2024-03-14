@@ -160,6 +160,8 @@ const EditorMenu = () => {
     useEffect(() => {
         setHeaders(Array.from(getDocument()?.getElementsByTagName("h1") || []))
     }, [])
+    if (!menu.length) return null;
+    if (typeof window === "undefined") return null;
     return <RenderStack stack={menu} />
 }
 export default EditorMenu
