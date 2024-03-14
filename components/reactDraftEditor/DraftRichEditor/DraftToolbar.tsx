@@ -1,4 +1,4 @@
-import { StrikethroughIcon } from "@radix-ui/react-icons"
+
 import { Toolbar, ToolbarSeparator, ToolbarToggleItem } from "@radix-ui/react-toolbar"
 import { EditorState } from "draft-js"
 import { ToggleButtonEditorPtops, ToggleGroupButton } from "../components/ToggleButton"
@@ -13,6 +13,7 @@ import Code from "../components/AtomicCode"
 import Table from "../components/AtomicTable"
 import InlineMath from "../components/InlineMath"
 import classNames from "classnames"
+import { TextItalic } from "@icon-park/react"
 
 
 export const ToolbarSet: { [k in string]: (props: ToggleButtonEditorPtops) => JSX.Element } = {
@@ -151,7 +152,7 @@ const DraftToolbar = ({
                                     value={id}
                                     key={id}
                                 >
-                                    <StrikethroughIcon />
+                                    <TextItalic />
                                 </ToolbarToggleItem>
                             )
                         })}

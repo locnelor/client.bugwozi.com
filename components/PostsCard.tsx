@@ -9,10 +9,10 @@ import { useCallback, useMemo } from "react"
 import { gql, useMutation } from "@apollo/client"
 import UiModal, { UiModalTitle, openInformationModal, openModal, useModalEvent } from "./ui/UiModal"
 import UiDropdownMenu, { UiDropdownMenuItem } from "./ui/DropdownMenu"
-import { GearIcon } from "@radix-ui/react-icons"
 import UiButton from "./ui/UiButton"
 import PostsForm from "./PostsForm"
 import { fileShear } from "@/lib/img"
+import { SettingOne } from "@icon-park/react"
 
 
 
@@ -114,7 +114,7 @@ const PostsCard = ({
                         type="ghost"
                         className="absolute right-2 top-2"
                     >
-                        <GearIcon />
+                        <SettingOne />
                     </UiButton>
                 }
             >
