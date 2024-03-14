@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className="h-full">
         <ApolloWrapper>
           <Header />
-          <main className="sm:pt-16 min-h-full">
+          <main className="min-h-full">
             <EditorProvider>
               {children}
             </EditorProvider>
