@@ -15,14 +15,14 @@ const HomePage = async () => {
   }>(SelCourse)
   return (
     <Container>
-      <div className="flex flex-wrap justify-center gap-5">
+      {/* <div className="flex flex-wrap justify-center gap-5">
         <div className="grow h-96 skeleton min-w-96">
 
         </div>
         <div className="skeleton h-96 max-w-full w-96">
 
         </div>
-      </div>
+      </div> */}
       <div className="mt-5">
         <CourseContext
           course={data?.selCourse || []}

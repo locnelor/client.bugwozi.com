@@ -4,7 +4,7 @@ const Footer = () => {
 
     return (
         <div>
-            <footer className="footer z-10 relative footer-center p-10 bg-base-200 text-base-content rounded hidden sm:grid">
+            <footer className="footer relative footer-center p-10 bg-base-200 text-base-content rounded">
                 <nav className="grid grid-flow-col gap-4">
                     <a className="link link-hover">About us</a>
                     <a className="link link-hover">Contact</a>
@@ -22,11 +22,6 @@ const Footer = () => {
                     <p>冀ICP备2024054498号</p>
                 </aside>
             </footer>
-            <div className="sm:hidden footer fixed bottom-0 left-0 bg-base-200 flex p-3">
-                <div>
-                    首页
-                </div>
-            </div>
         </div>
     )
 }

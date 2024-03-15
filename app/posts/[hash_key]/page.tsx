@@ -42,10 +42,6 @@ const PostsContextPage = async ({
         getPostsContext: PostsEntity,
         getContextPowers: boolean
     }>(SelPostsQuery, { hash_key, type: "posts" })
-    if (!data) {
-        console.log(error)
-        return notFound()
-    }
     const __html = data?.getPostsContext?.context || ""
     return (
         <DraftContainer>
