@@ -17,11 +17,9 @@ export const SVGSend = ({
             if (ref.current) ref.current.innerHTML = e
             hash.set(src, e)
         })
-    }, []);
+    }, [src]);
     return (
-        <span ref={ref}>
-
-        </span>
+        <span ref={ref} />
     )
 }
 const MathDecorator = withDecorator(({

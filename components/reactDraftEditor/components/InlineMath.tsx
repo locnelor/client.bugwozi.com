@@ -22,9 +22,22 @@ const items = [{
         "\\lim\\limits_{n \\to \\infty}",
         "\\pi",
         "\\alpha",
-        "\\beta"
+        "\\beta",
+        "\\sum_{i=1}^{n} i",
+        "\\prod_{i=1}^{n} a_i",
+        "\\int_{a}^{b} f(x) dx",
+        "\\iint_{D} f(x, y) dA",
+        "\\lim_{x \\to \\infty} f(x)",
+        "\\frac{dy}{dx}",
+        "\\vec{a}",
+        "\\vec{F}",
+        "\\sum_{i=1}^{n} a_i",
+        "\\prod_{i=1}^{n} b_i",
+        "\\coprod_{i=1}^{n} c_i",
+        "\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}",
     ]
-}]
+}];
+
 const InlineMath = withToggleButton(({
     className,
     editorState,
@@ -38,7 +51,7 @@ const InlineMath = withToggleButton(({
 
     useEffect(() => {
         const time = setTimeout(() => {
-            setData(` $_start{ ${text} }end_$ `);
+            setData(`$_start{ ${text} }end_$`);
         }, 500)
         return () => clearTimeout(time);
     }, [text]);
@@ -57,6 +70,7 @@ const InlineMath = withToggleButton(({
         }, 100)
 
     }, [text, editorState, onChange])
+    console.log(data.slice(8, data.length - 6))
     return (
         <>
             <UiModal
@@ -79,7 +93,7 @@ const InlineMath = withToggleButton(({
                         </a>
                     ))}
                 </div>
-                <div className="mt-2 mb-2">
+                <div className="mt-5 p-4 mb-5">
                     {items.map(({ jaxs }, key) => (
                         <div
                             key={key}
@@ -88,11 +102,11 @@ const InlineMath = withToggleButton(({
                             {jaxs.map((jax, i) => (
                                 <span
                                     key={i}
-                                    className="cursor-pointer h-7"
+                                    className="cursor-pointer h-20 p-2 flex justify-center items-center border"
                                     onMouseDown={insertMath.bind(null, jax)}
                                 >
                                     <SVGSend
-                                        src={`${mathBaseURL}?s=${encodeURI(jax)}`}
+                                        src={`${mathBaseURL}/${encodeURI(jax)}/math`}
                                     />
                                 </span>
                             ))}
@@ -109,7 +123,7 @@ const InlineMath = withToggleButton(({
                 </div>
                 <div>
                     <SVGSend
-                        src={`${mathBaseURL}?s=${encodeURI(data.slice(8, data.length - 6))}`}
+                        src={`${mathBaseURL}/${encodeURI(data.slice(8, data.length - 6))}/math`}
                     />
                 </div>
                 <div className="flex justify-end">
