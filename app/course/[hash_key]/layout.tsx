@@ -12,7 +12,12 @@ const CourseIdLayout = async ({
     params: {
         hash_key
     }
-}: LayoutProps<{}, { hash_key: string }>) => {
+}: {
+    children: React.ReactNode
+    params: {
+        hash_key: string
+    }
+}) => {
     const { data, error } = await getQuery<{
         getCourseContext: CourseEntity,
         getContextPowers: boolean
