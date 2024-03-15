@@ -37,6 +37,9 @@ const blockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(Immutable.Map({
     },
     "header-three": {
         wrapper: <HeaderOneWrapper type="h3" style={{ fontSize: "26px" }} />
+    },
+    blockquote: {
+        wrapper: <div className="bg-base-200 pl-2 pr-2 border-l-2 border-blue-500" />
     }
 }))
 export type DraftRichEditorProps = {
