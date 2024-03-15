@@ -2,7 +2,6 @@ import { redirect } from "next/navigation"
 
 export async function GET(request: Request) {
     const baseUrl = "https://gitee.com/oauth/authorize";
-    console.log("client-gitee")
     const params: {
         [k in string]?: string
     } = {
