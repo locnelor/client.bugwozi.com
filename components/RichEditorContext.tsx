@@ -1,10 +1,8 @@
-"use client"
 import moment from "moment"
 import Link from "next/link"
 import TopAffix from "./TopAffix"
 import { NoCopy } from "@/hooks/useNoCopy"
 import dynamic from "next/dynamic"
-import { useEffect, useRef } from "react"
 const EditorMenu = dynamic(() => import("./EditorMenu"), { ssr: false })
 
 
@@ -16,16 +14,11 @@ const RichEditorContext = ({
     type = "",
     children = "" as React.ReactNode
 }) => {
-    const ref = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        if(!ref.current)return;
-        ref.current.innerHTML = ref.current.innerHTML.replaceAll(" ","&nbsp;")
-    }, [])
     return (
         <div style={{ maxWidth: 900 }} className="drawer drawer-end lg:drawer-open">
             <input id="context-drawer" type="checkbox" className="drawer-toggle" />
             <div style={{ maxWidth: 720 }} className="w-full drawer-content">
-                <div ref={ref} id="RichEditorContext" dangerouslySetInnerHTML={{ __html }} />
+                <div id="RichEditorContext" dangerouslySetInnerHTML={{ __html }} />
                 {children}
                 <div className="text-right">
                     最后一次编辑:{moment(updateAt).format("YYYY-MM-DD HH:mm:ss")}
