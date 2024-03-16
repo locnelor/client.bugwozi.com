@@ -35,7 +35,7 @@ const CourseIdLayout = async ({
             </div>
             <div className="drawer-content pt-10 pl-1 pr-1 relation">
                 <div
-                    className="fixed z-30 top-16 left-0"
+                    className="fixed z-50 top-2 left-16"
                 >
                     <label
                         htmlFor="course-drawer"
