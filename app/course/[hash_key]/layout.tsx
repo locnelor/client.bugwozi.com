@@ -1,4 +1,3 @@
-import { LayoutProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import CourseEntity from "@/interfaces/CourseEntity"
 import { notFound } from "next/navigation"
