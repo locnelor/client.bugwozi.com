@@ -15,10 +15,10 @@ const CourseContext = ({
     refetch,
     readOnly = true
 }: CourseContextProps) => {
-    const types = useMemo(() => course.map(e => ({
-        label: e.type?.name as string,
-        render: (course: CourseEntity) => course.type?.name === e.type?.name
-    })), [course])
+    const types = useMemo(() => [...new Set(...course.map(e => (e.type?.name)))].map((label => ({
+        label,
+        render: (course: CourseEntity) => course.type?.name === label
+    }))), [course])
 
     return (
         <div className="flex flex-col gap-3">
