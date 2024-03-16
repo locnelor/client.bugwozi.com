@@ -124,27 +124,29 @@ const DraftToolbar = ({
 }: DraftToolbarProps) => {
     useEffect(() => {
         const keyDown = (e: KeyboardEvent) => {
+            let flag = false;
             const ctrlKey = e.ctrlKey || e.metaKey;
             const bKey = e.key === 'b';
             const eKey = e.key === 'e';
-            const iKey = e.key === 'i';
-            if (ctrlKey && bKey) {
-                onChange(RichUtils.toggleInlineStyle(
-                    editorState,
-                    "BOLD"
-                ))
+            if (ctrlKey) {
+                if (bKey) {
+                    onChange(RichUtils.toggleInlineStyle(
+                        editorState,
+                        "BOLD"
+                    ))
+                    flag = true;
+                }
+                if (eKey) {
+                    onChange(setBlockData(editorState, { align: "center" }))
+                    flag = true;
+                }
             }
-            if (ctrlKey && iKey) {
-                onChange(RichUtils.toggleInlineStyle(
-                    editorState,
-                    "ITALIC"
-                ))
-            }
-            if (ctrlKey && eKey) {
-                onChange(setBlockData(editorState, { align: "center" }))
+            if (flag) {
+                e.preventDefault()
+                return false;
             }
         }
-        document.addEventListener("keydown", keyDown)
+        document.addEventListener("keydown", keyDown, false)
         return () => document.removeEventListener("keydown", keyDown)
     }, [editorState, onChange]);
     return (
