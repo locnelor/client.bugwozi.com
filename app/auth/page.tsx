@@ -42,7 +42,7 @@ const Auth = ({ searchParams: { back = "/" } }) => {
                     <Link
                         href={`/auth/gitee`}
                     >
-                        <Image width={60} height={20} src="/Logo_gitee_light.svg" alt="gitee"/>
+                        <Image width={20} height={20} src="/Logo_gitee_light.svg" alt="gitee"/>
                     </Link>
                 </div>
                 <div className="cursor-pointer">
