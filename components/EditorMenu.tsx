@@ -29,6 +29,11 @@ const RenderStack = ({ stack = [] as MenuType[] }) => {
     }, [])
     return (
         <ul className="menu">
+            {!!stack.length && (
+                <li>
+                    <div className="text-lg text-center">文章导航</div>
+                </li>
+            )}
             {stack.map(({ title, value, children }) => {
                 return (
                     <li
@@ -184,7 +189,6 @@ export const EditorMenuContext = ({
             <div className="grow drawer-side z-30">
                 <label htmlFor="context-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <div className="min-h-full bg-base-100 pt-16">
-                    <div className="text-lg text-center">文章导航</div>
                     {menu}
                 </div>
             </div>

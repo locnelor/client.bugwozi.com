@@ -170,7 +170,7 @@ const CourseCard = ({
     return (
         <UiCard className="relative sm:w-56 w-full">
             {dropdown}
-            <UiCardFigure className="h-36 overflow-hidden">
+            <UiCardFigure className="h-36 overflow-hidden p-2">
                 <Link href={`/course/${data.hash_key}`}>
                     <img src={`${process.env.NEXT_PUBLIC_API_URL}/course/${data.hash_key}/avatar`} alt="Shoes" />
                 </Link>

@@ -26,8 +26,8 @@ const CourseContext = ({
                 <div
                     key={key}
                 >
-                    <UiDivider />
                     <h1 className="text-2xl mb-3">{label}</h1>
+                    <UiDivider />
                     <div
                         className="flex flex-wrap gap-4"
                     >
