@@ -1,4 +1,4 @@
-import Draft, { CompositeDecorator, ContentBlock, Editor, EditorState, Modifier, convertFromRaw } from "draft-js"
+import Draft, { CompositeDecorator, ContentBlock, DraftStyleMap, Editor, EditorState, Modifier, convertFromRaw } from "draft-js"
 import { CSSProperties, createContext, useCallback, useEffect, useRef } from "react"
 import Immutable from "immutable"
 import { AtomicBlockImage, ImageBlockName } from "../components/AtomicImage";
@@ -28,6 +28,17 @@ const HeaderOneWrapper = ({ children, type, ...props }: any) => {
         </h1>
     )
 }
+const styleMap: DraftStyleMap = {
+    'TAG': {
+        marginLeft: "5px",
+        marginRight: "5px",
+        background: "#000a2008",
+        color: "#262626bf",
+        borderRadius: "5px",
+        borderWidth: "1px",
+        padding: "2px"
+    },
+};
 const blockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(Immutable.Map({
     "header-one": {
         wrapper: <HeaderOneWrapper type="h1" style={{ fontSize: "34px" }} />
@@ -149,6 +160,7 @@ const DraftRichEditor = (({
         <Editor
             editorState={editorState}
             onChange={onChange}
+            customStyleMap={styleMap}
             onTab={onTab}
             ref={editorRef}
             blockRendererFn={blockRendererFn}

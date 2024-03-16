@@ -5,6 +5,7 @@ import useImage, { fileToCanvas } from "../hooks/useImage";
 import { insertBlock } from "../hooks/blockUtil";
 import withAtomic from "../hooks/withAtomic";
 import { uploadMedia } from "@/lib/query";
+import { openInformationModal } from "@/components/ui/UiModal";
 
 export const AtomicBlockImage = withAtomic<AtomicBlockImageData>(({
     data: {
@@ -47,14 +48,19 @@ const AtomicImage = withToggleButton(({
         const name = file.name;
         const suffix = name.slice(name.lastIndexOf(".") + 1).toLowerCase();
         if (suffix === "gif") {
-            // const reader = new FileReader();
-            // reader.onload = ({ target: { result } }) => {
-            //     insertBlock(onChange, editorState, imageBlockName, {
-            //         type: "gif",
-            //         base64: result
-            //     })
-            // }
-            // reader.readAsDataURL(file)
+            const reader = new FileReader();
+            reader.onload = ({ target }) => {
+                const result = target?.result
+                if (!result) return openInformationModal(() => ({ title: "上传失败" }))
+                console.log(result);
+                uploadMedia(type, hash_key, result.toString()).then((e) => {
+                    insertBlock(onChange, editorState, ImageBlockName, {
+                        type: "url",
+                        url: e.data
+                    })
+                })
+            }
+            reader.readAsDataURL(file)
         } else {
             fileToCanvas(file)
                 .then((canvas) => {
@@ -76,7 +82,7 @@ const AtomicImage = withToggleButton(({
         }
         window.addEventListener("paste", onPaste)
         return () => window.removeEventListener("paste", onPaste)
-    }, []);
+    }, [editorState]);
     const onmousedown = useCallback(() => {
         open().then(insert)
     }, [editorState, onChange, open]);

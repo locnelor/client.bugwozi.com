@@ -69,7 +69,6 @@ const InlineMath = withToggleButton(({
         }, 100)
 
     }, [text, editorState, onChange])
-    console.log(data.slice(8, data.length - 6))
     return (
         <>
             <UiModal

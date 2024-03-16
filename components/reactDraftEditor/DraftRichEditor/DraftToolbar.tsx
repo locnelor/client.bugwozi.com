@@ -1,6 +1,6 @@
 
 import { Toolbar, ToolbarSeparator, ToolbarToggleItem } from "@radix-ui/react-toolbar"
-import { EditorState } from "draft-js"
+import { EditorState, RichUtils } from "draft-js"
 import { ToggleButtonEditorPtops, ToggleGroupButton } from "../components/ToggleButton"
 import withInlineStyle from "../hooks/withInlineStyle"
 import withBlockStyle from "../hooks/withBlockStyle"
@@ -14,6 +14,8 @@ import Table from "../components/AtomicTable"
 import InlineMath from "../components/InlineMath"
 import classNames from "classnames"
 import { Quote, TextItalic } from "@icon-park/react"
+import { useEffect } from "react"
+import { setBlockData } from "../hooks/useCurrentBlocksMetadata"
 
 
 export const ToolbarSet: { [k in string]: (props: ToggleButtonEditorPtops) => JSX.Element } = {
@@ -29,6 +31,9 @@ export const ToolbarSet: { [k in string]: (props: ToggleButtonEditorPtops) => JS
     Strikethrough: withInlineStyle(() => (
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.00003 3.25C5.00003 2.97386 4.77617 2.75 4.50003 2.75C4.22389 2.75 4.00003 2.97386 4.00003 3.25V7.10003H2.49998C2.27906 7.10003 2.09998 7.27912 2.09998 7.50003C2.09998 7.72094 2.27906 7.90003 2.49998 7.90003H4.00003V8.55C4.00003 10.483 5.56703 12.05 7.50003 12.05C9.43303 12.05 11 10.483 11 8.55V7.90003H12.5C12.7209 7.90003 12.9 7.72094 12.9 7.50003C12.9 7.27912 12.7209 7.10003 12.5 7.10003H11V3.25C11 2.97386 10.7762 2.75 10.5 2.75C10.2239 2.75 10 2.97386 10 3.25V7.10003H5.00003V3.25ZM5.00003 7.90003V8.55C5.00003 9.93071 6.11932 11.05 7.50003 11.05C8.88074 11.05 10 9.93071 10 8.55V7.90003H5.00003Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
     ), "STRIKETHROUGH", "删除线"),
+    Tag: withInlineStyle(() => (
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.00003 3.25C5.00003 2.97386 4.77617 2.75 4.50003 2.75C4.22389 2.75 4.00003 2.97386 4.00003 3.25V7.10003H2.49998C2.27906 7.10003 2.09998 7.27912 2.09998 7.50003C2.09998 7.72094 2.27906 7.90003 2.49998 7.90003H4.00003V8.55C4.00003 10.483 5.56703 12.05 7.50003 12.05C9.43303 12.05 11 10.483 11 8.55V7.90003H12.5C12.7209 7.90003 12.9 7.72094 12.9 7.50003C12.9 7.27912 12.7209 7.10003 12.5 7.10003H11V3.25C11 2.97386 10.7762 2.75 10.5 2.75C10.2239 2.75 10 2.97386 10 3.25V7.10003H5.00003V3.25ZM5.00003 7.90003V8.55C5.00003 9.93071 6.11932 11.05 7.50003 11.05C8.88074 11.05 10 9.93071 10 8.55V7.90003H5.00003Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
+    ), "TAG", "标签"),
     Left: withBlockStyle(() => (
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4.5C2 4.22386 2.22386 4 2.5 4H12.5C12.7761 4 13 4.22386 13 4.5C13 4.77614 12.7761 5 12.5 5H2.5C2.22386 5 2 4.77614 2 4.5ZM4 7.5C4 7.22386 4.22386 7 4.5 7H10.5C10.7761 7 11 7.22386 11 7.5C11 7.77614 10.7761 8 10.5 8H4.5C4.22386 8 4 7.77614 4 7.5ZM3 10.5C3 10.2239 3.22386 10 3.5 10H11.5C11.7761 10 12 10.2239 12 10.5C12 10.7761 11.7761 11 11.5 11H3.5C3.22386 11 3 10.7761 3 10.5Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
     ), "left",
@@ -86,7 +91,7 @@ export const ToolbarSet: { [k in string]: (props: ToggleButtonEditorPtops) => JS
     Math: InlineMath
 }
 export const ToolbarList = [
-    ["Bold", "Italic", "Underline", "Strikethrough"],
+    ["Bold", "Italic", "Underline", "Strikethrough", "Tag"],
     "|",
     ["Left", "Center", "Right"],
     "|",
@@ -117,6 +122,31 @@ const DraftToolbar = ({
     type,
     hash_key
 }: DraftToolbarProps) => {
+    useEffect(() => {
+        const keyDown = (e: KeyboardEvent) => {
+            const ctrlKey = e.ctrlKey || e.metaKey;
+            const bKey = e.key === 'b';
+            const cKey = e.key === 'c';
+            const iKey = e.key === 'i';
+            if (ctrlKey && bKey) {
+                onChange(RichUtils.toggleInlineStyle(
+                    editorState,
+                    "BOLD"
+                ))
+            }
+            if (ctrlKey && iKey) {
+                onChange(RichUtils.toggleInlineStyle(
+                    editorState,
+                    "ITALIC"
+                ))
+            }
+            if (ctrlKey && cKey) {
+                onChange(setBlockData(editorState, { align: "center" }))
+            }
+        }
+        document.addEventListener("keydown", keyDown)
+        return () => document.removeEventListener("keydown", keyDown)
+    }, [editorState, onChange]);
     return (
         <Toolbar
             className={classNames(
