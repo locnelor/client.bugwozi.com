@@ -15,7 +15,9 @@ const CourseContext = ({
     refetch,
     readOnly = true
 }: CourseContextProps) => {
-    const types = useMemo(() => [...new Set(...course.map(e => (e.type?.name)))].map((label => ({
+    const types = useMemo(() => [
+        ...new Set(course.map(e => (e.type?.name)))
+    ].map((label => ({
         label,
         render: (course: CourseEntity) => course.type?.name === label
     }))), [course])
