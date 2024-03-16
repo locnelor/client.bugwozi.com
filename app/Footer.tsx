@@ -9,11 +9,11 @@ const Footer = () => {
                 <nav className="grid grid-flow-col gap-4">
                     <Link href="/about" className="link link-hover">关于我们</Link>
                     <Link href="/about" className="link link-hover">课程合作</Link>
-                    <Link href="/about" className="link link-hover">意见反馈</Link>
+                    <Link target="_blank" href="https://support.qq.com/products/639696" className="link link-hover">意见反馈</Link>
                 </nav>
                 <nav>
                     <div className="grid grid-flow-col gap-4">
-                        <span>友情链接</span>
+                        <span>友情链接:</span>
                         <Link href="/">kgnb</Link>
                     </div>
                 </nav>
