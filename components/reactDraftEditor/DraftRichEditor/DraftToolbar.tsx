@@ -126,7 +126,7 @@ const DraftToolbar = ({
         const keyDown = (e: KeyboardEvent) => {
             const ctrlKey = e.ctrlKey || e.metaKey;
             const bKey = e.key === 'b';
-            const cKey = e.key === 'c';
+            const eKey = e.key === 'e';
             const iKey = e.key === 'i';
             if (ctrlKey && bKey) {
                 onChange(RichUtils.toggleInlineStyle(
@@ -140,7 +140,7 @@ const DraftToolbar = ({
                     "ITALIC"
                 ))
             }
-            if (ctrlKey && cKey) {
+            if (ctrlKey && eKey) {
                 onChange(setBlockData(editorState, { align: "center" }))
             }
         }
