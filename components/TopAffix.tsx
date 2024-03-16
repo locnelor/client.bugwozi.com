@@ -24,7 +24,7 @@ const TopAffix = () => {
         });
     }, []);
     return (
-        <div className="fixed right-1 bottom-1 lg:right-20 lg:bottom-20 flex flex-col gap-2">
+        <div className="fixed right-3 bottom-10 lg:right-20 lg:bottom-20 flex flex-col gap-2">
             <div ref={ref} className="cursor-pointer opacity-0 duration-300" onClick={top}>
                 <ToTop theme="outline" size="24" fill="#333" />
             </div>
