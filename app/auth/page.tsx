@@ -6,6 +6,7 @@ import { UiFormData } from "@/components/ui/UiForm";
 import { gqlError } from "@/lib/apollo-error";
 import { setCookie } from "@/lib/cookie";
 import { useCallback } from "react";
+import Image from "next/image";
 
 const AuthMutation = gql`
     mutation Auth($phone:String!,$password:String!){
@@ -41,7 +42,7 @@ const Auth = ({ searchParams: { back = "/" } }) => {
                     <Link
                         href={`/auth/gitee`}
                     >
-                        gitee
+                        <Image width={60} height={20} src="/Logo_gitee_light.svg" alt="gitee"/>
                     </Link>
                 </div>
                 <div className="cursor-pointer">
