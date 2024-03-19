@@ -25,10 +25,10 @@ const TopAffix = () => {
     }, []);
     return (
         <div className="fixed right-3 bottom-10 lg:right-20 lg:bottom-20 flex flex-col gap-2">
-            <div ref={ref} className="cursor-pointer opacity-0 duration-300 btn" onClick={top}>
+            <div ref={ref} className="cursor-pointer opacity-0 duration-300 btn btn-sm" onClick={top}>
                 <ToTop theme="outline" size="24" fill="#333" />
             </div>
-            <Link className="btn" target="_blank" href="https://support.qq.com/products/639696">
+            <Link className="btn btn-sm" target="_blank" href="https://support.qq.com/products/639696">
                 <TopicDiscussion theme="outline" size="24" fill="#333" />
             </Link>
         </div>
