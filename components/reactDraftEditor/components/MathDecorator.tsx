@@ -31,7 +31,7 @@ const MathDecorator = withDecorator(({
         <span>
             &nbsp;
             <SVGSend
-                src={`${mathBaseURL}?s=${decoratedText}`}
+                src={`${mathBaseURL}/${encodeURI(decoratedText)}/math`}
             />
             &nbsp;
         </span>
