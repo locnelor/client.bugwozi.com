@@ -5,9 +5,9 @@ import UiForm, { UiFormItem, UiFormSubmit } from "@/components/ui/UiForm"
 import UiInput from "@/components/ui/UiInput"
 import UiSelect from "@/components/ui/UiSelect"
 import UiTextarea from "@/components/ui/UiTextarea"
+import useLogout from "@/hooks/useLogout"
 import UserEntity from "@/interfaces/UserEntity"
 import { gqlError, gqlSuccess } from "@/lib/apollo-error"
-import { setCookie } from "@/lib/cookie"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { useCallback } from "react"
 
@@ -37,10 +37,7 @@ const HomeInformationContext = ({ user }: HomeInformationContextProps) => {
         variables.gender = parseInt(variables.gender)
         updSelfInformation({ variables })
     }, [])
-    const onLogout = useCallback(() => {
-        setCookie("token", "")
-        window.location.href = "/auth"
-    }, [])
+    const onLogout = useLogout()
     return (
         <div>
             <h1 className="text-2xl">个人信息</h1>
@@ -91,7 +88,7 @@ const HomeInformationContext = ({ user }: HomeInformationContextProps) => {
                     </UiFormSubmit>
                 </UiForm>
             </div>
-            <UiButton onClick={onLogout} className="mt-5 btn-error text-white">
+            <UiButton onClick={onLogout} className="mt-5 btn-error text-white sm:block hidden">
                 退出登录
             </UiButton>
         </div>
