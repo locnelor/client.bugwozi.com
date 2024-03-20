@@ -63,10 +63,12 @@ const addContextMutation = gql`
     }
 `
 const delContextMutation = gql`
-    mutation delContext(
+    mutation DelContext(
         $id:Int!
     ){
-        message
+        delContext(id:$id){
+            message
+        }
     }
 `
 type CourseChapterMenuRenderProps = React.PropsWithChildren<{
@@ -191,6 +193,8 @@ const CourseContextMenuRender = ({
             title: "删除章节",
             children: "删除后不可恢复，确认要删除吗？",
             onOk: () => {
+                // console.log(context)
+                // return true;
                 return delContext({
                     variables: {
                         id: context.id
@@ -202,7 +206,7 @@ const CourseContextMenuRender = ({
                     return true;
                 }).catch((e) => {
                     gqlError(e)
-                    return false;
+                    return true;
                 })
             }
         }))
