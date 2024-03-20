@@ -1,55 +1,21 @@
 "use client"
 
-import UploadAvatar from "@/components/UploadAvatar"
-import UserAvatar from "@/components/UserAvatar"
-import { openInformationModal } from "@/components/ui/UiModal"
+import UploadAvatarContext from "@/components/UploadAvatarContext"
 import User from "@/interfaces/UserEntity"
 import { routes } from "@/lib/route"
-import { gql, useMutation } from "@apollo/client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { join } from "path"
-import { useCallback } from "react"
 
 
-const UploadAvatarMutation = gql`
-    mutation UploadAvatar($avatar:String!){
-        uploadAvatar(avatar:$avatar){
-            message
-        }
-    }
-`
 const HomeMenu = ({ user }: { user: User }) => {
     const pathname = usePathname();
-    const [upload] = useMutation(UploadAvatarMutation, {
-        onError(error) {
-            openInformationModal(() => ({ title: "修改失败", children: error.message }))
-        },
-        onCompleted(data) {
-            const message = data.uploadAvatar.message
-            openInformationModal(() => ({ title: message }));
-            if (message === "success") {
-                window.location.reload()
-            }
-        },
-    })
-    const onUpload = useCallback((avatar: string) => {
-        return upload({ variables: { avatar } }).then(() => true).catch(() => false)
-    }, [])
     return (
         <div className="w-60">
             <div className="flex justify-center items-center">
-                <UploadAvatar
-                    onUpload={onUpload}
-                >
-                    <div className="avatar">
-                        <div className="w-24 rounded-full">
-                            <UserAvatar
-                                user={user}
-                            />
-                        </div>
-                    </div>
-                </UploadAvatar>
+                <UploadAvatarContext
+                    user={user}
+                />
             </div>
             <div
                 className="text-center leading-9 line-clamp-1 truncate cursor-pointer"
