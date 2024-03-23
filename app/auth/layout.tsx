@@ -1,5 +1,9 @@
+import { Metadata } from "next"
 
 
+export const metadata: Metadata = {
+    title: "登录Bug窝子"
+}
 
 const AuthLayout = ({ children }: React.PropsWithChildren) => {
 
