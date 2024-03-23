@@ -10,20 +10,20 @@ const Link = withToggleButton(({ editorState, onChange, className }) => {
         let destory: any;
         const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            const { link, description } = Object.fromEntries(new FormData(e.currentTarget));
-            if (!link) {
+            const { href, description } = Object.fromEntries(new FormData(e.currentTarget));
+            if (!href) {
                 destory()
                 return false
             };
             const selection = editorState.getSelection();
             const entityKey = editorState
                 .getCurrentContent()
-                .createEntity("LINK", "MUTABLE", { link })
+                .createEntity("LINK", "MUTABLE", { href })
                 .getLastCreatedEntityKey()
             const contentState = Modifier.replaceText(
                 editorState.getCurrentContent(),
                 selection,
-                (description || link) as string,
+                (description || href) as string,
                 editorState.getCurrentInlineStyle(),
                 entityKey
             )
@@ -41,7 +41,7 @@ const Link = withToggleButton(({ editorState, onChange, className }) => {
                         </label>
                         <input
                             className="text-violet11 shadow-violet7 focus:shadow-violet8 inline-flex h-[35px] w-full flex-1 items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none shadow-[0_0_0_1px] outline-none focus:shadow-[0_0_0_2px]"
-                            name="link"
+                            name="href"
                         />
                     </fieldset>
                     <fieldset className="mb-[15px] flex items-center gap-5">

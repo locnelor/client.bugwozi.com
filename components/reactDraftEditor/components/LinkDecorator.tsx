@@ -7,9 +7,15 @@ const LinkDecorator = withDecorator(({
     children,
     entityKey
 }) => {
-    const { link } = contentState.getEntity(entityKey).getData();
+    const { href, ...rest } = contentState.getEntity(entityKey).getData();
     return (
-        <Link className="text-blue-500 cursor-pointer" href={link} target="_blank" title="link">
+        <Link
+            className="text-blue-500 cursor-pointer"
+            href={href}
+            {...rest}
+            target="_blank"
+            title="link"
+        >
             {children}
         </Link>
     )
