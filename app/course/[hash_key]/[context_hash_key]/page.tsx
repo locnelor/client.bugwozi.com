@@ -4,10 +4,8 @@ import { getQuery } from "@/lib/client"
 import { gql } from "@apollo/client"
 import { Metadata } from "next"
 import RichEditorContext from "@/components/RichEditorContext"
-import UiButton from "@/components/ui/UiButton"
 import UiDivider from "@/components/ui/UiDivider"
 import { DraftContainer } from "@/components/Container"
-import useViewer from "@/hooks/useViewer"
 import { authQuery } from "@/hooks/useAuth"
 
 
@@ -60,16 +58,7 @@ const CourseContextPage = async ({
     const __html = data?.getCourseChapterContext?.description || ""
     return (
         <DraftContainer>
-            <div className="flex flex-wrap gap-2">
-                {data?.getCourseChapterContext.keywords.split(",").map((keyword, key) => (
-                    <div key={key}>
-                        <UiButton size="sm">
-                            {keyword}
-                        </UiButton>
-                    </div>
-                ))}
-            </div>
-            <h1 className="text-4xl mt-4">{data?.getCourseChapterContext.name}</h1>
+            <h1 className="text-4xl">{data?.getCourseChapterContext.name}</h1>
             <UiDivider />
             <RichEditorContext
                 __html={__html}

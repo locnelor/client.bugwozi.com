@@ -2,7 +2,6 @@ import CourseEntity from "@/interfaces/CourseEntity"
 import { PageProps } from "@/interfaces/page"
 import { getQuery } from "@/lib/client"
 import { Metadata } from "next"
-import UiButton from "@/components/ui/UiButton"
 import UserNameAvatar from "@/components/UserNameAvatar"
 import RichEditorContext from "@/components/RichEditorContext"
 import { GetCourseContextQuery } from "./GetCourseContextQuery"
@@ -35,15 +34,6 @@ const CourseIdPage = async ({
     const __html = data?.getCourseContext?.description || ""
     return (
         <DraftContainer>
-            <div className="flex flex-wrap gap-2">
-                {data?.getCourseContext.keywords.split(",").map((keyword, key) => (
-                    <div key={key}>
-                        <UiButton size="sm">
-                            {keyword}
-                        </UiButton>
-                    </div>
-                ))}
-            </div>
             <h1 className="text-4xl">{data?.getCourseContext.name}</h1>
             <RichEditorContext
                 __html={__html}
