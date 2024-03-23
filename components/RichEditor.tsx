@@ -23,13 +23,13 @@ const RichEditor = ({
     })
     const onSave = useCallback(() => {
         if (typeof document === "undefined") return;
-        const html = document.getElementById("DraftEditor")?.innerHTML
-            // .replace(' ', `<pre />`)
-        // ?.replaceAll(" ", "&nbsp;")
-        if (!html) return;
+        // const html = document.getElementById("DraftEditor")?.innerHTML
+        //     // .replace(' ', `<pre />`)
+        // // ?.replaceAll(" ", "&nbsp;")
+        // if (!html) return;
         setLoading(true)
         const context = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-        uploadContext(type, hash_key, context, html)
+        uploadContext(type, hash_key, context)
             .finally(() => {
                 setLoading(false)
             })

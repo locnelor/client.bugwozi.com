@@ -66,7 +66,12 @@ export const createEmpty = () => {
     return EditorState.createEmpty(decorator)
 }
 export const createWithContent = (value: string) => {
-    return EditorState.createWithContent(convertFromRaw(JSON.parse(value)), decorator)
+    try {
+        return EditorState.createWithContent(convertFromRaw(JSON.parse(value)), decorator)
+    } catch (e) {
+        console.log("parser error-", e);
+        return createEmpty()
+    }
 }
 const DraftRichEditor = (({
     editorState,

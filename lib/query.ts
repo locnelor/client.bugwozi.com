@@ -17,6 +17,6 @@ export const giteeLogin = (code: string, headers: any) => fetch(`${baseURL}/gite
 // export const uploadCourseContextPost = (hash_key: string, data: any) => query.post(`/course/${hash_key}/context`, data)
 
 // export const uploadContextPost = (hash_key: string, data: any) => query.post(`/content/${hash_key}/context`, data)
-export const uploadContext = (type: string, hash_key: string, context: string, __html: string) => query.post(`/context/${hash_key}/${type}/upload`, { type, hash_key, context, __html })
+export const uploadContext = (type: string, hash_key: string, context: string) => query.post(`/context/${hash_key}/${type}/upload`, { type, hash_key, context })
 export const uploadMedia = (type: string, hash_key: string, base64: string) => query.post(`/context/${hash_key}/${type}/media`, { base64 })
 export default query

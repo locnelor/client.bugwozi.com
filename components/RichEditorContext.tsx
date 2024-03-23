@@ -1,8 +1,11 @@
+"use client"
 import moment from "moment"
 import Link from "next/link"
 import TopAffix from "./TopAffix"
 import { NoCopy } from "@/hooks/useNoCopy"
 import dynamic from "next/dynamic"
+import Editor, { createEmpty, createWithContent } from "@/components/reactDraftEditor/DraftRichEditor"
+import { useMemo } from "react"
 const EditorMenu = dynamic(() => import("./EditorMenu"), { ssr: false })
 
 
@@ -14,11 +17,19 @@ const RichEditorContext = ({
     type = "",
     children = "" as React.ReactNode
 }) => {
+    const editorState = useMemo(() => {
+        if (!!__html) return createWithContent(__html);
+        return createEmpty()
+    }, [__html])
     return (
         <div style={{ maxWidth: 900 }} className="drawer drawer-end lg:drawer-open">
             <input id="context-drawer" type="checkbox" className="drawer-toggle" />
             <div style={{ maxWidth: 720 }} className="w-full drawer-content">
-                <div id="RichEditorContext" dangerouslySetInnerHTML={{ __html }} />
+                <Editor
+                    editorState={editorState}
+                    onChange={() => { }}
+                    readOnly
+                />
                 {children}
                 <div className="text-right">
                     最后一次编辑:{moment(updateAt).format("YYYY-MM-DD HH:mm:ss")}
