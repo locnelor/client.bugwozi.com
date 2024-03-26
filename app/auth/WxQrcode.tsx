@@ -24,7 +24,7 @@ const CodeRender = () => {
     }] = useMutation(QueryWechatQrcodeMutation, {
         onCompleted(data) {
             if (!data) return;
-            window.location.href = data;
+            window.location.href = data.queryWechatQrcode;
         },
     });
     const onClick = useCallback(() => {
@@ -35,7 +35,7 @@ const CodeRender = () => {
         const time = setTimeout(() => {
             query({
                 variables: {
-                    ticket: data
+                    ticket: data?.getWechatQrcode
                 }
             })
         }, 1000);
