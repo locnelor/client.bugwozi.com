@@ -84,13 +84,14 @@ const BindOther = () => {
 
     const wechat = useCallback(() => {
         if (info["wxOpenid"]) {
-            openModal(() => ({
-                title: "确认要解除绑定吗？",
-                onOk() {
-                    unBindWechat()
-                    return true;
-                },
-            }))
+            openInformationModal(() => ({ title: "无法解除微信绑定" }))
+            // openModal(() => ({
+            //     title: "确认要解除绑定吗？",
+            //     onOk() {
+            //         unBindWechat()
+            //         return true;
+            //     },
+            // }))
         } else {
             navigate("/auth");
         }
