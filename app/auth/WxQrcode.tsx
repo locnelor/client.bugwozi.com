@@ -1,4 +1,5 @@
 import UiModal, { UiModalTitle } from "@/components/ui/UiModal"
+import { setCookie } from "@/lib/cookie"
 import { gql, useMutation, useQuery } from "@apollo/client"
 import { useCallback, useEffect, useRef, useState } from "react"
 
@@ -6,7 +7,10 @@ import { useCallback, useEffect, useRef, useState } from "react"
 
 const QueryWechatQrcodeMutation = gql`
     mutation QueryWechatQrcode($ticket:String!){
-        queryWechatQrcode(ticket:$ticket)
+        queryWechatQrcode(ticket:$ticket){
+            href
+            token
+        }
     }
 `
 const GetWechatQrcodeQuery = gql`
@@ -24,7 +28,13 @@ const CodeRender = () => {
     }] = useMutation(QueryWechatQrcodeMutation, {
         onCompleted({ queryWechatQrcode }) {
             if (!queryWechatQrcode) return;
-            window.location.href = queryWechatQrcode;
+            const { href, token } = queryWechatQrcode
+            if (!!token) {
+                setCookie("token", token);
+            }
+            if (!!href) {
+                window.location.href = "/"
+            }
         },
     });
     const onClick = useCallback(() => {
