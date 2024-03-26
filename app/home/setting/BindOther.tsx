@@ -37,11 +37,27 @@ const UnBindGiteeMutation = gql`
         }
     }
 `
+const UnBindWechatMutation = gql`
+    mutation UnBindGitee{
+        unBindWechat{
+            message
+        }
+    }
+`
 const BindOther = () => {
     const { data, refetch } = useQuery<{
         getSelfBindInfo: { [k in string]: boolean }
     }>(GetSelfBindInfoQuery)
     const [unBindGitee] = useMutation(UnBindGiteeMutation, {
+        onCompleted() {
+            openInformationModal(() => ({ children: "解绑成功" }))
+            refetch()
+        },
+        onError(error) {
+            gqlError(error)
+        },
+    })
+    const [unBindWechat] = useMutation(UnBindWechatMutation, {
         onCompleted() {
             openInformationModal(() => ({ children: "解绑成功" }))
             refetch()
@@ -65,6 +81,20 @@ const BindOther = () => {
             navigate("/auth/gitee")
         }
     }, [info["giteeid"]]);
+
+    const wechat = useCallback(() => {
+        if (info["wxOpenid"]) {
+            openModal(() => ({
+                title: "确认要解除绑定吗？",
+                onOk() {
+                    unBindWechat()
+                    return true;
+                },
+            }))
+        } else {
+            navigate("/auth");
+        }
+    }, [info["wxOpenid"]]);
     return (
         <div className="mt-5 mb-5" style={{ maxWidth: "700px" }}>
             <h1 className="mt-5 mb-5">使用以下任一方式都可以登录到您的 Bug窝子 帐号，避免由于某个帐号失效导致无法登录</h1>
@@ -80,7 +110,7 @@ const BindOther = () => {
                     <tr>
                         <th>微信</th>
                         <th><BindInfoText bind={info["wxOpenid"]} /></th>
-                        <th><UiButton><BindButtonText bind={info["wxOpenid"]} /></UiButton></th>
+                        <th><UiButton onClick={wechat}><BindButtonText bind={info["wxOpenid"]} /></UiButton></th>
                     </tr>
                     <tr>
                         <th>QQ</th>
