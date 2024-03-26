@@ -47,7 +47,7 @@ const CodeRender = () => {
         <img
             className="mask mask-square"
             onClick={onClick}
-            src={`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${data}`}
+            src={`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${data?.getWechatQrcode}`}
         />
     )
     return (
@@ -73,6 +73,7 @@ const WxQrcode = ({
         <div>
             <UiModal
                 onCancel={onCancel}
+                ref={ref}
             >
                 <UiModalTitle>微信扫码登录</UiModalTitle>
                 {!!open && (

@@ -42,11 +42,11 @@ const Auth = ({ searchParams: { back = "/" } }) => {
             <UiDivider>其他登录方式</UiDivider>
             <div className="flex gap-3 justify-center mt-5">
                 <div className="cursor-pointer">
-                    <Link
+                    <a
                         href={`/auth/gitee`}
                     >
                         <Image width={20} height={20} src="/Logo_gitee_light.svg" alt="gitee" />
-                    </Link>
+                    </a>
                 </div>
                 <div className="cursor-pointer">
                     <WxQrcode>
