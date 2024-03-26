@@ -24,7 +24,7 @@ const CodeRender = () => {
     }] = useMutation(QueryWechatQrcodeMutation, {
         onCompleted({ queryWechatQrcode }) {
             if (!queryWechatQrcode) return;
-            window.location.href = data.queryWechatQrcode;
+            window.location.href = queryWechatQrcode;
         },
     });
     const onClick = useCallback(() => {
