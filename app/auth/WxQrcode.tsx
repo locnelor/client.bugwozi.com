@@ -22,8 +22,8 @@ const CodeRender = () => {
     const [query, {
         data: res
     }] = useMutation(QueryWechatQrcodeMutation, {
-        onCompleted(data) {
-            if (!data) return;
+        onCompleted({ queryWechatQrcode }) {
+            if (!queryWechatQrcode) return;
             window.location.href = data.queryWechatQrcode;
         },
     });
@@ -76,9 +76,11 @@ const WxQrcode = ({
                 ref={ref}
             >
                 <UiModalTitle>微信扫码登录</UiModalTitle>
-                {!!open && (
-                    <CodeRender />
-                )}
+                <div className="flex justify-center">
+                    {!!open && (
+                        <CodeRender />
+                    )}
+                </div>
             </UiModal>
             <div onClick={onOpen}>
                 {children}
