@@ -5,6 +5,7 @@ import { useCallback } from "react"
 import { PageProps } from "@/interfaces/page"
 import { setCookie } from "@/lib/cookie"
 import { gqlError } from "@/lib/apollo-error"
+import { notFound } from "next/navigation"
 
 
 const BindGiteeMutation = gql`
@@ -24,6 +25,7 @@ const CreateGiteeMutation = gql`
 const AuthBindPage = ({
     searchParams: { token, back = "/home" }
 }: PageProps<{ token: string, back?: string }>) => {
+    notFound()
     const [bind, { loading }] = useMutation(BindGiteeMutation, {
         onCompleted({ bindGitee: { token } }) {
             setCookie("token", token);

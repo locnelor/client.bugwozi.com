@@ -6,6 +6,7 @@ import { setCookie } from "@/lib/cookie"
 import { gqlError } from "@/lib/apollo-error"
 import AuthBox from "../../AuthBox"
 import UiDivider from "@/components/ui/UiDivider"
+import { notFound } from "next/navigation"
 
 
 const BindWechatMutation = gql`
@@ -25,6 +26,7 @@ const CreateWechatMutation = gql`
 const AuthBindPage = ({
     searchParams: { ticket, back = "/home" }
 }: PageProps<{ ticket: string, back?: string }>) => {
+    notFound()
     const [bind, { loading }] = useMutation(BindWechatMutation, {
         onCompleted({ bindWechat: { token } }) {
             setCookie("token", token);
