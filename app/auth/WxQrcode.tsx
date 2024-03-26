@@ -33,7 +33,7 @@ const CodeRender = () => {
                 setCookie("token", token);
             }
             if (!!href) {
-                window.location.href = "/"
+                window.location.href = href
             }
         },
     });
