@@ -1,0 +1,7 @@
+#import "./fragments/CourseFields.gql"
+
+query GetCourseByHashKey($hash_key: String!) {
+  getCourseByHashKey(hash_key: $hash_key) {
+    ...CourseFields
+  }
+}

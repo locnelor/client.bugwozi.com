@@ -7,6 +7,7 @@ import RichEditorContext from "@/components/RichEditorContext"
 import UiDivider from "@/components/ui/UiDivider"
 import { DraftContainer } from "@/components/Container"
 import { authQuery } from "@/hooks/useAuth"
+import PayCourse from "./PayCourse"
 
 
 const GetCourseContextQuery = gql`
@@ -52,7 +53,11 @@ const CourseContextPage = async ({
     }>(GetCourseContextQuery, { hash_key: context_hash_key, type: "content" })
     if (!!error) {
         await authQuery(`/course/${hash_key}/${context_hash_key}`)
-        return "购买课程"
+        return (
+            <PayCourse
+                hash_key={hash_key}
+            />
+        )
     }
     if (!data?.getCourseChapterContext) return "404";
     const __html = data?.getCourseChapterContext?.description || ""
