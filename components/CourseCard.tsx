@@ -22,6 +22,8 @@ export const PriceTag = ({
     price,
     prePrice
 }: PriceTagProps) => {
+    price /= 100
+    if (!!prePrice) prePrice /= 100
     //两种价格为0，免费课
     if (price === 0 && prePrice === 0) return "免费"
 
