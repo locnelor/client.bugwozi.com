@@ -1,23 +1,48 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import UiDivider from "./ui/UiDivider"
 
 
 export type PayQrcodeCardProps = {
     loading?: boolean,
     total: number,
-    title: string
+    title: string,
+    base64?: string,
+    refetch: () => void,
+    query: () => void,
+    error?: any
 }
 const PayQrcodeCard = ({
     loading,
     total,
-    title
+    title,
+    base64,
+    refetch,
+    query,
+    error
 }: PayQrcodeCardProps) => {
-    // const {} = useQuery()
+    const [count, setCount] = useState(0);
     useEffect(() => {
-
+        refetch()
     }, []);
-    if (loading) return (
+    useEffect(() => {
+        if (loading) return;
+        if (!base64) return;
+        const time = setTimeout(() => {
+            query()
+            setCount(count + 1);
+        }, 1500);
+        return () => clearTimeout(time);
+    }, [base64, loading, count])
+    if (loading || !base64) return (
         <div className="w-56 h-56 skeleton" />
+    )
+    if (!!error) return (
+        <div
+            onClick={refetch}
+            className="w-56 cursor-pointer h-56 flex justify-center items-center"
+        >
+            验证码获取失败
+        </div>
     )
     return (
         <div className="card shadow">
@@ -31,8 +56,8 @@ const PayQrcodeCard = ({
                         {total / 100}元
                     </div>
                 </div>
-                <div className="w-56 h-56 skeleton">
-                    qrcode
+                <div className="min-w-56 min-h-56 flex justify-center">
+                    <img src={base64} />
                 </div>
                 <div className="text-center">
                     请使用微信扫码支付
@@ -41,7 +66,8 @@ const PayQrcodeCard = ({
                     其他支付方式
                 </UiDivider>
                 <div className="card-actions justify-center">
-                    <button className="btn">使用支付宝支付</button>
+                    暂无数据
+                    {/* <button className="btn">使用支付宝支付</button> */}
                 </div>
             </div>
         </div>

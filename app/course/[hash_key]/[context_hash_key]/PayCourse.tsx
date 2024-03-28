@@ -3,6 +3,8 @@
 import { gql, useMutation, useQuery } from "@apollo/client"
 import GetCourseByHashKey from "@/queries/GetCourseByHashKey.gql"
 import PayQrcodeCard from "@/components/PayQrcodeCard";
+import { useCallback } from "react";
+import { notFound } from "next/navigation";
 
 
 const CourseWxNativeQrcode = gql`
@@ -11,6 +13,11 @@ const CourseWxNativeQrcode = gql`
             base64
             hash_key
         }
+    }
+`
+const QueryCoursePayMutation = gql`
+    mutation QueryCoursePay($hash_key:String!){
+        queryCoursePay(hash_key:$hash_key)
     }
 `
 const PayCourse = ({
@@ -29,17 +36,37 @@ const PayCourse = ({
         data: QrcodeData,
         error: QrcodeError
     }] = useMutation(CourseWxNativeQrcode)
-
+    if (!!error) notFound();
+    const [queryCourse] = useMutation(QueryCoursePayMutation, {
+        onCompleted({ queryCoursePay }) {
+            if (queryCoursePay) {
+                window.location.reload();
+            }
+        },
+    })
+    const query = useCallback(() => {
+        queryCourse({
+            variables: {
+                hash_key: QrcodeData?.courseWxNativeQrcode.hash_key
+            }
+        })
+    }, [QrcodeData])
+    const refetch = useCallback(() => {
+        getQrcode({ variables: { hash_key } })
+    }, [])
     return (
         <div
             className="flex h-full w-full justify-center items-center"
         >
             <PayQrcodeCard
                 loading={loading}
+                base64={QrcodeData?.courseWxNativeQrcode.hash_key}
+                refetch={refetch}
+                query={query}
+                error={QrcodeError}
                 title={data?.getCourseByHashKey.name}
                 total={data?.getCourseByHashKey.price}
             />
-
         </div>
     )
 }
