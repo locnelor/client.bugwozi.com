@@ -3,10 +3,9 @@ import moment from "moment"
 import Link from "next/link"
 import TopAffix from "./TopAffix"
 import { NoCopy } from "@/hooks/useNoCopy"
-import dynamic from "next/dynamic"
 import Editor, { createEmpty, createWithContent } from "@/components/reactDraftEditor/DraftRichEditor"
 import { useMemo } from "react"
-const EditorMenu = dynamic(() => import("./EditorMenu"), { ssr: false })
+import { RichEditorMenu } from "./EditorMenu"
 
 
 const RichEditorContext = ({
@@ -49,7 +48,9 @@ const RichEditorContext = ({
             <div className="grow drawer-side z-30">
                 <label htmlFor="context-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <div className="min-h-full bg-base-100 pt-16">
-                    <EditorMenu />
+                    <RichEditorMenu
+                        editorState={editorState}
+                    />
                 </div>
             </div>
             <TopAffix />

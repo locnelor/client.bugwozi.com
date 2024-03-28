@@ -162,18 +162,20 @@ const DraftRichEditor = (({
         }
     }, [editorState, readOnly, onChange]);
     return (
-        <Editor
-            editorState={editorState}
-            onChange={onChange}
-            customStyleMap={styleMap}
-            onTab={onTab}
-            ref={editorRef}
-            blockRendererFn={blockRendererFn}
-            customStyleFn={customStyleFn}
-            blockRenderMap={blockRenderMap}
-            blockStyleFn={blockStyleFn}
-            readOnly={readOnly}
-        />
+        <div className="leading-relaxed">
+            <Editor
+                editorState={editorState}
+                onChange={onChange}
+                customStyleMap={styleMap}
+                onTab={onTab}
+                ref={editorRef}
+                blockRendererFn={blockRendererFn}
+                customStyleFn={customStyleFn}
+                blockRenderMap={blockRenderMap}
+                blockStyleFn={blockStyleFn}
+                readOnly={readOnly}
+            />
+        </div>
     )
 })
 export default DraftRichEditor
