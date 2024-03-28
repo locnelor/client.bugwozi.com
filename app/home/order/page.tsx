@@ -25,7 +25,10 @@ const HomeOrderPage = async () => {
     const { data, error } = await getQuery<{
         getSelfOrder: OrderEntity[]
     }>(GetSelfOrderQuery)
-    if (!!error) notFound()
+    if (!!error) {
+        console.log(error)
+        notFound()
+    }
     return (
         <div>
             <h1 className="text-2xl">账号设置</h1>
@@ -48,7 +51,7 @@ const HomeOrderPage = async () => {
                                 {transaction_id}
                             </td>
                             <td>
-                                {moment(createAt).format("YYYY-MM-DD hh:mm:ss")}
+                                {moment(createAt).format("YYYY-MM-DD HH:mm:ss")}
                             </td>
                             <td>
                                 {total / 100} ¥
