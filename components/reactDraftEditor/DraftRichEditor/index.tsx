@@ -38,6 +38,11 @@ const styleMap: DraftStyleMap = {
         borderWidth: "1px",
         padding: "2px"
     },
+    'BOLD': {
+        fontWeight: 900,
+        marginLeft: 3,
+        marginRight: 3
+    }
 };
 const blockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(Immutable.Map({
     "header-one": {
@@ -162,7 +167,7 @@ const DraftRichEditor = (({
         }
     }, [editorState, readOnly, onChange]);
     return (
-        <div className="leading-relaxed">
+        <div className="leading-loose">
             <Editor
                 editorState={editorState}
                 onChange={onChange}
