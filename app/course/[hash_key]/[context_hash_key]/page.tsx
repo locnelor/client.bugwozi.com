@@ -8,6 +8,7 @@ import UiDivider from "@/components/ui/UiDivider"
 import { DraftContainer } from "@/components/Container"
 import { authQuery } from "@/hooks/useAuth"
 import PayCourse from "./PayCourse"
+import UserNameAvatar from "@/components/UserNameAvatar"
 
 
 const GetCourseContextQuery = gql`
@@ -72,6 +73,18 @@ const CourseContextPage = async ({
                 hash_key={context_hash_key}
                 type="content"
             >
+                <h2 className="text-2xl">贡献者:</h2>
+                <div className="flex flex-wrap">
+                    {data?.getCourseChapterContext?.authors?.map(({ userId, user }) => (
+                        <div
+                            key={userId}
+                        >
+                            <UserNameAvatar
+                                user={user}
+                            />
+                        </div>
+                    ))}
+                </div>
             </RichEditorContext>
         </DraftContainer>
     )
