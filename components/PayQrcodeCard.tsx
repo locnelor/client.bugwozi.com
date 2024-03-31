@@ -47,7 +47,7 @@ const PayQrcodeCard = ({
     return (
         <div className="card shadow">
             <div className="card-body">
-                <h2 className="card-title text-center">{title}</h2>
+                <h2 className="card-title text-center">解锁一年的 {title}</h2>
                 <div className="flex">
                     <div className="w-1/2">
                         应付金额
@@ -56,7 +56,7 @@ const PayQrcodeCard = ({
                         {total / 100}元
                     </div>
                 </div>
-                <div className="min-w-56 min-h-56 flex justify-center">
+                <div className="min-w-56 flex justify-center">
                     <img src={base64} />
                 </div>
                 <div className="text-center">

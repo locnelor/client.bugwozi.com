@@ -60,7 +60,7 @@ const PayCourse = ({
         >
             <PayQrcodeCard
                 loading={loading}
-                base64={QrcodeData?.courseWxNativeQrcode.hash_key}
+                base64={QrcodeData?.courseWxNativeQrcode.base64}
                 refetch={refetch}
                 query={query}
                 error={QrcodeError}
