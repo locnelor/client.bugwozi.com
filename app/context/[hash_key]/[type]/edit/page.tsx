@@ -21,6 +21,7 @@ const ContextHashEditPage = async ({
             defaultValue={data?.getSourceContext}
             type={type}
             hash_key={hash_key}
+            saveKey={`${type}_${hash_key}`}
         />
     )
 }
