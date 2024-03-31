@@ -12,11 +12,11 @@ const UserNameAvatar = ({
     return (
         <div className="flex items-center gap-1">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                <Link href={`/user/${user.hash_key}`}>
-                    <UserAvatar
-                        user={user}
-                    />
-                </Link>
+                {/* <Link href={`/user/${user.hash_key}`}> */}
+                <UserAvatar
+                    user={user}
+                />
+                {/* </Link> */}
             </div>
             {user.name}
         </div>

@@ -74,7 +74,7 @@ const CourseContextPage = async ({
                 type="content"
             >
                 <h2 className="text-2xl">贡献者:</h2>
-                <div className="flex flex-wrap">
+                <div className="flex flex-wrap gap-4">
                     {data?.getCourseChapterContext?.authors?.map(({ userId, user }) => (
                         <div
                             key={userId}
