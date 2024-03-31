@@ -28,12 +28,10 @@ const MathDecorator = withDecorator(({
     const { mathBaseURL } = useContext(DraftRichContext)
     decoratedText = decoratedText.slice(8, decoratedText.length - 6)
     return (
-        <div className="overflow-y-auto m-2">
-            &nbsp;
+        <div className="overflow-y-auto">
             <SVGSend
                 src={`${mathBaseURL}/${decoratedText}/math`}
             />
-            &nbsp;
         </div>
     )
 }, (block, callback) => {
