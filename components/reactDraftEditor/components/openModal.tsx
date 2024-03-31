@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import UiModal, { UiModalTitle } from "./ui/UiModal";
 import { useEffect, useRef } from 'react';
+import { DraftRichProvider } from '../DraftRichEditor';
 
 
 export type OpenModalProps = {
@@ -21,10 +22,16 @@ const openModal = (props: OpenModalProps) => {
         body.removeChild(container);
     };
     App.render((
-        <OpenModalDom
-            {...props}
-            destory={destroy}
-        />
+        <DraftRichProvider
+            value={{
+                mathBaseURL: `${process.env.NEXT_PUBLIC_API_URL}/mathjax`
+            }}
+        >
+            <OpenModalDom
+                {...props}
+                destory={destroy}
+            />
+        </DraftRichProvider>
     ));
     return destroy;
 }
