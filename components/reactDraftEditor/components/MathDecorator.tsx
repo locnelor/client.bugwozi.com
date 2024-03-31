@@ -4,7 +4,8 @@ import withDecorator from "../hooks/withDecorator";
 
 const hash = new Map<string, string>()
 export const SVGSend = ({
-    src = ""
+    src = "",
+    onDoubleClick = undefined as any
 }) => {
     const ref = useRef<HTMLSpanElement>(null);
     useEffect(() => {
@@ -13,13 +14,15 @@ export const SVGSend = ({
             ref.current.innerHTML = hash.get(src) as string
             return;
         }
+        if (!src) return;
         fetch(src).then(e => e.text()).then(e => {
             if (ref.current) ref.current.innerHTML = e
             hash.set(src, e)
         })
     }, [src]);
+
     return (
-        <span ref={ref} />
+        <span onDoubleClick={onDoubleClick} ref={ref} />
     )
 }
 const MathDecorator = withDecorator(({

@@ -8,6 +8,7 @@ import { AtomicBlockCode, CodeBlockName } from "../components/AtomicCode";
 import { AtomicBlockTable, TableBlockName } from "../components/AtomicTable";
 import MathDecorator from "../components/MathDecorator";
 import useDraftPatch from "../hooks/useDraftPatch";
+import { AtomicBlockMath, MathBlockName } from "../components/InlineMath";
 
 export const DraftRichContext = createContext({
     mathBaseURL: "/math"
@@ -159,6 +160,9 @@ const DraftRichEditor = (({
                     break;
                 case TableBlockName:
                     method.component = AtomicBlockTable;
+                    break;
+                case MathBlockName:
+                    method.component = AtomicBlockMath;
                     break;
                 default:
                     return;
