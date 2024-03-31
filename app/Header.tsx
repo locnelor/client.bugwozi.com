@@ -9,7 +9,10 @@ const Header = () => {
     return (
         <header className="h-16 mb-2">
             <div className="navbar h-16 bg-base-100 shadow top-0 p-0 fixed z-50">
-                <div className="grow">
+                <div className="grow hidden md:block">
+                    <Link href="/" className="btn btn-ghost text-xl">Bug</Link>
+                </div>
+                <div className="grow flex justify-center md:hidden">
                     <Link href="/" className="btn btn-ghost text-xl">Bug</Link>
                 </div>
                 <div>
