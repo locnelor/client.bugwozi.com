@@ -4,7 +4,7 @@ import Link from "next/link"
 import TopAffix from "./TopAffix"
 import { NoCopy } from "@/hooks/useNoCopy"
 import Editor, { createEmpty, createWithContent } from "@/components/reactDraftEditor/DraftRichEditor"
-import { useMemo } from "react"
+import { useCallback, useMemo } from "react"
 import { RichEditorMenu } from "./EditorMenu"
 
 
@@ -20,10 +20,14 @@ const RichEditorContext = ({
         if (!!__html) return createWithContent(__html);
         return createEmpty()
     }, [__html])
+    const onDoubleClick = useCallback(() => {
+        const url = `/context/${hash_key}/${type}/edit`;
+        window.open(url);
+    }, [])
     return (
         <div style={{ maxWidth: 900 }} className="drawer drawer-end lg:drawer-open">
             <input id="context-drawer" type="checkbox" className="drawer-toggle" />
-            <div style={{ maxWidth: 720 }} className="w-full drawer-content">
+            <div onDoubleClick={onDoubleClick} style={{ maxWidth: 720 }} className="w-full drawer-content">
                 <Editor
                     editorState={editorState}
                     onChange={() => { }}
