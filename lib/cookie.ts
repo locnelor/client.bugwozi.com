@@ -1,6 +1,11 @@
 "use client"
 export const setCookie = (name: string, value: string, options?: any) => {
-    options = options || {};
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (7 * 24 * 60 * 60 * 1000));
+    options = options || {
+        path: "/",
+        expires
+    };
     options.path = "/"
     let str = encodeURIComponent(name) + '=' + decodeURIComponent(value);
 
