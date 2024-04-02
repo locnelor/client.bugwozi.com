@@ -1,3 +1,4 @@
+import UserPhoneCheck from "@/components/UserPhoneCheck";
 import UiButton from "@/components/ui/UiButton"
 import UiForm, { UiFormItem, UiFormSubmit } from "@/components/ui/UiForm";
 import UiInput from "@/components/ui/UiInput";
@@ -50,6 +51,9 @@ const AccountInformationModal = ({
                 ref={modalRef}
             >
                 <UiModalTitle>用户权限</UiModalTitle>
+                <UserPhoneCheck
+                    user={user}
+                />
                 <UiForm
                     onSubmit={onSubmit}
                 >
