@@ -38,60 +38,58 @@ const HomeAdminLogsPage = () => {
     const next = useCallback(() => {
         const time = hasMore ? data?.getLogs[data.getLogs.length - 1].createAt : undefined
         refetch({ ...variables, time })
-    }, [variables, hasMore])
+    }, [variables, hasMore, data])
     return (
         <div>
             <h1>日志列表</h1>
             <UiDivider />
-            <div className="overflow-y-auto overflow-hidden" style={{ height: 600 }}>
-                <InfiniteScroll
-                    next={next}
-                    hasMore={hasMore}
-                    loader={<h4>Loading...</h4>}
-                    endMessage={
-                        <p className="text-center">
-                            <b>到底了！</b>
-                        </p>
-                    }
-                    dataLength={logs.length}
-                >
-                    {logs.map((item, key) => (
-                        <div
-                            key={key}
-                            className="mt-2 mb-2 flex items-center border"
-                        >
-                            <div className="w-24">
-                                {moment(item.createAt).format("YYYY-MM-DD")}
-                            </div>
-                            <div className="w-36">
-                                {item.user ? (
-                                    <UserNameAvatar
-                                        user={item.user}
-                                    />
-                                ) : "游客"}
-                            </div>
-                            <div className="w-28">
-                                {item.type}
-                            </div>
-                            <div className="w-56">
-                                {item.name}
-                            </div>
-                            <div className="w-36">
-                                {item.ip}
-                            </div>
-                            <div className="w-10">
-                                {item.status}
-                            </div>
-                            <div className="w-10">
-                                {item.time}
-                            </div>
-                            <div>
-                                {item.message}
-                            </div>
+            <InfiniteScroll
+                next={next}
+                hasMore={hasMore}
+                loader={<h4>Loading...</h4>}
+                endMessage={
+                    <p className="text-center">
+                        <b>到底了！</b>
+                    </p>
+                }
+                dataLength={logs.length}
+            >
+                {logs.map((item, key) => (
+                    <div
+                        key={key}
+                        className="mt-2 mb-2 flex items-center border"
+                    >
+                        <div className="w-24">
+                            {moment(item.createAt).format("YYYY-MM-DD")}
                         </div>
-                    ))}
-                </InfiniteScroll>
-            </div>
+                        <div className="w-36">
+                            {item.user ? (
+                                <UserNameAvatar
+                                    user={item.user}
+                                />
+                            ) : "游客"}
+                        </div>
+                        <div className="w-28">
+                            {item.type}
+                        </div>
+                        <div className="w-56">
+                            {item.name}
+                        </div>
+                        <div className="w-36">
+                            {item.ip}
+                        </div>
+                        <div className="w-10">
+                            {item.status}
+                        </div>
+                        <div className="w-10">
+                            {item.time}
+                        </div>
+                        <div>
+                            {item.message}
+                        </div>
+                    </div>
+                ))}
+            </InfiniteScroll>
         </div>
     )
 }
