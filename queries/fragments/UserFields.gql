@@ -5,9 +5,8 @@ fragment UserFields on UserEntity{
     updateAt
     name
     role
+    account
     hash_key
-    gender
-    information
     profile{
         id
     }

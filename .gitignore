@@ -4,16 +4,16 @@
 /node_modules
 /.pnp
 .pnp.js
+pnpm-lock.yarml
 .yarn/install-state.gz
-yarn.lock
+
 # testing
 /coverage
 
 # next.js
 /.next/
 /out/
-.env.production
-.env.development
+
 # production
 /build
 
@@ -28,14 +28,13 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env.production
+.env
+/prisma
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-.vscode/c_cpp_properties.json
-.vscode/settings.json
-.vscode/launch.json
-.vscode/*
+pnpm-lock.yaml

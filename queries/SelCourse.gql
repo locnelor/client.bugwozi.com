@@ -1,7 +1,0 @@
-#import "./fragments/CourseFields.gql"
-
-query SelCourse($keyword:String,$order:String){
-    selCourse(keyword:$keyword,order:$order){
-        ...CourseFields
-    }
-}

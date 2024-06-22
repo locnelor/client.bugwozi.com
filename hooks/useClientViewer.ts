@@ -1,11 +1,9 @@
 "use client"
 
-import User from "@/interfaces/UserEntity";
 import { useQuery } from "@apollo/client";
 import viewer from "@/queries/viewer.gql"
-
 const useClientViewer = () => {
-    const { data, loading, error } = useQuery<{ viewer: User }>(viewer)
-    return { data, loading, error }
+    const { data, loading, error } = useQuery<{ viewer: any }>(viewer)
+    return { user: data?.viewer, loading, error }
 }
 export default useClientViewer

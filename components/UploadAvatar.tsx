@@ -1,7 +1,7 @@
 "use client"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import useAvatarCanvas from "@/hooks/useAvatarCanvas"
-import UiButton from "./ui/UiButton"
+import { Button } from "antd"
 
 
 export type UploadAvatarProps = React.PropsWithChildren<{
@@ -115,11 +115,11 @@ const UploadAvatar = ({
                             >
                                 上传
                             </div>
-                            <UiButton
+                            <Button
                                 onClick={onFinish}
                             >
                                 确定
-                            </UiButton>
+                            </Button>
                         </div>
                     </div>
                 </div>

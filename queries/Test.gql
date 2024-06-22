@@ -1,6 +1,0 @@
-#import "./fragments/TestFields.gql"
-query GetTestQuery{
-    getTestQuery{
-        ... TestFields
-    }
-}

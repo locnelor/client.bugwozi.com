@@ -43,10 +43,6 @@ const makeClient = () => {
         wsLink,
         httpLink,
     );
-    // const link = new HttpLink({
-    //     uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`
-    // })
-    // const httpLink = authLink.concat(link);
     return new NextSSRApolloClient({
         cache: new NextSSRInMemoryCache(),
         link: typeof window === "undefined" ? ApolloLink.from([

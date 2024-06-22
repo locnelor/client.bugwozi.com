@@ -1,8 +1,0 @@
-#import "./UserFields.gql"
-fragment CourseOrderFields on CourseOrderEntity {
-  id
-  createAt
-  updateAt
-  courseId
-  userId
-}

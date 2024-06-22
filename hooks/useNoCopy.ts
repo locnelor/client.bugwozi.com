@@ -1,6 +1,6 @@
 "use client"
 
-import { openInformationModal } from "@/components/ui/UiModal";
+import { message } from "antd";
 import { useEffect } from "react";
 
 const useNoCopy = () => {
@@ -23,11 +23,9 @@ const useCopyCode = () => {
                 const text = child.innerText;
                 try {
                     window.navigator.clipboard.writeText(text)
-                        .then(() => {
-                            openInformationModal(() => ({ children: "复制成功" }))
-                        })
+                        .then(() => message.info({ content: "复制成功" }))
                 } catch (e) {
-                    openInformationModal(() => ({ title: "复制失败" }))
+                    message.error({ content: "复制失败" })
                 }
             }
         })

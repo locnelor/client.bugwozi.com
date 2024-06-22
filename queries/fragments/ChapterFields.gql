@@ -1,7 +1,0 @@
-fragment ChapterFields on CourseChapterEntity {
-  id
-  updateAt
-  createAt
-  name
-  order
-}
